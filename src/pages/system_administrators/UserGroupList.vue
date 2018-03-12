@@ -26,6 +26,7 @@
       <!-- 表格 -->
       <div class="table-body">
         <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
+          <el-table-column width="55" type="selection" @selection-change="handleSelectionChange"></el-table-column>
           <el-table-column prop="uid" label="ID" width="50"></el-table-column>
           <el-table-column prop="group_name" label="用户组名"></el-table-column>
           <el-table-column prop="date" label="添加时间"></el-table-column>
@@ -38,6 +39,11 @@
             </div>
           </el-table-column>
         </el-table>
+      </div>
+      <!-- 表格控制 -->
+      <div class="table-filter">
+        <el-button type="primary" size="mini" @click="selection(tableInfo)">全选</el-button>
+        <el-button type="primary" size="mini" @click="batchDeleting()">批量删除</el-button>
       </div>
       <!-- 分页 -->
       <Paging></Paging>
@@ -157,6 +163,44 @@ export default {
     //表格排序
     sortBlur(a, b) {
       console.log(b[a].uid);
+    },
+    //选中的时候触发
+    handleSelectionChange(val) {
+      this.tableList = val;
+    },
+    //全选
+    selection(rows) {
+      var that = this;
+      if (this.tableInfo.length !== this.tableList.length) {
+        rows.forEach(row => {
+          that.$refs.multipleTable.toggleRowSelection(row, true);
+        });
+      } else {
+        that.$refs.multipleTable.clearSelection();
+      }
+    },
+    //批量删除
+    batchDeleting() {
+      for (var i = 0; i < this.tableList.length; i++) {
+        //console.log(this.tableList[i].uid)
+      }
+      this.$confirm("此操作将删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "删除成功!"
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     }
   }
 };

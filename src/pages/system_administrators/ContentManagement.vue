@@ -31,8 +31,8 @@
       </div>
       <!-- 表格 -->
       <div class="table-body">
-        <el-table ref="multipleTable" :data="tableInfo" stripe size="small" @selection-change="handleSelectionChange">
-          <el-table-column type="selection"></el-table-column>
+        <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
+          <el-table-column type="selection" @selection-change="handleSelectionChange"></el-table-column>
           <el-table-column prop="uid" label="ID" width="50"></el-table-column>
           <el-table-column prop="title" label="标题" width="250"></el-table-column>
           <el-table-column prop="column" label="栏目" width="80"></el-table-column>

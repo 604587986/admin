@@ -285,7 +285,11 @@ export default {
           }, 500);
         } else {
           that.subLoading = false;
-          that.$message.error("用户名或密码错误!");
+          that.$message({
+            type: "error",
+            showClose:"true",
+            message: "用户名或密码错误!"
+          });
           return false;
         }
       });
@@ -318,7 +322,7 @@ export default {
     }
 
     img {
-      width: auto;
+      width: 100%;
       height: 100%;
     }
 

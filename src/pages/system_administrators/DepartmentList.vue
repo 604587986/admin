@@ -29,6 +29,7 @@
       <!-- 表格 -->
       <div class="table-body column-container">
         <el-table :data="column_list" stripe size="small">
+          <el-table-column width="55" type="selection" @selection-change="handleSelectionChange"></el-table-column>
           <el-table-column prop="uid" label="ID" width="65"></el-table-column>
           <el-table-column label="显示子类" type="expand" width="100">
             <div slot-scope="props">
@@ -95,6 +96,11 @@
           </el-table-column>
         </el-table>
       </div>
+      <!-- 表格控制 -->
+      <div class="table-filter">
+        <el-button type="primary" size="mini" @click="selection(tableInfo)">全选</el-button>
+        <el-button type="primary" size="mini" @click="batchDeleting()">批量删除</el-button>
+      </div>
       <!-- 分页 -->
       <Paging></Paging>
     </div>
@@ -144,7 +150,9 @@ export default {
       //栏目检索
       titleSearchValue: "",
       //表格
-      column_list: []
+      column_list: [],
+
+      tableList :[]
     };
   },
   components: {
@@ -194,6 +202,44 @@ export default {
     //表格排序
     sortBlur(a, b) {
       console.log(b[a].uid);
+    },
+    //选中的时候触发
+    handleSelectionChange(val) {
+      this.tableList = val;
+    },
+    //全选
+    selection(rows) {
+      var that = this;
+      if (that.column_list.length !== that.tableList.length) {
+        rows.forEach(row => {
+          that.$refs.multipleTable.toggleRowSelection(row, true);
+        });
+      } else {
+        that.$refs.multipleTable.clearSelection();
+      }
+    },
+    //批量删除
+    batchDeleting() {
+      for (var i = 0; i < this.tableList.length; i++) {
+        //console.log(this.tableList[i].uid)
+      }
+      this.$confirm("此操作将删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "删除成功!"
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     }
   }
 };
