@@ -16,16 +16,17 @@
         <img src="../../../static/img/logo.png" alt="logo">
       </div>
       <div class="logo-text">
-        <span>站群管理系统V1.0</span>
+        <p>中国美术学院艺术设计学院智慧管理系统</p>
+        <p>后台管理</p>
       </div>
     </div>
     <div class="logo-index">
       <!-- 表单 -->
       <div class="form-container">
         <el-form ref="form" :model="login" :rules="rules" class="form-box">
-          <el-form-item prop="username" class="item-box">
+          <el-form-item prop="name" class="item-box">
             <i class="iconfont icon-user"></i>
-            <el-input v-model="login.username" @keyup.enter.native="submitForm('form')" placeholder="用户名"></el-input>
+            <el-input v-model="login.name" @keyup.enter.native="submitForm('form')" placeholder="用户名"></el-input>
           </el-form-item>
           <el-form-item prop="password" class="item-box r-psd">
             <i class="iconfont icon-password"></i>
@@ -35,7 +36,7 @@
             <el-checkbox label="记住密码" name="type"></el-checkbox>
           </el-form-item>
           <el-form-item class="form-control-btn item-padding">
-            <el-button type="primary" @click="submitForm('form')" size="large" :loading="subLoading">提交</el-button>
+            <el-button type="primary" @click="submitForm('form')" size="large" :loading="subLoading">登陆</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -57,12 +58,12 @@ export default {
     return {
       subLoading: false,
       login: {
-        username: "",
+        name: "",
         password: ""
       },
       //表单验证
       rules: {
-        username: [
+        name: [
           {
             required: true,
             validator: function(rule, value, callback) {
@@ -230,68 +231,103 @@ export default {
   methods: {
     //表单提交
     submitForm(formName) {
+      var url = "";
       var that = this;
       that.$refs[formName].validate(function(valid) {
-        //跳转地址
-        var url = "/pages/administrators/Administrators";
-        window.localStorage.setItem("headerUrl", "Administrators");
-        window.localStorage.setItem("isEditor", false); //判断是否是编辑页面
-        // 演示用账号密码
-        if (
-          that.login.username == "admin1" &&
-          that.login.password == "admin1"
-        ) {
-          window.localStorage.setItem("headerName", "沈超(编辑)");
-          window.localStorage.setItem("jsonUrl", "entryList2.json");
-          window.localStorage.setItem("isEditor", true);
-        } else if (
-          that.login.username == "admin2" &&
-          that.login.password == "admin2"
-        ) {
-          window.localStorage.setItem("headerName", "陈泽勇(管理员)");
-          window.localStorage.setItem("jsonUrl", "entryList.json");
-        } else if (
-          that.login.username == "admin3" &&
-          that.login.password == "admin3"
-        ) {
-          window.localStorage.setItem("headerName", "王欢(领导)");
-          window.localStorage.setItem("jsonUrl", "entryList3.json");
-        } else if (
-          that.login.username == "admin4" &&
-          that.login.password == "admin4"
-        ) {
-          window.localStorage.setItem("headerName", "杜海峰(主站管理员)");
-          window.localStorage.setItem("jsonUrl", "entryList4.json");
-        } else if (
-          that.login.username == "admin5" &&
-          that.login.password == "admin5"
-        ) {
-          //系统管理员
-          window.localStorage.setItem("headerName", "吴晓棣(系统管理员)");
-          window.localStorage.setItem("headerUrl", "System_Administrators");
-          url = "/pages/system_administrators/System_Administrators";
-        } else {
-          valid = false; //登陆失败
-        }
         if (valid) {
           that.subLoading = true;
-          that.$message({
-            type: "success",
-            message: "登录成功!"
-          });
-          setTimeout(function() {
-            //提交成功后跳转到文章列表页面
-            that.$router.push({ path: url });
-          }, 500);
+          that
+            .$http({
+              method: "post",
+              url: "/Admin/Login/logTodo",
+              data: {
+                name: that.login.name,
+                password: that.login.password
+              },
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+              },
+              //格式化
+              transformRequest: [
+                function(data) {
+                  let ret = "";
+                  for (let it in data) {
+                    ret +=
+                      encodeURIComponent(it) +
+                      "=" +
+                      encodeURIComponent(data[it]) +
+                      "&";
+                  }
+                  return ret;
+                }
+              ]
+            })
+            .then(function(res) {
+              that.subLoading = false;
+              if (res.data.status == "success") {
+                window.localStorage.setItem("headerName", res.data.name);
+                window.localStorage.setItem(
+                  "headerUrl",
+                  "System_Administrators"
+                );
+                url = "/pages/system_administrators/System_Administrators";
+                setTimeout(function() {
+                  //  提交成功后跳转到文章列表页面
+                  that.$router.push({ path: url });
+                }, 500);
+              } else if (res.data.status == "Account does not exist") {
+                that.$message({
+                  type: "error",
+                  showClose: "true",
+                  message: "账号不存在!"
+                });
+              } else if (res.data.status == "Password mistake") {
+                that.$message({
+                  type: "error",
+                  showClose: "true",
+                  message: "账号名或密码错误!"
+                });
+              }
+            })
+            .catch(function(err) {
+              console.log(err);
+            });
         } else {
           that.subLoading = false;
-          that.$message({
-            type: "error",
-            showClose:"true",
-            message: "用户名或密码错误!"
-          });
           return false;
         }
+        // url = "/pages/system_administrators/System_Administrators";
+        // //跳转地址
+        // var url = "/pages/administrators/Administrators";
+        // window.localStorage.setItem("headerUrl", "Administrators");
+        // window.localStorage.setItem("isEditor", false); //判断是否是编辑页面
+        // // 演示用账号密码
+        //   //系统管理员
+        //   window.localStorage.setItem("headerName", "吴晓棣(系统管理员)");
+        //   window.localStorage.setItem("headerUrl", "System_Administrators");
+        //   url = "/pages/system_administrators/System_Administrators";
+        // } else {
+        //   valid = false; //登陆失败
+        // }
+        // if (valid) {
+        //   that.subLoading = true;
+        //   that.$message({
+        //     type: "success",
+        //     message: "登录成功!"
+        //   });
+        //   setTimeout(function() {
+        //     //提交成功后跳转到文章列表页面
+        //     that.$router.push({ path: url });
+        //   }, 500);
+        //   } else {
+        //     that.subLoading = false;
+        //     that.$message({
+        //       type: "error",
+        //       showClose:"true",
+        //       message: "用户名或密码错误!"
+        //     });
+        //     return false;
+        //   }
       });
     }
   }
@@ -330,10 +366,18 @@ export default {
       position: absolute;
       bottom: 4.1vh;
       left: 50%;
+      color: #fff;
+      text-align: center;
       -webkit-transform: translateX(-50%);
       -ms-transform: translateX(-50%);
       -o-transform: translateX(-50%);
       transform: translateX(-50%);
+      p{
+        &:first-child{
+          font-size: 20px;
+          font-weight: 500;
+        }
+      }
     }
 
     .logo-text span {

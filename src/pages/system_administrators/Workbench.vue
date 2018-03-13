@@ -1,96 +1,59 @@
 /*
- * @Author: Alex chenzeyongjsj@163.com 
+ * @Author: Alex chenzeyongjsj@163.com
  * @Date: 2018-01-31 15:51:10 
  * @Last Modified by: Alex chenzeyongjsj@163.com
  * @Last Modified time: 2018-02-02 17:46:11
  */
 
-
 <template>
   <div id="Workbench">
     <Crumb :crumbs="crumbs"></Crumb>
-    <!-- 快捷导航 -->
+    <!-- 工作台 -->
     <div class="quick-navigation">
+      <div class="title"><span>工作台</span></div>
       <ul>
         <li v-for="item in quick_navigation" class="float-left">
           <a :href="item.url">
-            <i class="iconfont" :class="item.icon"></i>
-            <p>{{item.name}}</p>
+            <!-- <i class="iconfont" :class="item.icon"></i> -->
+            <p class="num">{{item.count}}</p>
+            <p class="title">{{item.name}}</p>
           </a>
         </li>
       </ul>
     </div>
-    <!-- 数据展示 -->
-    <div class="data-display">
-      <!-- menu -->
-      <div class="data-menu">
-        <span ref="data" v-for="(item,index) in data_display" :key="item.id" @click="data_switch($event,index)" class="float-left" :class="item.classCon?'span-active':''">{{item.name}}</span>
-        <i class="line" :style="{left:line_left,width:line_Width}"></i>
-      </div>
-      <!-- 展示容器 -->
-      <div class="data-container">
-        <div v-show="switch_control == 1">
-          <!-- 数据总览 -->
-          <div class="data-all">
-            <ul>
-              <li v-for="item in data_all" :key="item.id" class="float-left">
-                <span>{{item.count}}</span>
-                <p>{{item.name}}</p>
-              </li>
-            </ul>
-          </div>
-          <!-- echarts 图表 -->
-          <DataChart></DataChart>
-        </div>
-        <!-- 访问量排行 -->
-        <div v-show="switch_control == 2">
-          <div class="rank-title">
-            <span>备注：数据统计时间有延迟，每10分钟数据自动刷新一次。</span>
-            <el-button type="primary" size="mini">数据刷新</el-button>
-          </div>
-          <el-table :data="accessRankings" stripe size="small" v-loading="tableLoading">
-            <el-table-column prop="uid" label="序号" width="50"></el-table-column>
-            <el-table-column prop="title" label="网站名称" width="300"></el-table-column>
-            <el-table-column prop="today" label="本月访问量"></el-table-column>
-            <el-table-column prop="thisMonth" label="今日访问量"></el-table-column>
-            <el-table-column prop="lastMonth" label="上月访问量"></el-table-column>
-            <el-table-column prop="thisYear" label="今年访问量"></el-table-column>
-            <el-table-column prop="count" label="总访问量"></el-table-column>
-          </el-table>
-        </div>
-        <!-- 文章数量排行 -->
-        <div v-show="switch_control == 3">
-          <div class="rank-title">
-            <span>备注：数据统计时间有延迟，每10分钟数据自动刷新一次。</span>
-            <el-button type="primary" size="mini">数据刷新</el-button>
-          </div>
-          <el-table :data="countRankings" stripe size="small" v-loading="tableLoading2">
-            <el-table-column prop="uid" label="序号" width="50"></el-table-column>
-            <el-table-column prop="title" label="网站名称" width="300"></el-table-column>
-            <el-table-column prop="today" label="今日发布"></el-table-column>
-            <el-table-column prop="thisMonth" label="本月发布"></el-table-column>
-            <el-table-column prop="lastMonth" label="上月发布"></el-table-column>
-            <el-table-column prop="thisYear" label="今年发布"></el-table-column>
-            <el-table-column prop="count" label="总文章数量"></el-table-column>
-          </el-table>
-        </div>
-        <!-- 文章访问排行 -->
-        <div v-show="switch_control == 4">
-          <div class="rank-title">
-            <span>备注：数据统计时间有延迟，每10分钟数据自动刷新一次。</span>
-            <el-button type="primary" size="mini">数据刷新</el-button>
-          </div>
-          <el-table :data="lookRankings" stripe size="small" v-loading="tableLoading3">
-            <el-table-column prop="uid" label="排行" width="50"></el-table-column>
-            <el-table-column prop="title" label="标题" width="300"></el-table-column>
-            <el-table-column prop="count" label="浏览次数"></el-table-column>
-            <el-table-column prop="author" label="作者"></el-table-column>
-            <el-table-column prop="column" label="栏目"></el-table-column>
-            <el-table-column prop="date" label="创建日期"></el-table-column>
-            <el-table-column prop="site" label="所属站点"></el-table-column>
-          </el-table>
-        </div>
-      </div>
+    <!-- 数据概况 -->
+    <div class="quick-navigation">
+      <div class="title"><span>数据概况</span></div>
+      
+      <ul>
+        <li v-for="item in data_all" class="float-left">
+          <a :href="item.url">
+            <!-- <i class="iconfont" :class="item.icon"></i> -->
+            <p class="num">{{item.count}}</p>
+            <p class="title">{{item.name}}</p>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <!-- 今日数据 -->
+    <div class="quick-navigation">
+      <div class="title"><span>今日数据</span></div>
+      
+      <ul>
+        <li v-for="item in today_data" class="float-left">
+          <a :href="item.url">
+            <!-- <i class="iconfont" :class="item.icon"></i> -->
+            <p class="num">{{item.count}}</p>
+            <p class="title">{{item.name}}</p>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 到课率 -->
+    <div class="quick-navigation">
+      <div class="title"><span>到课率</span></div>
+      <DataChart></DataChart>
     </div>
   </div>
 </template>
@@ -116,74 +79,99 @@ export default {
       //快捷导航
       quick_navigation: [
         {
-          name: "权限管理",
+          name: "请假待审批",
           url: "javascript:void(0);",
-          icon: "icon-quanxianguanli"
+          count: 5
+          // icon: "icon-quanxianguanli"
         },
         {
-          name: "附件管理",
+          name: "调课待审批",
           url: "javascript:void(0);",
-          icon: "icon-fujianguanli"
+          count: 1
+          // icon: "icon-fujianguanli"
         },
         {
-          name: "系统日志",
+          name: "并课待审批",
           url: "javascript:void(0);",
-          icon: "icon-xitongrizhi"
+          count: 1
+          // icon: "icon-xitongrizhi"
         },
         {
-          name: "数据备份",
+          name: "报备申请待审批",
           url: "javascript:void(0);",
-          icon: "icon-shujubeifen"
+          count: 1
+          // icon: "icon-shujubeifen"
         },
         {
-          name: "查看站点内容",
+          name: "预约教室待审批",
           url: "javascript:void(0);",
-          icon: "icon-chakanzhandianneirong"
+          count: 2
+          // icon: "icon-chakanzhandianneirong"
+        },
+        {
+          name: "学生申诉待审批",
+          url: "javascript:void(0);",
+          count: 1
+          // icon: "icon-chakanzhandianneirong"
         }
       ],
       //数据导航
-      data_display: [
-        {
-          name: "数据概况",
-          classCon: true
-        },
-        {
-          name: "访问量排行",
-          classCon: false
-        },
-        {
-          name: "文章数量排行",
-          classCon: false
-        },
-        {
-          name: "文章访问排行",
-          classCon: false
-        }
-      ],
+      // data_display: [
+      //   {
+      //     name: "数据概况",
+      //     classCon: true
+      //   },
+      //   {
+      //     name: "访问量排行",
+      //     classCon: false
+      //   },
+      //   {
+      //     name: "文章数量排行",
+      //     classCon: false
+      //   },
+      //   {
+      //     name: "文章访问排行",
+      //     classCon: false
+      //   }
+      // ],
       //line-left
       line_left: 0,
       line_Width: 72,
       //数据总览
       data_all: [
         {
-          name: "站点数量(个)",
-          count: 38
+          name: "学生总数",
+          count: 1198
         },
         {
-          name: "文章总数(篇)",
-          count: 54896
+          name: "教职工总数",
+          count: 68
         },
         {
-          name: "栏目总数(个)",
-          count: 470
+          name: "班级总数",
+          count: 75
         },
         {
-          name: "附件总数(个)",
-          count: 48949
+          name: "教师总数",
+          count: 50
+        }
+      ],
+      today_data: [
+        {
+          name: "应到人数",
+          count: 998
         },
         {
-          name: "管理员数量(位)",
-          count: 15
+          name: "实到人数",
+          count: 980
+        },
+        {
+          name: "请假人数",
+          count: 18
+        },
+        {
+          name: "旷课人数",
+          count: 1
         }
       ],
       //切换控制
@@ -259,8 +247,18 @@ export default {
 <style lang="less">
 @import "../../assets/css/less_config.less";
 .quick-navigation {
-  padding-top: 48px;
-  border-top: 1px solid @border_color;
+  padding-bottom: 48px;
+  border-bottom: 1px solid @border_color;
+  >.title{
+    font-size: 25px;
+    color: #000;
+    font-weight: 700;
+    margin-bottom: 30px;
+    >span{
+      border-bottom: 5px solid #00a0e9;
+      line-height: 10px;
+    }
+  }
   ul {
     &::after {
       content: "";
@@ -280,7 +278,7 @@ export default {
       }
       a {
         display: block;
-        width: 175px;
+        width: 172px;
         height: 100px;
         text-align: center;
         border-radius: 3px;
@@ -307,7 +305,13 @@ export default {
         .icon-xitongrizhi {
           font-size: 44px;
         }
-        p {
+        .num {
+          font-size: 25px;
+          font-weight: 700;
+          margin-top: 10px;
+          color: #00a0e9;
+        }
+        .title {
           position: absolute;
           left: 50%;
           bottom: 10px;

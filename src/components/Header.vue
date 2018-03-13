@@ -62,7 +62,7 @@ export default {
   min-width: 1190px;
   background: @base-color;
   .header-container {
-    width: 1190px;
+    width: 1366px;
     height: 36px;
     margin: 0 auto;
     &::after {

@@ -45,7 +45,7 @@
           <el-table-column prop="date" label="创建日期" width="100"></el-table-column>
           <el-table-column prop="author" label="创建人" width="85"></el-table-column>
           <el-table-column prop="count" label="浏览次数" width="70"></el-table-column>
-          <el-table-column label="操作" width="250" fixed="right">
+          <el-table-column label="操作" width="250">
             <div slot-scope="scope" class="control-btn">
               <el-button size="small">访问</el-button>
               <el-button size="small">审核</el-button>
