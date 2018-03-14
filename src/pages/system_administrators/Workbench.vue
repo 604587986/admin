@@ -13,11 +13,11 @@
       <div class="title"><span>工作台</span></div>
       <ul>
         <li v-for="item in quick_navigation" class="float-left">
-          <a :href="item.url">
+          <router-link :to="'/pages/system_administrators/System_Administrators/'+item.url">
             <!-- <i class="iconfont" :class="item.icon"></i> -->
             <p class="num">{{item.count}}</p>
             <p class="title">{{item.name}}</p>
-          </a>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -80,37 +80,37 @@ export default {
       quick_navigation: [
         {
           name: "请假待审批",
-          url: "javascript:void(0);",
+          url: "qingjiaguanli",
           count: 5
           // icon: "icon-quanxianguanli"
         },
         {
           name: "调课待审批",
-          url: "javascript:void(0);",
+          url: "tiaokeguanli",
           count: 1
           // icon: "icon-fujianguanli"
         },
         {
           name: "并课待审批",
-          url: "javascript:void(0);",
+          url: "bingkeguanli",
           count: 1
           // icon: "icon-xitongrizhi"
         },
         {
           name: "报备申请待审批",
-          url: "javascript:void(0);",
+          url: "baobeiguanli",
           count: 1
           // icon: "icon-shujubeifen"
         },
         {
           name: "预约教室待审批",
-          url: "javascript:void(0);",
+          url: "jiaoshiyuyueguanli",
           count: 2
           // icon: "icon-chakanzhandianneirong"
         },
         {
           name: "学生申诉待审批",
-          url: "javascript:void(0);",
+          url: "xueshengshensuguanli",
           count: 1
           // icon: "icon-chakanzhandianneirong"
         }
@@ -134,9 +134,6 @@ export default {
       //     classCon: false
       //   }
       // ],
-      //line-left
-      line_left: 0,
-      line_Width: 72,
       //数据总览
       data_all: [
         {
@@ -156,6 +153,7 @@ export default {
           count: 50
         }
       ],
+      //今日数据
       today_data: [
         {
           name: "应到人数",
@@ -173,15 +171,7 @@ export default {
           name: "旷课人数",
           count: 1
         }
-      ],
-      //切换控制
-      switch_control: 1,
-      //访问排行榜
-      accessRankings: [],
-      //数量排行榜
-      countRankings: [],
-      //访问量排行榜
-      lookRankings: []
+      ]
     };
   },
   components: {
@@ -268,6 +258,7 @@ export default {
     }
     li {
       margin-right: 18px;
+      margin-bottom: 10px;
       &:last-of-type {
         margin-right: 0;
       }
@@ -320,93 +311,6 @@ export default {
           white-space: nowrap;
           font-size: 16px;
         }
-      }
-    }
-  }
-}
-.data-display {
-  margin-top: 46px;
-  padding-bottom: 40px;
-  .data-menu {
-    width: 100%;
-    height: 40px;
-    border-bottom: 1px solid @border_color;
-    position: relative;
-    span {
-      font-size: 18px;
-      color: @base_grey;
-      cursor: pointer;
-      line-height: 40px;
-      margin-right: 32px;
-      transition: all 0.3s;
-      &:last-of-type {
-        margin-right: 0;
-      }
-      &:hover {
-        color: @base-color2;
-      }
-    }
-    .span-active {
-      color: @base-color2;
-    }
-    .line {
-      width: 72px;
-      height: 5px;
-      background: @base-color2;
-      position: absolute;
-      bottom: -2.5px;
-      left: 0;
-      transition: all 0.3s;
-    }
-  }
-  .data-container {
-    margin-top: 50px;
-    .data-all {
-      margin-bottom: 50px;
-      ul {
-        &::after {
-          content: "";
-          display: block;
-          visibility: hidden;
-          clear: both;
-        }
-        li {
-          margin-right: 18px;
-          display: block;
-          width: 175px;
-          height: 100px;
-          text-align: center;
-          border-radius: 3px;
-          border: 1px solid @border_color;
-          position: relative;
-          text-align: center;
-          &:last-of-type {
-            margin-right: 0;
-          }
-          span {
-            display: block;
-            color: @base-color2;
-            font-size: 34px;
-            white-space: nowrap;
-            margin-top: 11px;
-          }
-          p {
-            color: @base_grey;
-            white-space: nowrap;
-            margin-top: 11px;
-            font-size: 16px;
-          }
-        }
-      }
-    }
-    .rank-title {
-      width: 100%;
-      height: 40px;
-      margin-bottom: 20px;
-      > span {
-        font-size: 14px;
-        color: @base_grey;
-        margin-left: 10px;
       }
     }
   }

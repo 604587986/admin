@@ -39,116 +39,143 @@ export default {
           second_class_column: []
         },
         {
-          first_class_column_name: "站点管理",
+          first_class_column_name: "考勤管理",
           first_class_column_url: "",
           column_icon: "icon-zhandianguanli",
           column_open: false,
           no_second: false,
           second_class_column: [
             {
-              column_name: "添加站点",
-              column_url: "AddSite",
+              column_name: "考勤数据",
+              column_url: "kaoqinshuju",
               column_active: false
             },
             {
-              column_name: "站点列表",
+              column_name: "数据修改",
               column_url: "SiteList",
               column_active: false
             },
             {
-              column_name: "内容管理",
+              column_name: "数据提醒设置",
               column_url: "ContentManagement",
-              column_active: false
-            },
-            {
-              column_name: "数据备份",
-              column_url: "DataBackup",
               column_active: false
             }
           ]
         },
         {
-          first_class_column_name: "附件管理",
+          first_class_column_name: "课表管理",
           first_class_column_url: "",
           column_icon: "icon-fujianguanli",
           column_open: false,
           no_second: false,
           second_class_column: [
             {
-              column_name: "添加附件",
-              column_url: "AddEnclosure",
+              column_name: "课表管理",
+              column_url: "kebiaoguanli",
               column_active: false
             },
             {
-              column_name: "附件列表",
+              column_name: "课表上传",
               column_url: "EnclosureList",
               column_active: false
             }
           ]
         },
         {
-          first_class_column_name: "组件管理",
+          first_class_column_name: "门禁管理",
           first_class_column_url: "",
           column_icon: "icon-zujianguanli",
           column_open: false,
-          no_second: false,
-          second_class_column: [
-            {
-              column_name: "添加组件",
-              column_url: "AddComponent",
-              column_active: false
-            },
-            {
-              column_name: "组件列表",
-              column_url: "ComponentList",
-              column_active: false
-            }
-          ]
+          no_second: false
         },
         {
-          first_class_column_name: "网站模板",
+          first_class_column_name: "信息推送",
           first_class_column_url: "",
           column_icon: "icon-wangzhanmoban",
           column_open: false,
           no_second: false,
           second_class_column: [
             {
-              column_name: "添加模板",
-              column_url: "AddTemplate",
+              column_name: "报表推送",
+              column_url: "baobiaotuisong",
               column_active: false
             },
             {
-              column_name: "模板列表",
+              column_name: "信息推送",
+              column_url: "TemplateList",
+              column_active: false
+            },
+            {
+              column_name: "信息群发",
               column_url: "TemplateList",
               column_active: false
             }
           ]
         },
         {
-          first_class_column_name: "权限管理",
+          first_class_column_name: "数据报表",
           first_class_column_url: "",
           column_icon: "icon-quanxianguanli",
           column_open: false,
           no_second: false,
           second_class_column: [
             {
-              column_name: "添加用户",
+              column_name: "数据报表",
               column_url: "AddUser",
               column_active: false
             },
             {
-              column_name: "用户管理",
+              column_name: "数据填报",
               column_url: "UserList",
               column_active: false
-            },
+            }
+          ]
+        },
+        {
+          first_class_column_name: "申请审批",
+          first_class_column_url: "",
+          column_icon: "icon-xitongshezhi",
+          column_open: false,
+          no_second: false,
+          second_class_column: [
             {
-              column_name: "添加用户组",
-              column_url: "AddUserGroup",
+              column_name: "请假管理",
+              column_url: "qingjiaguanli",
               column_active: false
             },
             {
-              column_name: "用户组管理",
-              column_url: "UserGroupList",
+              column_name: "调课管理",
+              column_url: "tiaokeguanli",
+              column_active: false
+            },
+            {
+              column_name: "并课管理",
+              column_url: "bingkeguanli",
+              column_active: false
+            },
+            {
+              column_name: "报备管理",
+              column_url: "baobeiguanli",
+              column_active: false
+            },
+            {
+              column_name: "教室预约管理",
+              column_url: "jiaoshiyuyueguanli",
+              column_active: false
+            },
+            {
+              column_name: "学生申诉管理",
+              column_url: "xueshengshensuguanli",
+              column_active: false
+            },
+            {
+              column_name: "外出教学管理",
+              column_url: "waichujiaoxueguanli",
+              column_active: false
+            },
+            {
+              column_name: "审批设置",
+              column_url: "LoginLog",
               column_active: false
             }
           ]
@@ -161,13 +188,18 @@ export default {
           no_second: false,
           second_class_column: [
             {
-              column_name: "部门管理",
+              column_name: "账号审核",
               column_url: "DepartmentList",
               column_active: false
             },
             {
-              column_name: "全局设置",
+              column_name: "用户管理",
               column_url: "SiteInfo",
+              column_active: false
+            },
+            {
+              column_name: "数据备份",
+              column_url: "LoginLog",
               column_active: false
             },
             {

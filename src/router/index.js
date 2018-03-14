@@ -28,117 +28,167 @@ import UserGroupList from '@/pages/system_administrators/UserGroupList' //用户
 import DepartmentList from '@/pages/system_administrators/DepartmentList' //部门列表
 import SiteInfo from '@/pages/system_administrators/SiteInfo' //站点信息
 import LoginLog from '@/pages/system_administrators/LoginLog' //登陆日志
+import qingjiaguanli from '@/pages/system_administrators/qingjiaguanli'//请假管理
+import tiaokeguanli from '@/pages/system_administrators/tiaokeguanli'//调课管理
+import kaoqinshuju from '@/pages/system_administrators/kaoqinshuju'//考勤数据
+import kebiaoguanli from '@/pages/system_administrators/kebiaoguanli'//课表管理
+import bingkeguanli from '@/pages/system_administrators/bingkeguanli'//并课管理
+import baobeiguanli from '@/pages/system_administrators/baobeiguanli'//报备管理
+import jiaoshiyuyueguanli from '@/pages/system_administrators/jiaoshiyuyueguanli'//教室预约管理
+import xueshengshensuguanli from '@/pages/system_administrators/xueshengshensuguanli'//学生申诉管理
+import waichujiaoxueguanli from '@/pages/system_administrators/waichujiaoxueguanli'//外出教学管理
+import baobiaotuisong from '@/pages/system_administrators/baobiaotuisong'//报表推送
 Vue.use(Router)
 
 export default new Router({
     routes: [{
+        path: '/',
+        component: Home
+    },
+    {
+        path: '/pages/index/Home',
+        component: Home
+    },
+    {
+        path: '/pages/index/Search',
+        component: Search
+    },
+    {
+        path: '/pages/index/Rank',
+        component: Rank
+    },
+    {
+        path: '/pages/admin/Login',
+        component: Login
+    },
+    {
+        path: '/pages/administrators/Administrators',
+        component: Administrators
+    },
+    {
+        path: '/pages/system_administrators/System_Administrators',
+        component: System_Administrators,
+        children: [{
             path: '/',
-            component: Home
+            component: Workbench
         },
         {
-            path: '/pages/index/Home',
-            component: Home
+            path: 'Workbench',
+            component: Workbench
         },
         {
-            path: '/pages/index/Search',
-            component: Search
+            path: 'AddSite',
+            component: AddSite
         },
         {
-            path: '/pages/index/Rank',
-            component: Rank
+            path: 'SiteList',
+            component: SiteList
         },
         {
-            path: '/pages/admin/Login',
-            component: Login
+            path: 'ContentManagement',
+            component: ContentManagement
         },
         {
-            path: '/pages/administrators/Administrators',
-            component: Administrators
+            path: 'DataBackup',
+            component: DataBackup
         },
         {
-            path: '/pages/system_administrators/System_Administrators',
-            component: System_Administrators,
-            children: [{
-                    path: '/',
-                    component: Workbench
-                },
-                {
-                    path: 'Workbench',
-                    component: Workbench
-                },
-                {
-                    path: 'AddSite',
-                    component: AddSite
-                },
-                {
-                    path: 'SiteList',
-                    component: SiteList
-                },
-                {
-                    path: 'ContentManagement',
-                    component: ContentManagement
-                },
-                {
-                    path: 'DataBackup',
-                    component: DataBackup
-                },
-                {
-                    path: 'AddEnclosure',
-                    component: AddEnclosure
-                },
-                {
-                    path: 'EnclosureList',
-                    component: EnclosureList
-                },
-                {
-                    path: 'AddComponent',
-                    component: AddComponent
-                },
-                {
-                    path: 'ComponentList',
-                    component: ComponentList
-                },
-                {
-                    path: 'AddTemplate',
-                    component: AddTemplate
-                },
-                {
-                    path: 'TemplateList',
-                    component: TemplateList
-                },
-                {
-                    path: 'AddUser',
-                    component: AddUser
-                },
-                {
-                    path: 'UserList',
-                    component: UserList
-                },
-                {
-                    path: 'AddUserGroup',
-                    component: AddUserGroup
-                },
-                {
-                    path: 'UserGroupList',
-                    component: UserGroupList
-                },
-                {
-                    path: 'DepartmentList',
-                    component: DepartmentList
-                },
-                {
-                    path: 'SiteInfo',
-                    component: SiteInfo
-                },
-                {
-                    path: 'LoginLog',
-                    component: LoginLog
-                },
-            ]
+            path: 'AddEnclosure',
+            component: AddEnclosure
         },
         {
-            path: '*',
-            redirect: '/'
+            path: 'EnclosureList',
+            component: EnclosureList
+        },
+        {
+            path: 'AddComponent',
+            component: AddComponent
+        },
+        {
+            path: 'ComponentList',
+            component: ComponentList
+        },
+        {
+            path: 'AddTemplate',
+            component: AddTemplate
+        },
+        {
+            path: 'TemplateList',
+            component: TemplateList
+        },
+        {
+            path: 'AddUser',
+            component: AddUser
+        },
+        {
+            path: 'UserList',
+            component: UserList
+        },
+        {
+            path: 'AddUserGroup',
+            component: AddUserGroup
+        },
+        {
+            path: 'UserGroupList',
+            component: UserGroupList
+        },
+        {
+            path: 'DepartmentList',
+            component: DepartmentList
+        },
+        {
+            path: 'SiteInfo',
+            component: SiteInfo
+        },
+        {
+            path: 'LoginLog',
+            component: LoginLog
+        },
+        {
+            path: 'kaoqinshuju',
+            component: kaoqinshuju
+        },
+        {
+            path: 'kebiaoguanli',
+            component: kebiaoguanli
+        },
+        {//申请审批开始
+            path: 'qingjiaguanli',
+            component: qingjiaguanli
+        },
+        {
+            path: 'tiaokeguanli',
+            component: tiaokeguanli
+        },
+        {
+            path: 'bingkeguanli',
+            component: bingkeguanli
+        },
+        {
+            path: 'baobeiguanli',
+            component: baobeiguanli
+        },
+        {
+            path: 'jiaoshiyuyueguanli',
+            component: jiaoshiyuyueguanli
+        },
+        {
+            path: 'xueshengshensuguanli',
+            component: xueshengshensuguanli
+        },
+        {
+            path: 'waichujiaoxueguanli',
+            component: waichujiaoxueguanli
+        },//申请审批结束
+        {//信息推送开始
+            path: 'baobiaotuisong',
+            component: baobiaotuisong
         }
+        ]
+    },
+    {
+        path: '*',
+        redirect: '/'
+    }
     ]
 })

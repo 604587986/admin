@@ -234,6 +234,7 @@ export default {
       var url = "";
       var that = this;
       that.$refs[formName].validate(function(valid) {
+        that.$router.push("/pages/system_administrators/System_Administrators")//后期需删除
         if (valid) {
           that.subLoading = true;
           that
@@ -296,38 +297,6 @@ export default {
           that.subLoading = false;
           return false;
         }
-        // url = "/pages/system_administrators/System_Administrators";
-        // //跳转地址
-        // var url = "/pages/administrators/Administrators";
-        // window.localStorage.setItem("headerUrl", "Administrators");
-        // window.localStorage.setItem("isEditor", false); //判断是否是编辑页面
-        // // 演示用账号密码
-        //   //系统管理员
-        //   window.localStorage.setItem("headerName", "吴晓棣(系统管理员)");
-        //   window.localStorage.setItem("headerUrl", "System_Administrators");
-        //   url = "/pages/system_administrators/System_Administrators";
-        // } else {
-        //   valid = false; //登陆失败
-        // }
-        // if (valid) {
-        //   that.subLoading = true;
-        //   that.$message({
-        //     type: "success",
-        //     message: "登录成功!"
-        //   });
-        //   setTimeout(function() {
-        //     //提交成功后跳转到文章列表页面
-        //     that.$router.push({ path: url });
-        //   }, 500);
-        //   } else {
-        //     that.subLoading = false;
-        //     that.$message({
-        //       type: "error",
-        //       showClose:"true",
-        //       message: "用户名或密码错误!"
-        //     });
-        //     return false;
-        //   }
       });
     }
   }
@@ -373,10 +342,7 @@ export default {
       -o-transform: translateX(-50%);
       transform: translateX(-50%);
       p{
-        &:first-child{
-          font-size: 20px;
-          font-weight: 500;
-        }
+        margin-bottom: 10px;
       }
     }
 
