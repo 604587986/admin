@@ -7,37 +7,31 @@
 
 
 <template>
-  <div id="baobiaotuisong">
+  <div id="xinxituisong">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
     <!-- 使用说明 -->
     <Instructions :instructionsInfo="instructionsInfo"></Instructions>
     <!-- Form -->
     <div class="form-container" style="margin-bottom:30px">
-    <div class="title" style="font-size:25px ;border-bottom:1px solid #ccc;margin-bottom:25px">报表推送</div>      
+    <div class="title" style="font-size:25px ;border-bottom:1px solid #ccc;margin-bottom:25px">课表提醒设置</div>              
       <!-- 表单 -->
-      <el-form ref="form" label-width="150px" size="mini" label-position="right">
-        <el-form-item label="选择系/班级：" >
-          <el-select v-model="form.categoryValue" clearable placeholder="请选择系" size="mini">
-            <el-option v-for="item in category" :key="item.value" :label="item.label" :value="item.value"></el-option>
-          </el-select>
-          <el-select v-model="form.categoryValue" clearable placeholder="请选择班级" size="mini">
-            <el-option v-for="item in category" :key="item.value" :label="item.label" :value="item.value"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="考勤数据报表发送至邮箱：">
-          <el-input v-model="form.describe" type="textarea" :rows="2" placeholder="请输入邮箱地址，多个邮箱请用英文符号，隔开"></el-input>
+    <el-form ref="form" label-width="250px" size="mini" label-position="right">
+        <el-form-item label="课程变动或提醒信息发送方式：" >
+          <el-checkbox-group v-model="form.type">
+            <el-checkbox label="邮件"></el-checkbox>
+            <el-checkbox label="短信"></el-checkbox>
+            <el-checkbox label="微信"></el-checkbox>
+            </el-checkbox-group>
         </el-form-item>
         <el-form-item label="发送频率：">
              <el-radio-group v-model="form.format">
-                <el-radio label="每日"></el-radio>
-                <el-radio label="每周"></el-radio>
-                <el-radio label="每月"></el-radio>
+                <el-radio label="立即"></el-radio>
+                <el-radio label="课程开始前一天"></el-radio>
           </el-radio-group> 
         </el-form-item>
         <el-form-item class="form-control-btn">
           <el-button type="primary" @click="submitForm('form')" size="large" :loading="subLoading">提交</el-button>
-          <el-button type="primary" size="large">报表预览</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -53,6 +47,8 @@ export default {
   name: "AddSite",
   data() {
     return {
+      //
+
       //面包屑
       crumbs: [
         {
@@ -60,11 +56,11 @@ export default {
           url: "/pages/system_administrators/System_Administrators"
         },
         {
-          name: "信息推送",
+          name: "课表管理",
           url: ""
         },
         {
-          name: "报表推送",
+          name: "课表提醒",
           url: ""
         }
       ],
@@ -83,6 +79,7 @@ export default {
       subLoading: false,
       //表单
       form: {
+        type: "",
         title: "", //站点名称
         categoryValue: "", //所属类别
         subordinateDepartmentValue: "", //所属部门
@@ -102,79 +99,7 @@ export default {
         close_info: "系统维护 暂时关闭" //关闭原因
       },
       //表单验证
-      rules: {
-        title: [
-          {
-            required: true,
-            message: "请输入站点名称",
-            trigger: "blur"
-          },
-          {
-            min: 1,
-            message: "站点名称不能为空",
-            trigger: "blur"
-          }
-        ],
-        alias: [
-          {
-            required: true,
-            message: "请输入别名",
-            trigger: "blur"
-          },
-          {
-            min: 1,
-            message: "别名不能为空",
-            trigger: "blur"
-          }
-        ],
-        close_info: [
-          {
-            required: true,
-            message: "请输入关闭原因",
-            trigger: "blur"
-          },
-          {
-            min: 1,
-            max: 50,
-            message: "不能超过50个字",
-            trigger: "blur"
-          }
-        ],
-        sort: [
-          {
-            required: true,
-            validator: function(rule, value, callback) {
-              if (!Number.isInteger(value)) {
-                callback(new Error("请输入数字值"));
-              } else {
-                callback();
-              }
-            },
-            trigger: "blur"
-          }
-        ],
-        categoryValue: [
-          {
-            required: true,
-            message: "请选择所属类别",
-            trigger: "change"
-          }
-        ],
-        subordinateDepartmentValue: [
-          {
-            required: true,
-            message: "请选择所属部门",
-            trigger: "change"
-          }
-        ],
-        siteAdministratorValue: [
-          {
-            required: true,
-            message: "请选择站点管理员",
-            trigger: "change"
-          }
-        ]
-      },
+
       //所属类别
       category: [
         {
@@ -280,8 +205,8 @@ export default {
   },
   mounted: function() {
     //侧边导航定位
-    sessionStorage.setItem("system_menu_idx", 4);
-    this.$store.commit("update_system_menu_idx", 4);
+    sessionStorage.setItem("system_menu_idx", 2);
+    this.$store.commit("update_system_menu_idx", 2);
   },
   methods: {
     //图片上传

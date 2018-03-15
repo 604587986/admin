@@ -29,20 +29,20 @@
       <div class="table-body">
         <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
           <el-table-column type="selection" @selection-change="handleSelectionChange"></el-table-column>
-          <el-table-column prop="uid" label="申请编号" width="150"></el-table-column>
-          <el-table-column prop="applyDate" label="申请时间" width="150"></el-table-column>
-          <el-table-column prop="people" label="申请人" width="80"></el-table-column>
-          <el-table-column prop="applyCount" label="申请次数" width="50"></el-table-column>
-          <el-table-column prop="classroom" label="申请教室" width="100"></el-table-column>          
-          <el-table-column prop="date" label="使用时间" width="150"></el-table-column>          
-          <el-table-column prop="state" label="状态" width="80">
+          <el-table-column prop="uid" label="申请编号"></el-table-column>
+          <el-table-column prop="applyDate" label="申请时间"></el-table-column>
+          <el-table-column prop="people" label="申请人"></el-table-column>
+          <el-table-column prop="applyCount" label="申请次数"></el-table-column>
+          <el-table-column prop="classroom" label="申请教室"></el-table-column>          
+          <el-table-column prop="date" label="使用时间"></el-table-column>          
+          <el-table-column prop="state" label="状态">
             <div slot-scope="scope">
               <el-tag close-transition :class="scope.row.stateClass" size="mini">{{scope.row.state}}</el-tag>
             </div>
           </el-table-column>
-          <el-table-column prop="approve" label="审批人" width="200"></el-table-column>
-          <el-table-column prop="remark" label="备注" width="100"></el-table-column>
-          <el-table-column label="操作" width="80">
+          <el-table-column prop="approve" label="审批人"></el-table-column>
+          <el-table-column prop="remark" label="备注"></el-table-column>
+          <el-table-column label="操作">
             <div slot-scope="scope" class="control-btn">
               <el-button size="small">查看</el-button>
               <el-button size="small">审核</el-button>

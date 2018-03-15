@@ -10,18 +10,27 @@
   <div id="ContentManagement">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
-    <div class="head-wrapper clearfix">
-        <el-button type="primary" class="float-left" size="mini">+新增课表</el-button>
-        <el-button type="primary" class="float-right" size="mini">导出EXCEL</el-button>
-    </div>
     <!-- 使用说明 -->
     <Instructions :instructionsInfo="instructionsInfo"></Instructions>
     <!-- Table -->
+     <div class="table-container" style="margin-bottom:30px">
+      <!-- 表格 -->
+      <div class="table-body">
+        <el-table ref="multipleTable" :data="firstTableInfo" stripe size="small">
+          <el-table-column prop="date" label="时间" ></el-table-column>
+          <el-table-column prop="shouldNum" label="应到人数"></el-table-column>
+          <el-table-column prop="actualNum" label="实到人数"></el-table-column>
+          <el-table-column prop="leaveNum" label="请假人数"></el-table-column>
+          <el-table-column prop="missNum" label="旷课人数" ></el-table-column>
+          <el-table-column prop="efficiency" label="到课率" ></el-table-column>
+        </el-table>
+      </div>
+    </div>
     <div class="table-container">
       <!-- 表格筛选 -->
       <div class="table-filter">
-         <el-select v-model="columnListValue" clearable placeholder="选择学年学期" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="siteListValue" clearable placeholder="按日期查看" size="mini" class="float-left state-selection">
+          <el-option v-for="item in siteList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
         <el-select v-model="columnListValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
           <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
@@ -29,29 +38,19 @@
         <el-select v-model="columnListValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
           <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
+        <el-button type="primary" round style="float:right" size="mini">导出EXCEL</el-button>
+        <el-button type="primary" round style="float:right" size="mini">打印报表</el-button>
       </div>
       <!-- 表格 -->
       <div class="table-body">
-        <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
-          <el-table-column type="selection" @selection-change="handleSelectionChange"></el-table-column>
-          <el-table-column prop="id" label="ID"></el-table-column>
-          <el-table-column prop="tableId" label="课表编码"></el-table-column>
-          <el-table-column prop="class" label="班级名称"></el-table-column>
-          <el-table-column prop="department" label="所属系"></el-table-column>
-          <el-table-column prop="date" label="学年学期"></el-table-column>
-          <el-table-column label="操作">
-            <div slot-scope="scope" class="control-btn">
-              <el-button size="small" @click="kebiaochakan()">查看</el-button>
-              <el-button size="small">修改</el-button>
-              <el-button size="small">导入</el-button>
-              <el-button size="small">删除</el-button>
-            </div>
-          </el-table-column>
+        <el-table ref="multipleTable" :data="secondTableInfo" stripe size="small">
+          <el-table-column prop="date" label="时间" ></el-table-column>
+          <el-table-column prop="shouldNum" label="应到人数"></el-table-column>
+          <el-table-column prop="actualNum" label="实到人数"></el-table-column>
+          <el-table-column prop="leaveNum" label="请假人数"></el-table-column>
+          <el-table-column prop="missNum" label="旷课人数" ></el-table-column>
+          <el-table-column prop="efficiency" label="到课率" ></el-table-column>
         </el-table>
-      </div>
-      <!-- 表格控制 -->
-      <div class="table-filter">
-        <el-button type="primary" size="mini" @click="selection(tableInfo)">全选</el-button>
       </div>
       <!-- 分页 -->
       <Paging></Paging>
@@ -76,11 +75,11 @@ export default {
           url: "/pages/system_administrators/System_Administrators"
         },
         {
-          name: "课表管理",
+          name: "数据报表",
           url: ""
         },
         {
-          name: "课表管理",
+          name: "数据报表",
           url: ""
         }
       ],
@@ -141,21 +140,42 @@ export default {
       stateValue: "",
       //栏目检索
       titleSearchValue: "",
-      //表格
-      tableInfo: [
+      //表格1
+      firstTableInfo: [
         {
-          id: 1,
-          tableId:"001",
-          class: "14工业甲班",   
-          department: "工业设计系",                 
-          date: "2017-2018第一学期",
+          date: "今日",
+          shouldNum: "856",
+          actualNum: "800",
+          leaveNum: "30",
+          missNum: "26",
+          efficiency: "90%"
         },
         {
-          id: 1,
-          tableId:"001",
-          class: "14工业甲班",   
-          department: "工业设计系",                 
-          date: "2017-2018第一学期",
+          date: "昨日",
+          shouldNum: "856",
+          actualNum: "800",
+          leaveNum: "30",
+          missNum: "26",
+          efficiency: "90%"
+        }
+      ],
+      //表格2
+      secondTableInfo: [
+        {
+          date: "7月1号",
+          shouldNum: "856",
+          actualNum: "800",
+          leaveNum: "30",
+          missNum: "26",
+          efficiency: "90%"
+        },
+        {
+          date: "7月2号",
+          shouldNum: "856",
+          actualNum: "800",
+          leaveNum: "30",
+          missNum: "26",
+          efficiency: "90%"
         }
       ],
       tableList: []
@@ -168,14 +188,10 @@ export default {
   },
   mounted: function() {
     //侧边导航定位
-    sessionStorage.setItem("system_menu_idx", 2);
-    this.$store.commit("update_system_menu_idx", 2);
+    sessionStorage.setItem("system_menu_idx", 5);
+    this.$store.commit("update_system_menu_idx", 5);
   },
   methods: {
-    //课表查看
-    kebiaochakan(){
-      this.$router.push('/pages/system_administrators/System_Administrators/kebiaochakan')
-    },
     //检索
     articleSearch() {},
     //删除表格行
@@ -246,12 +262,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-.head-wrapper {
-  margin-bottom: 20px;
-  &::after {
-    content: " ";
-    display: block;
-    clear: both;
-  }
-}
+
 </style>

@@ -10,48 +10,23 @@
   <div id="ContentManagement">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
-    <div class="head-wrapper clearfix">
-        <el-button type="primary" class="float-left" size="mini">+新增课表</el-button>
-        <el-button type="primary" class="float-right" size="mini">导出EXCEL</el-button>
-    </div>
     <!-- 使用说明 -->
     <Instructions :instructionsInfo="instructionsInfo"></Instructions>
     <!-- Table -->
     <div class="table-container">
-      <!-- 表格筛选 -->
-      <div class="table-filter">
-         <el-select v-model="columnListValue" clearable placeholder="选择学年学期" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
+      <div class="prompt">
+        <p class="title">提示：</p>
+        <p>1.为了保证后台的安全性,系统只允许超级管理员删除操作日记</p>
+        <p>2.系统必须保留最近30天后台管理日志</p>
       </div>
       <!-- 表格 -->
       <div class="table-body">
         <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
-          <el-table-column type="selection" @selection-change="handleSelectionChange"></el-table-column>
-          <el-table-column prop="id" label="ID"></el-table-column>
-          <el-table-column prop="tableId" label="课表编码"></el-table-column>
-          <el-table-column prop="class" label="班级名称"></el-table-column>
-          <el-table-column prop="department" label="所属系"></el-table-column>
-          <el-table-column prop="date" label="学年学期"></el-table-column>
-          <el-table-column label="操作">
-            <div slot-scope="scope" class="control-btn">
-              <el-button size="small" @click="kebiaochakan()">查看</el-button>
-              <el-button size="small">修改</el-button>
-              <el-button size="small">导入</el-button>
-              <el-button size="small">删除</el-button>
-            </div>
-          </el-table-column>
+          <el-table-column prop="username" label="用户名" ></el-table-column>
+          <el-table-column prop="log" label="操作日志"></el-table-column>
+          <el-table-column prop="ip" label="操作IP"></el-table-column>
+          <el-table-column prop="date" label="操作时间"></el-table-column>
         </el-table>
-      </div>
-      <!-- 表格控制 -->
-      <div class="table-filter">
-        <el-button type="primary" size="mini" @click="selection(tableInfo)">全选</el-button>
       </div>
       <!-- 分页 -->
       <Paging></Paging>
@@ -76,11 +51,11 @@ export default {
           url: "/pages/system_administrators/System_Administrators"
         },
         {
-          name: "课表管理",
+          name: "系统设置",
           url: ""
         },
         {
-          name: "课表管理",
+          name: "系统日志",
           url: ""
         }
       ],
@@ -141,21 +116,19 @@ export default {
       stateValue: "",
       //栏目检索
       titleSearchValue: "",
-      //表格
+      //表格1
       tableInfo: [
         {
-          id: 1,
-          tableId:"001",
-          class: "14工业甲班",   
-          department: "工业设计系",                 
-          date: "2017-2018第一学期",
+          username:"admin",
+          log:"增加管理员： 张山",
+          ip:"115.200.252.182",
+          date:"2016-06-28 13:00:51"
         },
         {
-          id: 1,
-          tableId:"001",
-          class: "14工业甲班",   
-          department: "工业设计系",                 
-          date: "2017-2018第一学期",
+          username:"admin",
+          log:"增加管理员： 张山",
+          ip:"115.200.252.182",
+          date:"2016-06-28 13:00:51"
         }
       ],
       tableList: []
@@ -168,14 +141,10 @@ export default {
   },
   mounted: function() {
     //侧边导航定位
-    sessionStorage.setItem("system_menu_idx", 2);
-    this.$store.commit("update_system_menu_idx", 2);
+    sessionStorage.setItem("system_menu_idx", 7);
+    this.$store.commit("update_system_menu_idx", 7);
   },
   methods: {
-    //课表查看
-    kebiaochakan(){
-      this.$router.push('/pages/system_administrators/System_Administrators/kebiaochakan')
-    },
     //检索
     articleSearch() {},
     //删除表格行
@@ -246,12 +215,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-.head-wrapper {
+@import "../../assets/css/less_config.less";
+.prompt {
+  font-size: 14px;
+  color: @text-color;
+  line-height: 24px;
   margin-bottom: 20px;
-  &::after {
-    content: " ";
-    display: block;
-    clear: both;
+  .title {
+    font-size: 16px;
   }
 }
 </style>

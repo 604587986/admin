@@ -27,22 +27,22 @@
       <div class="table-body">
         <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
           <el-table-column type="selection" @selection-change="handleSelectionChange"></el-table-column>
-          <el-table-column prop="id" label="ID" width="50"></el-table-column>
-          <el-table-column prop="date" label="时间" width="150"></el-table-column>
-          <el-table-column prop="course" label="课程" width="100"></el-table-column>
-          <el-table-column prop="department" label="所属系" width="150"></el-table-column>
-          <el-table-column prop="class" label="所属班级" width="150"></el-table-column>
-          <el-table-column prop="teacher" label="老师" width="95"></el-table-column>
-          <el-table-column prop="shouldNum" label="应到人数" width="100"></el-table-column>          
-          <el-table-column prop="actualNum" label="实到人数" width="100"></el-table-column>  
-          <el-table-column prop="leaveNum" label="请假人数" width="100"></el-table-column>                  
-          <el-table-column prop="missNum" label="旷课人数" width="80"></el-table-column>   
-          <el-table-column prop="efficiency" label="旷课率" width="80"></el-table-column>   
-          <el-table-column label="操作" width="150">
+          <el-table-column prop="id" label="ID"></el-table-column>
+          <el-table-column prop="date" label="时间"></el-table-column>
+          <el-table-column prop="course" label="课程"></el-table-column>
+          <el-table-column prop="department" label="所属系"></el-table-column>
+          <el-table-column prop="class" label="所属班级"></el-table-column>
+          <el-table-column prop="teacher" label="老师"></el-table-column>
+          <el-table-column prop="shouldNum" label="应到人数"></el-table-column>          
+          <el-table-column prop="actualNum" label="实到人数"></el-table-column>  
+          <el-table-column prop="leaveNum" label="请假人数"></el-table-column>                  
+          <el-table-column prop="missNum" label="旷课人数"></el-table-column>   
+          <el-table-column prop="efficiency" label="旷课率"></el-table-column>   
+          <el-table-column label="操作">
             <div slot-scope="scope" class="control-btn">
               <el-button size="small">数据确认</el-button>
-              <el-button size="small">数据修改</el-button>
-              <el-button size="small">打卡数据</el-button>
+              <el-button size="small" @click="shujuxiugai()">数据修改</el-button>
+              <el-button size="small" @click="dakashuju()">打卡数据</el-button>
             </div>
           </el-table-column>
         </el-table>
@@ -185,6 +185,14 @@ export default {
     this.$store.commit("update_system_menu_idx", 1);
   },
   methods: {
+    //跳转到打卡数据
+    dakashuju(){
+      this.$router.push('/pages/system_administrators/System_Administrators/dakashuju')
+    },
+    //跳转到数据修改
+    shujuxiugai(){
+      this.$router.push('/pages/system_administrators/System_Administrators/shujuxiugai')
+    },
     //检索
     articleSearch() {},
     //删除表格行

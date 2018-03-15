@@ -10,48 +10,39 @@
   <div id="ContentManagement">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
-    <div class="head-wrapper clearfix">
-        <el-button type="primary" class="float-left" size="mini">+新增课表</el-button>
-        <el-button type="primary" class="float-right" size="mini">导出EXCEL</el-button>
-    </div>
     <!-- 使用说明 -->
     <Instructions :instructionsInfo="instructionsInfo"></Instructions>
     <!-- Table -->
     <div class="table-container">
       <!-- 表格筛选 -->
       <div class="table-filter">
-         <el-select v-model="columnListValue" clearable placeholder="选择学年学期" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
         <el-select v-model="columnListValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
           <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
         <el-select v-model="columnListValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
           <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
+        <el-input placeholder="请输入关键字" v-model="titleSearchValue" class="input-with-select title-search float-right" size="mini">
+          <el-button slot="append" icon="el-icon-search" @click="articleSearch()"></el-button>
+        </el-input>
       </div>
       <!-- 表格 -->
       <div class="table-body">
         <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
-          <el-table-column type="selection" @selection-change="handleSelectionChange"></el-table-column>
           <el-table-column prop="id" label="ID"></el-table-column>
-          <el-table-column prop="tableId" label="课表编码"></el-table-column>
-          <el-table-column prop="class" label="班级名称"></el-table-column>
-          <el-table-column prop="department" label="所属系"></el-table-column>
-          <el-table-column prop="date" label="学年学期"></el-table-column>
+          <el-table-column prop="date" label="发送时间"></el-table-column>
+          <el-table-column prop="title" label="发送标题"></el-table-column>
+          <el-table-column prop="peopleSend" label="发送人"></el-table-column>
+          <el-table-column prop="peopleTo" label="发送对象"></el-table-column>
+          <el-table-column prop="state" label="已读/未读" ></el-table-column>
           <el-table-column label="操作">
             <div slot-scope="scope" class="control-btn">
-              <el-button size="small" @click="kebiaochakan()">查看</el-button>
-              <el-button size="small">修改</el-button>
-              <el-button size="small">导入</el-button>
-              <el-button size="small">删除</el-button>
+              <el-button size="small">查看</el-button>
+              <el-button size="small">编辑</el-button>
+              <el-button @click.native.prevent="deleteRow(scope.$index, tableInfo)" size="small" class="control-btn-del">删除</el-button>
             </div>
           </el-table-column>
         </el-table>
-      </div>
-      <!-- 表格控制 -->
-      <div class="table-filter">
-        <el-button type="primary" size="mini" @click="selection(tableInfo)">全选</el-button>
       </div>
       <!-- 分页 -->
       <Paging></Paging>
@@ -76,11 +67,11 @@ export default {
           url: "/pages/system_administrators/System_Administrators"
         },
         {
-          name: "课表管理",
+          name: "信息推送",
           url: ""
         },
         {
-          name: "课表管理",
+          name: "信息群发",
           url: ""
         }
       ],
@@ -145,17 +136,21 @@ export default {
       tableInfo: [
         {
           id: 1,
-          tableId:"001",
-          class: "14工业甲班",   
-          department: "工业设计系",                 
-          date: "2017-2018第一学期",
+          date: "2017-02-20 08:32",
+          title:"关于关于7月6日截止办理自费出国留学材料的通知",
+          peopleSend:"张三",
+          peopleTo:"李四",
+          class:"14工业甲班",
+          state: "总数303（150人未读/153已读）",
         },
         {
           id: 1,
-          tableId:"001",
-          class: "14工业甲班",   
-          department: "工业设计系",                 
-          date: "2017-2018第一学期",
+          date: "2017-02-20 08:32",
+          title:"关于关于7月6日截止办理自费出国留学材料的通知",
+          peopleSend:"张三",
+          peopleTo:"李四",
+          class:"14工业甲班",
+          state: "总数303（150人未读/153已读）",
         }
       ],
       tableList: []
@@ -168,14 +163,10 @@ export default {
   },
   mounted: function() {
     //侧边导航定位
-    sessionStorage.setItem("system_menu_idx", 2);
-    this.$store.commit("update_system_menu_idx", 2);
+    sessionStorage.setItem("system_menu_idx", 4);
+    this.$store.commit("update_system_menu_idx", 4);
   },
   methods: {
-    //课表查看
-    kebiaochakan(){
-      this.$router.push('/pages/system_administrators/System_Administrators/kebiaochakan')
-    },
     //检索
     articleSearch() {},
     //删除表格行
@@ -246,12 +237,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-.head-wrapper {
-  margin-bottom: 20px;
-  &::after {
-    content: " ";
-    display: block;
-    clear: both;
-  }
-}
+
 </style>

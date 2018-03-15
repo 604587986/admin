@@ -10,41 +10,36 @@
   <div id="ContentManagement">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
-    <div class="head-wrapper clearfix">
-        <el-button type="primary" class="float-left" size="mini">+新增课表</el-button>
-        <el-button type="primary" class="float-right" size="mini">导出EXCEL</el-button>
-    </div>
     <!-- 使用说明 -->
     <Instructions :instructionsInfo="instructionsInfo"></Instructions>
     <!-- Table -->
     <div class="table-container">
-      <!-- 表格筛选 -->
-      <div class="table-filter">
-         <el-select v-model="columnListValue" clearable placeholder="选择学年学期" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-      </div>
+
       <!-- 表格 -->
       <div class="table-body">
         <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
           <el-table-column type="selection" @selection-change="handleSelectionChange"></el-table-column>
-          <el-table-column prop="id" label="ID"></el-table-column>
-          <el-table-column prop="tableId" label="课表编码"></el-table-column>
-          <el-table-column prop="class" label="班级名称"></el-table-column>
-          <el-table-column prop="department" label="所属系"></el-table-column>
-          <el-table-column prop="date" label="学年学期"></el-table-column>
+          <el-table-column prop="applyDate" label="申请时间"></el-table-column>
+          <el-table-column prop="people" label="申请人"></el-table-column>
+          <el-table-column prop="course" label="课程名称" ></el-table-column>
+          <el-table-column prop="department" label="所在系" ></el-table-column>
+          <el-table-column prop="preview" label="申请附件">
+              <div slot-scope="scope">
+              <div v-if="scope.row.is_img" class="carousel-img">
+                <img :src="scope.row.preview" />
+              </div>
+              <div v-else>
+                <a :href="scope.row.preview_url">{{scope.row.preview}}</a>
+              </div>
+            </div>
+          </el-table-column>
+          <el-table-column prop="approve" label="审批人" ></el-table-column>
+          <el-table-column prop="remark" label="备注"></el-table-column>
           <el-table-column label="操作">
             <div slot-scope="scope" class="control-btn">
-              <el-button size="small" @click="kebiaochakan()">查看</el-button>
-              <el-button size="small">修改</el-button>
-              <el-button size="small">导入</el-button>
-              <el-button size="small">删除</el-button>
+              <el-button size="small">查看详情</el-button>
+              <el-button size="small">通过申请</el-button>
+              <el-button @click.native.prevent="deleteRow(scope.$index, tableInfo)" size="small" class="control-btn-del">驳回申请</el-button>
             </div>
           </el-table-column>
         </el-table>
@@ -52,6 +47,8 @@
       <!-- 表格控制 -->
       <div class="table-filter">
         <el-button type="primary" size="mini" @click="selection(tableInfo)">全选</el-button>
+        <el-button type="primary" size="mini" @click="batchDeleting()">批量驳回</el-button>
+        <el-button type="primary" size="mini">批量审核</el-button>
       </div>
       <!-- 分页 -->
       <Paging></Paging>
@@ -76,11 +73,11 @@ export default {
           url: "/pages/system_administrators/System_Administrators"
         },
         {
-          name: "课表管理",
+          name: "系统设置",
           url: ""
         },
         {
-          name: "课表管理",
+          name: "账号审核",
           url: ""
         }
       ],
@@ -144,18 +141,38 @@ export default {
       //表格
       tableInfo: [
         {
-          id: 1,
-          tableId:"001",
-          class: "14工业甲班",   
-          department: "工业设计系",                 
-          date: "2017-2018第一学期",
+          uid: 20160926002,
+          applyDate: "2017-02-20 08:32",
+          people:"张三",
+          applyCount:"5",
+          course:"工业设计导论",
+          mergeClass:'14工业甲班，14工业乙班',
+          classroom:'A301',
+          theTeacher:"李四",
+          date:"第八周 周五1，2节",
+          class:"14工业甲班",
+          state: "已审批",
+          approve:"王五 2016-06-29 |08:33",
+          remark:"",
+          department:'工业设计系',
+           preview: "./static/img/test1.jpg"
         },
         {
-          id: 1,
-          tableId:"001",
-          class: "14工业甲班",   
-          department: "工业设计系",                 
-          date: "2017-2018第一学期",
+          uid: 20160926002,
+          applyDate: "2017-02-20 08:32",
+          people:"张三",
+          applyCount:"5",
+          mergeClass:'14工业甲班，14工业乙班',
+          classroom:'A301',          
+          course:"社会实践1",
+          date:"第八周 周五1，2节",
+          class:"14工业甲班",
+          state: "已审批",
+          approve:"王五 2016-06-29 |08:33",
+          remark:"",
+          department:'工业设计系',
+           preview: "./static/img/test1.jpg"
+          
         }
       ],
       tableList: []
@@ -168,14 +185,10 @@ export default {
   },
   mounted: function() {
     //侧边导航定位
-    sessionStorage.setItem("system_menu_idx", 2);
-    this.$store.commit("update_system_menu_idx", 2);
+    sessionStorage.setItem("system_menu_idx", 7);
+    this.$store.commit("update_system_menu_idx", 7);
   },
   methods: {
-    //课表查看
-    kebiaochakan(){
-      this.$router.push('/pages/system_administrators/System_Administrators/kebiaochakan')
-    },
     //检索
     articleSearch() {},
     //删除表格行
@@ -246,12 +259,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-.head-wrapper {
-  margin-bottom: 20px;
-  &::after {
-    content: " ";
-    display: block;
-    clear: both;
-  }
-}
+
 </style>

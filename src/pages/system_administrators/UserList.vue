@@ -72,7 +72,7 @@ export default {
           url: "/pages/system_administrators/System_Administrators"
         },
         {
-          name: "权限管理",
+          name: "系统设置",
           url: ""
         },
         {
@@ -143,8 +143,8 @@ export default {
   },
   mounted: function() {
     //侧边导航定位
-    sessionStorage.setItem("system_menu_idx", 5);
-    this.$store.commit("update_system_menu_idx", 5);
+    sessionStorage.setItem("system_menu_idx", 7);
+    this.$store.commit("update_system_menu_idx",7);
   },
   methods: {
     //检索

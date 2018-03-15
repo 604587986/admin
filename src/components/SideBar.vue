@@ -51,13 +51,8 @@ export default {
               column_active: false
             },
             {
-              column_name: "数据修改",
-              column_url: "SiteList",
-              column_active: false
-            },
-            {
-              column_name: "数据提醒设置",
-              column_url: "ContentManagement",
+              column_name: "考勤提醒设置",
+              column_url: "kaoqintixingshezhi",
               column_active: false
             }
           ]
@@ -76,7 +71,17 @@ export default {
             },
             {
               column_name: "课表上传",
-              column_url: "EnclosureList",
+              column_url: "kebiaoshangchuan",
+              column_active: false
+            },
+            {
+              column_name: "课时管理",
+              column_url: "keshiguanli",
+              column_active: false
+            },
+            {
+              column_name: "课表提醒",
+              column_url: "kebiaotixing",
               column_active: false
             }
           ]
@@ -101,13 +106,13 @@ export default {
               column_active: false
             },
             {
-              column_name: "信息推送",
-              column_url: "TemplateList",
+              column_name: "信息群发",
+              column_url: "xinxiqunfa",
               column_active: false
             },
             {
-              column_name: "信息群发",
-              column_url: "TemplateList",
+              column_name: "信息推送",
+              column_url: "xinxituisong",
               column_active: false
             }
           ]
@@ -121,12 +126,12 @@ export default {
           second_class_column: [
             {
               column_name: "数据报表",
-              column_url: "AddUser",
+              column_url: "shujubaobiao",
               column_active: false
             },
             {
               column_name: "数据填报",
-              column_url: "UserList",
+              column_url: "shujutianbao",
               column_active: false
             }
           ]
@@ -175,7 +180,7 @@ export default {
             },
             {
               column_name: "审批设置",
-              column_url: "LoginLog",
+              column_url: "shenpishezhi",
               column_active: false
             }
           ]
@@ -189,22 +194,22 @@ export default {
           second_class_column: [
             {
               column_name: "账号审核",
-              column_url: "DepartmentList",
+              column_url: "zhanghaoshenhe",
               column_active: false
             },
             {
               column_name: "用户管理",
-              column_url: "SiteInfo",
+              column_url: "UserList",
               column_active: false
             },
             {
               column_name: "数据备份",
-              column_url: "LoginLog",
+              column_url: "DataBackup",
               column_active: false
             },
             {
               column_name: "系统日志",
-              column_url: "LoginLog",
+              column_url: "xitongrizhi",
               column_active: false
             }
           ]

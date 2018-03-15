@@ -7,41 +7,99 @@
 
 
 <template>
-  <div id="baobiaotuisong">
+  <div id="xinxituisong">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
     <!-- 使用说明 -->
     <Instructions :instructionsInfo="instructionsInfo"></Instructions>
     <!-- Form -->
     <div class="form-container" style="margin-bottom:30px">
-    <div class="title" style="font-size:25px ;border-bottom:1px solid #ccc;margin-bottom:25px">报表推送</div>      
+    <div class="title" style="font-size:25px ;border-bottom:1px solid #ccc;margin-bottom:25px">请假设置</div>              
       <!-- 表单 -->
-      <el-form ref="form" label-width="150px" size="mini" label-position="right">
-        <el-form-item label="选择系/班级：" >
-          <el-select v-model="form.categoryValue" clearable placeholder="请选择系" size="mini">
-            <el-option v-for="item in category" :key="item.value" :label="item.label" :value="item.value"></el-option>
-          </el-select>
-          <el-select v-model="form.categoryValue" clearable placeholder="请选择班级" size="mini">
-            <el-option v-for="item in category" :key="item.value" :label="item.label" :value="item.value"></el-option>
-          </el-select>
+    <el-form ref="form" label-width="200px" size="mini" label-position="right">
+         <el-form-item label="设置提前多少天可以请假：">
+          <el-input v-model="form.describe" type="number" :rows="2" placeholder="请输入天数"></el-input>
         </el-form-item>
-        <el-form-item label="考勤数据报表发送至邮箱：">
-          <el-input v-model="form.describe" type="textarea" :rows="2" placeholder="请输入邮箱地址，多个邮箱请用英文符号，隔开"></el-input>
+        <el-form-item label="一次最多请假天数：">
+          <el-input v-model="form.describe" type="number" :rows="2" placeholder="请输入天数"></el-input>
         </el-form-item>
-        <el-form-item label="发送频率：">
-             <el-radio-group v-model="form.format">
-                <el-radio label="每日"></el-radio>
-                <el-radio label="每周"></el-radio>
-                <el-radio label="每月"></el-radio>
-          </el-radio-group> 
+        <el-form-item label="多少天之内可以补假：">
+          <el-input v-model="form.describe" type="number" :rows="2" placeholder="请输入天数"></el-input>
         </el-form-item>
         <el-form-item class="form-control-btn">
           <el-button type="primary" @click="submitForm('form')" size="large" :loading="subLoading">提交</el-button>
-          <el-button type="primary" size="large">报表预览</el-button>
         </el-form-item>
       </el-form>
     </div>
-  </div>
+    <!-- Form -->
+    <div class="form-container" style="margin-bottom:30px">
+    <div class="title" style="font-size:25px ;border-bottom:1px solid #ccc;margin-bottom:25px">调课设置</div>              
+      <!-- 表单 -->
+      <el-form ref="form" label-width="200px" size="mini" label-position="right">
+        <el-form-item label="设置提前多少天可以调课：">
+          <el-input v-model="form.describe" type="number" :rows="2" placeholder="请输入天数"></el-input>
+        </el-form-item>
+                        <el-form-item class="form-control-btn">
+          <el-button type="primary" @click="submitForm('form')" size="large" :loading="subLoading">提交</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+    <!-- Form -->
+    <div class="form-container" style="margin-bottom:30px">
+    <div class="title" style="font-size:25px ;border-bottom:1px solid #ccc;margin-bottom:25px">并课设置</div>              
+      <!-- 表单 -->
+      <el-form ref="form" label-width="200px" size="mini" label-position="right">
+                <el-form-item label="设置提前多少天可以并课：">
+          <el-input v-model="form.describe" type="number" :rows="2" placeholder="请输入天数"></el-input>
+        </el-form-item>
+                        <el-form-item class="form-control-btn">
+          <el-button type="primary" @click="submitForm('form')" size="large" :loading="subLoading">提交</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+    <!-- Form -->
+    <div class="form-container" style="margin-bottom:30px">
+    <div class="title" style="font-size:25px ;border-bottom:1px solid #ccc;margin-bottom:25px">教室预约设置</div>              
+      <!-- 表单 -->
+    <el-form ref="form" label-width="200px" size="mini" label-position="right">
+          <el-form-item label="设置提前多少天可以预约：">
+            <el-input v-model="form.describe" type="number" :rows="2" placeholder="请输入天数"></el-input>
+          </el-form-item>
+          <el-form-item label="最多能预约几天内的教室：">
+          <el-input v-model="form.describe" type="number" :rows="2" placeholder=""></el-input>
+          </el-form-item>
+                <el-form-item class="form-control-btn">
+          <el-button type="primary" @click="submitForm('form')" size="large" :loading="subLoading">提交</el-button>
+        </el-form-item>
+    </el-form>
+    </div>
+    <!-- Form -->
+    <div class="form-container" style="margin-bottom:30px">
+    <div class="title" style="font-size:25px ;border-bottom:1px solid #ccc;margin-bottom:25px">学生申诉设置</div>              
+      <!-- 表单 -->
+      <el-form ref="form" label-width="200px" size="mini" label-position="right">
+        <el-form-item label="设置多少天之内可以申请申诉：">
+          <el-input v-model="form.describe" type="number" :rows="2" placeholder="请输入天数"></el-input>
+        </el-form-item>
+        <el-form-item class="form-control-btn">
+          <el-button type="primary" @click="submitForm('form')" size="large" :loading="subLoading">提交</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+    <!-- Form -->
+    <div class="form-container" style="margin-bottom:30px">
+    <div class="title" style="font-size:25px ;border-bottom:1px solid #ccc;margin-bottom:25px">外出教学设置</div>              
+      <!-- 表单 -->
+      <el-form ref="form" label-width="200px" size="mini" label-position="right">
+        <el-form-item label="设置提前多少天可以申请外出教学：">
+          <el-input v-model="form.describe" type="number" :rows="2" placeholder="请输入天数"></el-input>
+        </el-form-item>
+        <el-form-item class="form-control-btn">
+          <el-button type="primary" @click="submitForm('form')" size="large" :loading="subLoading">提交</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+    </div>
 </template>
 
 <script>
@@ -53,6 +111,8 @@ export default {
   name: "AddSite",
   data() {
     return {
+      //
+
       //面包屑
       crumbs: [
         {
@@ -60,11 +120,11 @@ export default {
           url: "/pages/system_administrators/System_Administrators"
         },
         {
-          name: "信息推送",
+          name: "申请审批",
           url: ""
         },
         {
-          name: "报表推送",
+          name: "审批设置",
           url: ""
         }
       ],
@@ -83,6 +143,7 @@ export default {
       subLoading: false,
       //表单
       form: {
+        type: "",
         title: "", //站点名称
         categoryValue: "", //所属类别
         subordinateDepartmentValue: "", //所属部门
@@ -280,8 +341,8 @@ export default {
   },
   mounted: function() {
     //侧边导航定位
-    sessionStorage.setItem("system_menu_idx", 4);
-    this.$store.commit("update_system_menu_idx", 4);
+    sessionStorage.setItem("system_menu_idx",6);
+    this.$store.commit("update_system_menu_idx", 6);
   },
   methods: {
     //图片上传
