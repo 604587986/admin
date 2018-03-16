@@ -7,7 +7,7 @@
 
 
 <template>
-  <div id="AddEnclosure">
+  <div id="kebiaoshangchuan">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
     <!-- 使用说明 -->
@@ -183,7 +183,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
 @import "../../assets/css/less_config.less";
-#AddEnclosure {
+#kebiaoshangchuan {
   .prompt {
     font-size: 14px;
     color: @text-color;

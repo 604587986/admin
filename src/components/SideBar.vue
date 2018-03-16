@@ -213,6 +213,40 @@ export default {
               column_active: false
             }
           ]
+        },
+        {
+           first_class_column_name: "基础数据",
+          first_class_column_url: "",
+          column_icon: "icon-xitongshezhi",
+          column_open: false,
+          no_second: false,
+           second_class_column: [
+            {
+              column_name: "学生列表",
+              column_url: "xueshengliebiao",
+              column_active: false
+            },
+            {
+              column_name: "教师列表",
+              column_url: "UserList",
+              column_active: false
+            },
+            {
+              column_name: "系班数据",
+              column_url: "DataBackup",
+              column_active: false
+            },
+            {
+              column_name: "课程列表",
+              column_url: "xitongrizhi",
+              column_active: false
+            },
+            {
+              column_name: "教室列表",
+              column_url: "xitongrizhi",
+              column_active: false
+            }
+          ]
         }
       ],
       menu_idx: 0 //导航定位
@@ -357,8 +391,11 @@ export default {
           transform: rotateZ(180deg);
         }
       }
-      > ol > li {
-        height: 38px;
+      > ol {
+
+        > li {
+          height: 38px;
+        }
       }
     }
   }

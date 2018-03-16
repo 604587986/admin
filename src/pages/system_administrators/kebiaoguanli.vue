@@ -7,7 +7,7 @@
 
 
 <template>
-  <div id="ContentManagement">
+  <div id="kebiaoguanli">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
     <div class="head-wrapper clearfix">

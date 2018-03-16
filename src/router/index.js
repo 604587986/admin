@@ -29,6 +29,7 @@ import DepartmentList from '@/pages/system_administrators/DepartmentList' //部�
 import SiteInfo from '@/pages/system_administrators/SiteInfo' //站点信息
 import LoginLog from '@/pages/system_administrators/LoginLog' //登陆日志
 import qingjiaguanli from '@/pages/system_administrators/qingjiaguanli'//请假管理
+import qingjiaxiangqing from '@/pages/system_administrators/qingjiaxiangqing'//请假详情
 import tiaokeguanli from '@/pages/system_administrators/tiaokeguanli'//调课管理
 import kaoqinshuju from '@/pages/system_administrators/kaoqinshuju'//考勤数据
 import dakashuju from '@/pages/system_administrators/dakashuju'//考勤数据
@@ -42,17 +43,22 @@ import kebiaotixing from '@/pages/system_administrators/kebiaotixing'//课表提
 import bingkeguanli from '@/pages/system_administrators/bingkeguanli'//并课管理
 import baobeiguanli from '@/pages/system_administrators/baobeiguanli'//报备管理
 import jiaoshiyuyueguanli from '@/pages/system_administrators/jiaoshiyuyueguanli'//教室预约管理
+import jiaoshiyuyuexiangqing from '@/pages/system_administrators/jiaoshiyuyuexiangqing'//教室预约详情
+import kongjiaoshichaxun from '@/pages/system_administrators/kongjiaoshichaxun'//空教室查询
 import xueshengshensuguanli from '@/pages/system_administrators/xueshengshensuguanli'//学生申诉管理
 import waichujiaoxueguanli from '@/pages/system_administrators/waichujiaoxueguanli'//外出教学管理
 import baobiaotuisong from '@/pages/system_administrators/baobiaotuisong'//报表推送
 import xinxituisong from '@/pages/system_administrators/xinxituisong'//信息推送
 import xinxiqunfa from '@/pages/system_administrators/xinxiqunfa'//信息群发
-import shujubaobiao from '@/pages/system_administrators/shujubaobiao'//信息群发
+import shujubaobiao from '@/pages/system_administrators/shujubaobiao'//数据报表
+import xinzengxinxiqunfa from '@/pages/system_administrators/xinzengxinxiqunfa'//新增信息群发
 import shujutianbao from '@/pages/system_administrators/shujutianbao'//数据填报
+import baobiaoshujuxiugai from '@/pages/system_administrators/baobiaoshujuxiugai'//报表数据修改
 import shenpishezhi from '@/pages/system_administrators/shenpishezhi'//审批设置
 import zhanghaoshenhe from '@/pages/system_administrators/zhanghaoshenhe'//账号审核
 import xitongrizhi from '@/pages/system_administrators/xitongrizhi'//账号审核
 import shujuxiugai from '@/pages/system_administrators/shujuxiugai'//数据修改
+import xueshengliebiao from '@/pages/system_administrators/xueshengliebiao'//基础数据
 Vue.use(Router)
 
 export default new Router({
@@ -204,6 +210,10 @@ export default new Router({
                 component: qingjiaguanli
             },
             {
+                path: 'qingjiaxiangqing',
+                component: qingjiaxiangqing
+            },
+            {
                 path: 'tiaokeguanli',
                 component: tiaokeguanli
             },
@@ -218,6 +228,14 @@ export default new Router({
             {
                 path: 'jiaoshiyuyueguanli',
                 component: jiaoshiyuyueguanli
+            },
+            {
+                path: 'jiaoshiyuyuexiangqing',
+                component: jiaoshiyuyuexiangqing
+            },
+            {
+                path: 'kongjiaoshichaxun',
+                component: kongjiaoshichaxun
             },
             {
                 path: 'xueshengshensuguanli',
@@ -242,6 +260,10 @@ export default new Router({
             {
                 path: 'xinxiqunfa',
                 component: xinxiqunfa
+            },
+            {
+                path: 'xinzengxinxiqunfa',
+                component: xinzengxinxiqunfa
             },//信息推送结束
             {//数据报表开始
                 path:'shujubaobiao',
@@ -251,6 +273,10 @@ export default new Router({
                 path:'shujutianbao',
                 component:shujutianbao
             },
+            {
+                path:'baobiaoshujuxiugai',
+                component:baobiaoshujuxiugai
+            },
             {//系统设置开始
                 path:"zhanghaoshenhe",
                 component:zhanghaoshenhe
@@ -258,6 +284,10 @@ export default new Router({
             {
                 path:"xitongrizhi",
                 component:xitongrizhi
+            },
+            {//基础数据开始
+                path:"xueshengliebiao",
+                component:xueshengliebiao
             }
             ]
         },

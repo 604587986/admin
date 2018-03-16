@@ -7,11 +7,14 @@
 
 
 <template>
-  <div id="ContentManagement">
+  <div id="xinxiqunfa">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
     <!-- 使用说明 -->
     <Instructions :instructionsInfo="instructionsInfo"></Instructions>
+    <el-button type="primary" class="float-right"> <router-link to="/pages/system_administrators/System_Administrators/xinzengxinxiqunfa" style="color:#fff">+群发消息</router-link></el-button>      
+    <div class="title" style="font-size:20px ;border-bottom:1px solid #ccc;margin-bottom:25px">已发信息列表</div> 
+    
     <!-- Table -->
     <div class="table-container">
       <!-- 表格筛选 -->

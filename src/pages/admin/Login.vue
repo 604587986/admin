@@ -212,7 +212,7 @@ export default {
     }
 
     //调用执行
-    window.onload = function() {
+    (function() {
       init();
       setInterval(function() {
         for (var i = 0; i < POINT; i++) {
@@ -226,7 +226,7 @@ export default {
         }
         draw();
       }, 16);
-    };
+    })();
   },
   methods: {
     //表单提交

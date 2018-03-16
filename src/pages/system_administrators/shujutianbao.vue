@@ -7,7 +7,7 @@
 
 
 <template>
-  <div id="ContentManagement">
+  <div id="shujutianbao">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
     <!-- 使用说明 -->
@@ -38,7 +38,9 @@
           <el-table-column prop="efficiency" label="到课率" ></el-table-column>
           <el-table-column label="操作" >
              <div slot-scope="scope" class="control-btn">
-              <el-button size="small">数据修改</el-button>
+              <el-button size="small">
+                <router-link to="/pages/system_administrators/System_Administrators/baobiaoshujuxiugai">数据修改</router-link>
+                </el-button>
               <el-button size="small">打卡数据</el-button>
             </div>
           </el-table-column>

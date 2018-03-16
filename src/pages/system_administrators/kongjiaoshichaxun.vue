@@ -1,25 +1,16 @@
 <template>
-  <div id="kebiaochakan">
+  <div id="kongjiaoshichaxun">
           <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
     <!-- 提示 -->
        <div class="title">
-        设计艺术学院视觉传达设计系 2017-2018学年第一学期本科专业教学进程表
+        设计艺术学院18幢教学楼空教室查询
       </div>
     <div class="table-container">
       <!-- 表格筛选 -->
       <div class="table-filter">
-        <el-select v-model="columnListValue" clearable placeholder="选择课程" size="mini" class="float-left column-selection">
+        <el-select v-model="columnListValue" clearable placeholder="选择时间" size="mini" class="float-left column-selection">
           <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-          <el-select v-model="columnListValue" clearable placeholder="选择月份" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-          <el-select v-model="columnListValue" clearable placeholder="选择周次" size="mini" class="float-left column-selection">
-            <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
       </div>
       <!-- 表格 -->
@@ -92,15 +83,15 @@ export default {
           url: "/pages/system_administrators/System_Administrators"
         },
         {
-          name: "课表管理",
+          name: "申请审批",
           url: ""
         },
         {
-          name: "课表管理",
+          name: "教师预约管理",
           url: ""
         },
         {
-          name: "课表查看",
+          name: "空教室查询",
           url: ""
         }
       ],
@@ -120,8 +111,8 @@ export default {
   },
   mounted: function() {
     //侧边导航定位
-    sessionStorage.setItem("system_menu_idx", 2);
-    this.$store.commit("update_system_menu_idx", 2);
+    sessionStorage.setItem("system_menu_idx", 6);
+    this.$store.commit("update_system_menu_idx", 6);
   },
   components: {
     Crumb
@@ -130,7 +121,7 @@ export default {
 </script>
 <style lang="less">
 @import "../../assets/css/less_config.less";
-#kebiaochakan {
+#kongjiaoshichaxun {
   .title {
     font-size: 16px;
     text-align: center;

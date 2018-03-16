@@ -7,7 +7,7 @@
 
 
 <template>
-  <div id="ContentManagement">
+  <div id="jiaoshiyuyueguanli">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
     <!-- 使用说明 -->
@@ -19,7 +19,9 @@
         <el-select v-model="siteListValue" clearable placeholder="选择状态" size="mini" class="float-left state-selection">
           <el-option v-for="item in stateList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-button type="primary" size="mini" style="margin: 0 20px">查询空教室</el-button>
+        <el-button type="primary" size="mini" style="margin: 0 20px">
+          <router-link to="/pages/system_administrators/System_Administrators/kongjiaoshichaxun" style="color:#fff"> 查询空教室</router-link>
+          </el-button>
         <el-input placeholder="请输入关键字" v-model="titleSearchValue" class="input-with-select title-search float-left" size="mini">
           <el-button slot="append" icon="el-icon-search" @click="articleSearch()"></el-button>
         </el-input>
@@ -44,7 +46,7 @@
           <el-table-column prop="remark" label="备注"></el-table-column>
           <el-table-column label="操作">
             <div slot-scope="scope" class="control-btn">
-              <el-button size="small">查看</el-button>
+              <el-button size="small" @click="jiaoshiyuyuexiangqing">查看</el-button>
               <el-button size="small">审核</el-button>
               <el-button @click.native.prevent="deleteRow(scope.$index, tableInfo)" size="small" class="control-btn-del">删除</el-button>
             </div>
@@ -191,6 +193,10 @@ export default {
     this.$store.commit("update_system_menu_idx", 6);
   },
   methods: {
+    //跳转到教室预约详情
+    jiaoshiyuyuexiangqing(){
+      this.$router.push('/pages/system_administrators/System_Administrators/jiaoshiyuyuexiangqing')
+    },
     //检索
     articleSearch() {},
     //删除表格行

@@ -7,7 +7,7 @@
 
 
 <template>
-  <div id="bingkeguanli">
+  <div id="xueshengliebiao">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
     <!-- 使用说明 -->
@@ -17,53 +17,39 @@
       <!-- 表格筛选 -->
       <div class="table-filter">
         <el-select v-model="siteListValue" clearable placeholder="选择学年学期" size="mini" class="float-left state-selection">
-          <el-option v-for="item in siteList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-        <el-select v-model="stateValue" clearable placeholder="选择校区" size="mini" class="float-left state-selection">
           <el-option v-for="item in stateList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="选择学院" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="siteListValue" clearable placeholder="选择系" size="mini" class="float-left state-selection">
+          <el-option v-for="item in stateList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="siteListValue" clearable placeholder="选择班级" size="mini" class="float-left state-selection">
+          <el-option v-for="item in stateList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="siteListValue" clearable placeholder="选择状态" size="mini" class="float-left state-selection">
+          <el-option v-for="item in stateList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="请假类型" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="选择状态" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-        <el-input placeholder="请输入关键字" v-model="titleSearchValue" class="input-with-select title-search float-left" size="mini">
+        <el-input placeholder="请输入关键字" v-model="titleSearchValue" class="input-with-select title-search float-right" size="mini">
           <el-button slot="append" icon="el-icon-search" @click="articleSearch()"></el-button>
         </el-input>
-        <el-button type="primary" round style="float:right" size="mini">导出EXCEL</el-button>
       </div>
       <!-- 表格 -->
       <div class="table-body">
         <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
           <el-table-column type="selection" @selection-change="handleSelectionChange"></el-table-column>
-          <el-table-column prop="uid" label="申请编号" width="150"></el-table-column>
-          <el-table-column prop="applyDate" label="申请时间" width="150"></el-table-column>
-          <el-table-column prop="people" label="申请人" width="80"></el-table-column>
-          <el-table-column prop="applyCount" label="申请次数" width="50"></el-table-column>
-          <el-table-column prop="course" label="课程名称" width="150"></el-table-column>
-          <el-table-column prop="mergeClass" label="并课班级" width="95"></el-table-column>
-          <el-table-column prop="date" label="并课后上课时间" width="150"></el-table-column>          
-          <el-table-column prop="class" label="所属班级" width="130"></el-table-column>                  
-          <el-table-column prop="state" label="状态" width="80">
-            <div slot-scope="scope">
-              <el-tag close-transition :class="scope.row.stateClass" size="mini">{{scope.row.state}}</el-tag>
-            </div>
-          </el-table-column>
-          <el-table-column prop="approve" label="批准人" width="200"></el-table-column>
-          <el-table-column prop="remark" label="备注" width="100"></el-table-column>
-          <el-table-column label="操作" width="80">
+          <el-table-column prop="id" label="ID"></el-table-column>
+          <el-table-column prop="studentId" label="学号"></el-table-column>
+          <el-table-column prop="name" label="姓名"></el-table-column>
+          <el-table-column prop="sex" label="性别"></el-table-column>
+          <el-table-column prop="tel" label="电话"></el-table-column>          
+          <el-table-column prop="department" label="系名称"></el-table-column>          
+          <el-table-column prop="major" label="专业名称"></el-table-column>          
+          <el-table-column prop="class" label="班级名称"></el-table-column>          
+          <el-table-column prop="lentgh" label="学制"></el-table-column>          
+          <el-table-column prop="state" label="学籍状态"></el-table-column>          
+          <el-table-column prop="level" label="所在级"></el-table-column>          
+          <el-table-column label="操作">
             <div slot-scope="scope" class="control-btn">
-              <el-button size="small">查看</el-button>
+              <el-button size="small" @click="jiaoshiyuyuexiangqing">查看</el-button>
               <el-button size="small">审核</el-button>
               <el-button @click.native.prevent="deleteRow(scope.$index, tableInfo)" size="small" class="control-btn-del">删除</el-button>
             </div>
@@ -99,11 +85,11 @@ export default {
           url: "/pages/system_administrators/System_Administrators"
         },
         {
-          name: "申请审批",
+          name: "基础信息",
           url: ""
         },
         {
-          name: "并课管理",
+          name: "学生列表",
           url: ""
         }
       ],
@@ -167,31 +153,17 @@ export default {
       //表格
       tableInfo: [
         {
-          uid: 20160926002,
-          applyDate: "2017-02-20 08:32",
-          people:"张三",
-          applyCount:"5",
-          course:"工业设计导论",
-          mergeClass:'14工业甲班，14工业乙班',
-          theTeacher:"李四",
-          date:"第八周 周五1，2节",
-          class:"14工业甲班",
-          state: "已审批",
-          approve:"王五 2016-06-29 |08:33",
-          remark:""
-        },
-        {
-          uid: 20160926002,
-          applyDate: "2017-02-20 08:32",
-          people:"张三",
-          applyCount:"5",
-          mergeClass:'14工业甲班，14工业乙班',          
-          course:"社会实践1",
-          date:"第八周 周五1，2节",
-          class:"14工业甲班",
-          state: "已审批",
-          approve:"王五 2016-06-29 |08:33",
-          remark:""
+          id: 1,
+          studentId:'010224',
+          name:'张三',
+          sex:"男",
+          tel:"18055226633",
+          department:'工业设计系',
+          major:'工业设计',
+          class:'14工业甲班',
+          length:'4',
+          state:'在校',
+          level:"2015"
         }
       ],
       tableList: []
@@ -204,10 +176,14 @@ export default {
   },
   mounted: function() {
     //侧边导航定位
-    sessionStorage.setItem("system_menu_idx", 6);
-    this.$store.commit("update_system_menu_idx", 6);
+    sessionStorage.setItem("system_menu_idx", 8);
+    this.$store.commit("update_system_menu_idx", 8);
   },
   methods: {
+    //跳转到教室预约详情
+    jiaoshiyuyuexiangqing(){
+      this.$router.push('/pages/system_administrators/System_Administrators/jiaoshiyuyuexiangqing')
+    },
     //检索
     articleSearch() {},
     //删除表格行
