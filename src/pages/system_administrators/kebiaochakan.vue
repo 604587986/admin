@@ -152,6 +152,10 @@ export default {
           flex: 0 0 117px;
         }
         .col {
+          font-size: 14px;
+          border: 1px solid #000;
+          margin-left: -1px;
+          margin-top: -1px;
           height: 50px;
           padding: 5px 5px;
           word-wrap: break-word;

@@ -199,12 +199,12 @@ export default {
             },
             {
               column_name: "用户管理",
-              column_url: "UserList",
+              column_url: "yonghuguanli",
               column_active: false
             },
             {
               column_name: "数据备份",
-              column_url: "DataBackup",
+              column_url: "shujubeifen",
               column_active: false
             },
             {
@@ -228,22 +228,17 @@ export default {
             },
             {
               column_name: "教师列表",
-              column_url: "UserList",
+              column_url: "jiaoshiliebiao",
               column_active: false
             },
             {
               column_name: "系班数据",
-              column_url: "DataBackup",
+              column_url: "xibanshuju",
               column_active: false
             },
             {
               column_name: "课程列表",
-              column_url: "xitongrizhi",
-              column_active: false
-            },
-            {
-              column_name: "教室列表",
-              column_url: "xitongrizhi",
+              column_url: "kechengliebiao",
               column_active: false
             }
           ]
@@ -294,7 +289,7 @@ export default {
 <style lang="less">
 @import "../assets/css/less_config";
 #SideBar {
-  width: 183px;
+  width: 163px;
   background: #fff;
   border-radius: 3px;
   .side-ul {

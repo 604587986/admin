@@ -46,8 +46,11 @@ import jiaoshiyuyueguanli from '@/pages/system_administrators/jiaoshiyuyueguanli
 import jiaoshiyuyuexiangqing from '@/pages/system_administrators/jiaoshiyuyuexiangqing'//教室预约详情
 import kongjiaoshichaxun from '@/pages/system_administrators/kongjiaoshichaxun'//空教室查询
 import xueshengshensuguanli from '@/pages/system_administrators/xueshengshensuguanli'//学生申诉管理
+import shensuxiangqing from '@/pages/system_administrators/shensuxiangqing'//申诉详情
 import waichujiaoxueguanli from '@/pages/system_administrators/waichujiaoxueguanli'//外出教学管理
+import waichujiaoxuexiangqing from '@/pages/system_administrators/waichujiaoxuexiangqing'//外出教学详情
 import baobiaotuisong from '@/pages/system_administrators/baobiaotuisong'//报表推送
+import baobiaoyulan from '@/pages/system_administrators/baobiaoyulan'//报表预览
 import xinxituisong from '@/pages/system_administrators/xinxituisong'//信息推送
 import xinxiqunfa from '@/pages/system_administrators/xinxiqunfa'//信息群发
 import shujubaobiao from '@/pages/system_administrators/shujubaobiao'//数据报表
@@ -56,9 +59,17 @@ import shujutianbao from '@/pages/system_administrators/shujutianbao'//数据填
 import baobiaoshujuxiugai from '@/pages/system_administrators/baobiaoshujuxiugai'//报表数据修改
 import shenpishezhi from '@/pages/system_administrators/shenpishezhi'//审批设置
 import zhanghaoshenhe from '@/pages/system_administrators/zhanghaoshenhe'//账号审核
-import xitongrizhi from '@/pages/system_administrators/xitongrizhi'//账号审核
+import xitongrizhi from '@/pages/system_administrators/xitongrizhi'//系统日志
+import yonghuguanli from '@/pages/system_administrators/yonghuguanli'//用户管理
+import tianjiayonghu from '@/pages/system_administrators/tianjiayonghu'//添加用户
+import xiugaiyonghu from '@/pages/system_administrators/xiugaiyonghu'//修改用户
+import shujubeifen from '@/pages/system_administrators/shujubeifen'//数据备份
+import beifenshezhi from '@/pages/system_administrators/beifenshezhi'//备份设置
 import shujuxiugai from '@/pages/system_administrators/shujuxiugai'//数据修改
-import xueshengliebiao from '@/pages/system_administrators/xueshengliebiao'//基础数据
+import xueshengliebiao from '@/pages/system_administrators/xueshengliebiao'//学生列表
+import jiaoshiliebiao from '@/pages/system_administrators/jiaoshiliebiao'//教师列表
+import xibanshuju from '@/pages/system_administrators/xibanshuju'//系班数据
+import kechengliebiao from '@/pages/system_administrators/kechengliebiao'//课程列表
 Vue.use(Router)
 
 export default new Router({
@@ -242,8 +253,16 @@ export default new Router({
                 component: xueshengshensuguanli
             },
             {
+                path: 'shensuxiangqing',
+                component: shensuxiangqing
+            },
+            {
                 path: 'waichujiaoxueguanli',
                 component: waichujiaoxueguanli
+            },
+            {
+                path: 'waichujiaoxuexiangqing',
+                component: waichujiaoxuexiangqing
             },
             {
                 path: 'shenpishezhi',
@@ -252,6 +271,10 @@ export default new Router({
             {//信息推送开始
                 path: 'baobiaotuisong',
                 component: baobiaotuisong
+            },
+            {
+                path: 'baobiaoyulan',
+                component: baobiaoyulan
             },
             {
                 path: 'xinxituisong',
@@ -285,9 +308,41 @@ export default new Router({
                 path:"xitongrizhi",
                 component:xitongrizhi
             },
+            {
+                path:"yonghuguanli",
+                component:yonghuguanli
+            },
+            {
+                path:"tianjiayonghu",
+                component:tianjiayonghu
+            },
+            {
+                path:"xiugaiyonghu",
+                component:xiugaiyonghu
+            },
+            {
+                path:"shujubeifen",
+                component:shujubeifen
+            },
+            {
+                path:"beifenshezhi",
+                component:beifenshezhi
+            },
             {//基础数据开始
                 path:"xueshengliebiao",
                 component:xueshengliebiao
+            },
+            {
+                path:"jiaoshiliebiao",
+                component:jiaoshiliebiao
+            },
+            {
+                path:"xibanshuju",
+                component:xibanshuju
+            },
+            {
+                path:"kechengliebiao",
+                component:kechengliebiao
             }
             ]
         },

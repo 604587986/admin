@@ -7,7 +7,7 @@
 
 
 <template>
-  <div id="xueshengliebiao">
+  <div id="jiaoshiliebiao">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
     <!-- 使用说明 -->
@@ -16,16 +16,10 @@
     <div class="table-container">
       <!-- 表格筛选 -->
       <div class="table-filter">
-        <el-select v-model="siteListValue" clearable placeholder="选择学年学期" size="mini" class="float-left state-selection">
-          <el-option v-for="item in stateList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
         <el-select v-model="siteListValue" clearable placeholder="选择系" size="mini" class="float-left state-selection">
           <el-option v-for="item in stateList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
         <el-select v-model="siteListValue" clearable placeholder="选择班级" size="mini" class="float-left state-selection">
-          <el-option v-for="item in stateList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-        <el-select v-model="siteListValue" clearable placeholder="选择状态" size="mini" class="float-left state-selection">
           <el-option v-for="item in stateList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
         <el-input placeholder="请输入关键字" v-model="titleSearchValue" class="input-with-select title-search float-right" size="mini">
@@ -35,17 +29,12 @@
       <!-- 表格 -->
       <div class="table-body">
         <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
+          <el-table-column type="selection" @selection-change="handleSelectionChange"></el-table-column>
           <el-table-column prop="id" label="ID"></el-table-column>
-          <el-table-column prop="studentId" label="学号"></el-table-column>
-          <el-table-column prop="name" label="姓名"></el-table-column>
-          <el-table-column prop="sex" label="性别"></el-table-column>
-          <el-table-column prop="tel" label="电话"></el-table-column>          
-          <el-table-column prop="department" label="系名称"></el-table-column>          
-          <el-table-column prop="major" label="专业名称"></el-table-column>          
           <el-table-column prop="class" label="班级名称"></el-table-column>          
-          <el-table-column prop="lentgh" label="学制"></el-table-column>          
-          <el-table-column prop="state" label="学籍状态"></el-table-column>          
-          <el-table-column prop="level" label="所在级"></el-table-column>          
+          <el-table-column prop="department" label="系名称"></el-table-column>          
+          <el-table-column prop="director" label="系主任"></el-table-column>          
+          <el-table-column prop="secretary" label="系秘书"></el-table-column>                
         </el-table>
       </div>
       <!-- 分页 -->
@@ -75,7 +64,7 @@ export default {
           url: ""
         },
         {
-          name: "学生列表",
+          name: "系班数据",
           url: ""
         }
       ],
@@ -140,16 +129,10 @@ export default {
       tableInfo: [
         {
           id: 1,
-          studentId:'010224',
-          name:'张三',
-          sex:"男",
-          tel:"18055226633",
-          department:'工业设计系',
-          major:'工业设计',
-          class:'14工业甲班',
-          length:'4',
-          state:'在校',
-          level:"2015"
+          class:'15级工业甲班',
+          department:'工业设计系', 
+          director:'王五',     
+          secretary:'张三' ,
         }
       ],
       tableList: []

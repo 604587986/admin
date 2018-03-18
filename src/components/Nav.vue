@@ -192,7 +192,7 @@ export default {
   height: 90px;
   background: #fff;
   .nav-container {
-    width: 1366px;
+    width: 1200px;
     margin: 0 auto;
     position: relative;
     &::after {

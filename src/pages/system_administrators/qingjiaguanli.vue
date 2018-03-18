@@ -64,7 +64,7 @@
           <el-table-column prop="remark" label="备注" width="100"></el-table-column>
           <el-table-column label="操作" width="150">
             <div slot-scope="scope" class="control-btn">
-              <el-button size="small">查看</el-button>
+              <el-button size="small"><router-link to="/pages/system_administrators/System_Administrators/qingjiaxiangqing">查看</router-link></el-button>
               <el-button size="small">审核</el-button>
               <el-button size="small">打印</el-button>
               <el-button @click.native.prevent="deleteRow(scope.$index, tableInfo)" size="small" class="control-btn-del">删除</el-button>

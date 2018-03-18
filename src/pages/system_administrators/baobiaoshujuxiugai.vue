@@ -75,6 +75,7 @@ export default {
 <style lang="less">
 @import "../../assets/css/less_config.less";
 #baobiaoshujuxiugai {
+  color:@text-color;
   .prompt {
     font-size: 14px;
     color: @text-color;

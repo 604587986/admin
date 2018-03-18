@@ -18,6 +18,7 @@
         <p class="title">提示：</p>
         <p>1.请先下载标准EXCEL模板，按格式进行填写课程。</p>
         <p>2.课表上传后可在课表管理进行编辑修改。</p>
+      <el-button size="large" type="primary">模板下载</el-button>        
       </div>
       <!-- 表单 -->
       <el-form ref="form" :model="form" :rules="rules" status-icon label-width="95px" size="mini" label-position="right">

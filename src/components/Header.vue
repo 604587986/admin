@@ -59,10 +59,10 @@ export default {
 @import "../assets/css/less_config";
 #Header {
   width: 100%;
-  min-width: 1190px;
+  min-width: 1200px;
   background: @base-color;
   .header-container {
-    width: 1366px;
+    width: 1200px;
     height: 36px;
     margin: 0 auto;
     &::after {

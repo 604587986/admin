@@ -33,8 +33,6 @@
               </div>
             </div>
           </el-table-column>
-          <el-table-column prop="approve" label="审批人" ></el-table-column>
-          <el-table-column prop="remark" label="备注"></el-table-column>
           <el-table-column label="操作">
             <div slot-scope="scope" class="control-btn">
               <el-button size="small">查看详情</el-button>
@@ -48,7 +46,7 @@
       <div class="table-filter">
         <el-button type="primary" size="mini" @click="selection(tableInfo)">全选</el-button>
         <el-button type="primary" size="mini" @click="batchDeleting()">批量驳回</el-button>
-        <el-button type="primary" size="mini">批量审核</el-button>
+        <el-button type="primary" size="mini">批量通过</el-button>
       </div>
       <!-- 分页 -->
       <Paging></Paging>

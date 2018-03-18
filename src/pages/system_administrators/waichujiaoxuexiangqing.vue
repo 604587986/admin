@@ -7,7 +7,7 @@
 
 
 <template>
-  <div id="qingjiaxiangqing">
+  <div id="waichujiaoxuexiangqing">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
     <!-- 使用说明 -->
@@ -21,13 +21,11 @@
             <div class="item">申请时间</div>
             <div class="item">申请人</div>
             <div class="item">申请次数</div>
-            <div class="item">请假天数</div>
             <div class="item">学年学期</div>
-            <div class="item">开始时间</div>
-            <div class="item">结束时间</div>
-            <div class="item">课程名称</div>
-            <div class="item">所在班级</div>
-            <div class="item">请假理由</div>
+            <div class="item">原上课时间</div>
+            <div class="item">原课程名称</div>
+            <div class="item">上课班级</div>
+            <div class="item">申请理由</div>
         </div>
         <div class="right">
             <div class="item" v-for="item in listInfo">{{item}}</div>
@@ -105,11 +103,11 @@ export default {
           url: ""
         },
         {
-          name: "请假管理",
+          name: "外出教学管理",
           url: ""
         },
         {
-          name: "请假详情",
+          name: "查看详情",
           url: ""
         }
       ],
@@ -127,15 +125,13 @@ export default {
       listInfo: [
         "20160926002",
         "2016-06-29 08：32",
-        "张三",
+        "张三（工号：20154101）",
         "2",
-        "1",
-        "2017-2018学年第一学期（两学期）",
-        "第八周 周五",
-        "第九周 周一",
-        "工业设计导论（K210067）图形叙事（K210068",
-        "14工业甲班（B2016001）",
-        "教学需要，需要使用公共教室"
+        "2017-2018学年第一学期",
+        "第八周 周五 1，2节",
+        "工业设计导论（K210067）",        
+        "14工业甲班（B2016001）,14工业乙班（B2016002）",
+        "教学需要，需要在某某公司现场观摩",
       ],
       approveInfo: ["李四", "待审批"]
     };
@@ -190,7 +186,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-#qingjiaxiangqing {
+#waichujiaoxuexiangqing {
   .form-container {
     font-size: 14px;
     .content {
