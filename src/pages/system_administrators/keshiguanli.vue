@@ -14,17 +14,16 @@
         <el-button type="primary" class="float-right" size="mini">导入EXCEL</el-button>
         <el-button type="primary" class="float-right" style="margin-right:20px"  size="mini">导出EXCEL</el-button>
     </div>
-    <!-- 使用说明 -->
-    <Instructions :instructionsInfo="instructionsInfo"></Instructions>
+
     <!-- Table -->
     <div class="table-container">
       <!-- 表格筛选 -->
       <div class="table-filter">
-        <el-select v-model="columnListValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="departmentValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
+          <el-option v-for="item in departmentList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="选择老师" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="teacherValue" clearable placeholder="选择老师" size="mini" class="float-left column-selection">
+          <el-option v-for="item in teacherList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
       </div>
       <!-- 表格 -->
@@ -54,7 +53,6 @@
 /* 引入组件 */
 import Crumb from "@/components/Crumb";
 import Paging from "@/components/Paging";
-import Instructions from "@/components/Instructions";
 /* 内容管理 */
 export default {
   name: "ContentManagement",
@@ -75,63 +73,45 @@ export default {
           url: ""
         }
       ],
-      //使用说明
-      instructionsInfo: [
-        {
-          title: "标题1",
-          content: "添加站点使用说明"
-        },
-        {
-          title: "标题2",
-          content: "添加站点使用说明"
-        }
-      ],
-      //选择站点
-      siteList: [
+      //select数据
+      departmentList: [
         {
           value: 0,
-          label: "9401中国美术学院"
-        }
-      ],
-      siteListValue: "",
-      //选择栏目
-      columnList: [
-        {
-          value: 0,
-          label: "学术交流"
+          label: "1系"
         },
         {
           value: 1,
-          label: "通知公告"
+          label: "2系"
         },
         {
           value: 2,
-          label: "下载中心"
+          label: "3系"
         },
         {
           value: 3,
-          label: "联系我们"
+          label: "4系"
         }
       ],
-      columnListValue: "",
-      //选择发布状态
-      stateList: [
-        {
+      departmentValue: "",
+      teacherList:[
+         {
           value: 0,
-          label: "已发"
+          label: "张三"
         },
         {
           value: 1,
-          label: "待审"
+          label: "李四"
         },
         {
           value: 2,
-          label: "草稿"
+          label: "王五"
+        },
+        {
+          value: 3,
+          label: "赵六"
         }
       ],
-      stateValue: "",
-      //栏目检索
-      titleSearchValue: "",
+      teacherValue:"",
       //表格
       tableInfo: [
         {
@@ -160,7 +140,6 @@ export default {
   },
   components: {
     Crumb,
-    Instructions,
     Paging
   },
   mounted: function() {

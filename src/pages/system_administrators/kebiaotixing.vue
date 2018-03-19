@@ -14,7 +14,7 @@
     <Instructions :instructionsInfo="instructionsInfo"></Instructions>
     <!-- Form -->
     <div class="form-container" style="margin-bottom:30px">
-    <div class="title" style="font-size:25px ;border-bottom:1px solid #ccc;margin-bottom:25px">课表提醒设置</div>              
+    <div class="title">课表提醒设置</div>              
       <!-- 表单 -->
     <el-form ref="form" label-width="250px" size="mini" label-position="right">
         <el-form-item label="课程变动或提醒信息发送方式：" >
@@ -249,5 +249,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-
+#kebiaotixing {
+  .title {
+    font-size: 20px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 25px;
+    padding-bottom: 16px;
+    color: #606266;
+  }
+}
 </style>

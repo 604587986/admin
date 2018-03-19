@@ -10,33 +10,32 @@
   <div id="xinxiqunfa">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
-    <!-- 使用说明 -->
-    <Instructions :instructionsInfo="instructionsInfo"></Instructions>
-    <el-button type="primary" class="float-right"> <router-link to="/pages/system_administrators/System_Administrators/xinzengxinxiqunfa" style="color:#fff">+群发消息</router-link></el-button>      
-    <div class="title" style="font-size:20px ;border-bottom:1px solid #ccc;margin-bottom:25px">已发信息列表</div> 
+
+    <router-link to="/pages/system_administrators/System_Administrators/xinzengxinxiqunfa"><el-button type="primary" class="float-right">+群发消息</el-button></router-link>    
+    <div class="title">已发信息列表</div> 
     
     <!-- Table -->
     <div class="table-container">
       <!-- 表格筛选 -->
       <div class="table-filter">
-        <el-select v-model="columnListValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="departmentValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
+          <el-option v-for="item in departmentList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="classValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
+          <el-option v-for="item in classList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-input placeholder="请输入关键字" v-model="titleSearchValue" class="input-with-select title-search float-right" size="mini">
+        <el-input placeholder="请输入关键字" v-model="searchValue" class="input-with-select title-search float-right" size="mini">
           <el-button slot="append" icon="el-icon-search" @click="articleSearch()"></el-button>
         </el-input>
       </div>
       <!-- 表格 -->
       <div class="table-body">
         <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
-          <el-table-column prop="id" label="ID"></el-table-column>
+          <el-table-column prop="id" label="ID" width="50px"></el-table-column>
           <el-table-column prop="date" label="发送时间"></el-table-column>
           <el-table-column prop="title" label="发送标题"></el-table-column>
-          <el-table-column prop="peopleSend" label="发送人"></el-table-column>
-          <el-table-column prop="peopleTo" label="发送对象"></el-table-column>
+          <el-table-column prop="peopleSend" label="发送人" width="80px"></el-table-column>
+          <el-table-column prop="peopleTo" label="发送对象" width="80px"></el-table-column>
           <el-table-column prop="state" label="已读/未读" ></el-table-column>
           <el-table-column label="操作">
             <div slot-scope="scope" class="control-btn">
@@ -57,7 +56,6 @@
 /* 引入组件 */
 import Crumb from "@/components/Crumb";
 import Paging from "@/components/Paging";
-import Instructions from "@/components/Instructions";
 /* 内容管理 */
 export default {
   name: "ContentManagement",
@@ -78,64 +76,46 @@ export default {
           url: ""
         }
       ],
-      //使用说明
-      instructionsInfo: [
-        {
-          title: "标题1",
-          content: "添加站点使用说明"
-        },
-        {
-          title: "标题2",
-          content: "添加站点使用说明"
-        }
-      ],
-      //选择站点
-      siteList: [
+      departmentList: [
         {
           value: 0,
-          label: "9401中国美术学院"
-        }
-      ],
-      siteListValue: "",
-      //选择栏目
-      columnList: [
-        {
-          value: 0,
-          label: "学术交流"
+          label: "1系"
         },
         {
           value: 1,
-          label: "通知公告"
+          label: "2系"
         },
         {
           value: 2,
-          label: "下载中心"
+          label: "3系"
         },
         {
           value: 3,
-          label: "联系我们"
+          label: "4系"
         }
       ],
-      columnListValue: "",
-      //选择发布状态
-      stateList: [
-        {
+      departmentValue: "",
+      classList:[
+         {
           value: 0,
-          label: "已发"
+          label: "1班"
         },
         {
           value: 1,
-          label: "待审"
+          label: "2班"
         },
         {
           value: 2,
-          label: "草稿"
+          label: "3班"
+        },
+        {
+          value: 3,
+          label: "4班"
         }
       ],
-      stateValue: "",
-      //栏目检索
-      titleSearchValue: "",
-      //表格
+      classValue:"",
+      searchValue:"",
+
       tableInfo: [
         {
           id: 1,
@@ -161,7 +141,6 @@ export default {
   },
   components: {
     Crumb,
-    Instructions,
     Paging
   },
   mounted: function() {
@@ -240,5 +219,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-
+#xinxiqunfa {
+  .title {
+    font-size: 20px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 25px;
+    padding-bottom: 16px;
+    color: #606266;
+  }
+}
 </style>

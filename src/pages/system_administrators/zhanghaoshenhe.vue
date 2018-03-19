@@ -10,8 +10,7 @@
   <div id="zhanghaoshenhe">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
-    <!-- 使用说明 -->
-    <Instructions :instructionsInfo="instructionsInfo"></Instructions>
+
     <!-- Table -->
     <div class="table-container">
 
@@ -58,7 +57,7 @@
 /* 引入组件 */
 import Crumb from "@/components/Crumb";
 import Paging from "@/components/Paging";
-import Instructions from "@/components/Instructions";
+
 /* 内容管理 */
 export default {
   name: "ContentManagement",
@@ -79,63 +78,7 @@ export default {
           url: ""
         }
       ],
-      //使用说明
-      instructionsInfo: [
-        {
-          title: "标题1",
-          content: "添加站点使用说明"
-        },
-        {
-          title: "标题2",
-          content: "添加站点使用说明"
-        }
-      ],
-      //选择站点
-      siteList: [
-        {
-          value: 0,
-          label: "9401中国美术学院"
-        }
-      ],
-      siteListValue: "",
-      //选择栏目
-      columnList: [
-        {
-          value: 0,
-          label: "学术交流"
-        },
-        {
-          value: 1,
-          label: "通知公告"
-        },
-        {
-          value: 2,
-          label: "下载中心"
-        },
-        {
-          value: 3,
-          label: "联系我们"
-        }
-      ],
-      columnListValue: "",
-      //选择发布状态
-      stateList: [
-        {
-          value: 0,
-          label: "已发"
-        },
-        {
-          value: 1,
-          label: "待审"
-        },
-        {
-          value: 2,
-          label: "草稿"
-        }
-      ],
-      stateValue: "",
-      //栏目检索
-      titleSearchValue: "",
+     
       //表格
       tableInfo: [
         {
@@ -178,7 +121,6 @@ export default {
   },
   components: {
     Crumb,
-    Instructions,
     Paging
   },
   mounted: function() {

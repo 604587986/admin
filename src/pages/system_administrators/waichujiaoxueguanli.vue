@@ -10,47 +10,36 @@
   <div id="waichujiaoxueguanli">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
-    <!-- 使用说明 -->
-    <Instructions :instructionsInfo="instructionsInfo"></Instructions>
+
     <!-- Table -->
     <div class="table-container">
-      <!-- 表格筛选 -->
+           <!-- 表格筛选 -->
       <div class="table-filter">
-        <el-select v-model="siteListValue" clearable placeholder="选择学年学期" size="mini" class="float-left state-selection">
-          <el-option v-for="item in siteList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="departmentValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
+          <el-option v-for="item in departmentList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-select v-model="stateValue" clearable placeholder="选择校区" size="mini" class="float-left state-selection">
+        <el-select v-model="classValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
+          <el-option v-for="item in classList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        </el-select>
+        <el-button type="primary" round style="float:right" size="mini">导出EXCEL</el-button>        
+      </div>
+      <div class="table-filter">
+        <el-select v-model="stateValue" clearable placeholder="选择状态" size="mini" class="float-left column-selection">
           <el-option v-for="item in stateList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="选择学院" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="请假类型" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="选择状态" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-        <el-input placeholder="请输入关键字" v-model="titleSearchValue" class="input-with-select title-search float-left" size="mini">
+        <el-input placeholder="请输入关键字" v-model="searchValue" class="input-with-select title-search float-right" size="mini">
           <el-button slot="append" icon="el-icon-search" @click="articleSearch()"></el-button>
         </el-input>
-        <el-button type="primary" round style="float:right" size="mini">导出EXCEL</el-button>
       </div>
       <!-- 表格 -->
       <div class="table-body">
         <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
           <el-table-column type="selection" @selection-change="handleSelectionChange"></el-table-column>
-          <el-table-column prop="uid" label="申诉编号" width="150"></el-table-column>
+          <el-table-column prop="uid" label="申诉编号" width="120"></el-table-column>
           <el-table-column prop="applyDate" label="申诉时间" width="150"></el-table-column>
           <el-table-column prop="people" label="申诉人" width="80"></el-table-column>
           <el-table-column prop="type" label="申诉类型" width="80"></el-table-column>
-          <el-table-column prop="applyCount" label="申请次数" width="50"></el-table-column>
+          <el-table-column prop="applyCount" label="申请次数" width="80"></el-table-column>
           <el-table-column prop="course" label="课程名称" width="150"></el-table-column>
           <el-table-column prop="date" label="上课时间" width="150"></el-table-column>          
           <el-table-column prop="state" label="状态" width="80">
@@ -85,7 +74,7 @@
 /* 引入组件 */
 import Crumb from "@/components/Crumb";
 import Paging from "@/components/Paging";
-import Instructions from "@/components/Instructions";
+
 /* 内容管理 */
 export default {
   name: "ContentManagement",
@@ -106,96 +95,97 @@ export default {
           url: ""
         }
       ],
-      //使用说明
-      instructionsInfo: [
-        {
-          title: "标题1",
-          content: "添加站点使用说明"
-        },
-        {
-          title: "标题2",
-          content: "添加站点使用说明"
-        }
-      ],
-      //选择站点
-      siteList: [
+      //select内容
+
+      departmentList: [
         {
           value: 0,
-          label: "9401中国美术学院"
-        }
-      ],
-      siteListValue: "",
-      //选择栏目
-      columnList: [
-        {
-          value: 0,
-          label: "学术交流"
+          label: "1系"
         },
         {
           value: 1,
-          label: "通知公告"
+          label: "2系"
         },
         {
           value: 2,
-          label: "下载中心"
+          label: "3系"
         },
         {
           value: 3,
-          label: "联系我们"
+          label: "4系"
         }
       ],
-      columnListValue: "",
-      //选择发布状态
-      stateList: [
+      departmentValue: "",
+      classList: [
         {
           value: 0,
-          label: "已发"
+          label: "1班"
         },
         {
           value: 1,
-          label: "待审"
+          label: "2班"
         },
         {
           value: 2,
-          label: "草稿"
+          label: "3班"
+        },
+        {
+          value: 3,
+          label: "4班"
+        }
+      ],
+      classValue: "",
+
+      stateList: [
+        {
+          value: 0,
+          label: "已审核"
+        },
+        {
+          value: 1,
+          label: "待审核"
+        },
+        {
+          value: 2,
+          label: "已撤销"
         }
       ],
       stateValue: "",
-      //栏目检索
-      titleSearchValue: "",
+
+      searchValue: "",
       //表格
       tableInfo: [
         {
           uid: 20160926002,
           applyDate: "2017-02-20 08:32",
-          people:"张三",
-          applyCount:"5",
-          course:"工业设计导论",
-          mergeClass:'14工业甲班，14工业乙班',
-          classroom:'A301',
-          theTeacher:"李四",
-          date:"第八周 周五1，2节",
-          class:"14工业甲班",
+          people: "张三",
+          applyCount: "5",
+          course: "工业设计导论",
+          mergeClass: "14工业甲班，14工业乙班",
+          classroom: "A301",
+          theTeacher: "李四",
+          date: "第八周 周五1，2节",
+          class: "14工业甲班",
           state: "已审批",
-          approve:"王五 2016-06-29 |08:33",
-          remark:"",
-          type:"忘打卡"
+          approve: "王五 2016-06-29 |08:33",
+          remark: "",
+          type: "忘打卡"
         },
         {
           uid: 20160926002,
           applyDate: "2017-02-20 08:32",
-          people:"张三",
-          applyCount:"5",
-          course:"工业设计导论",
-          mergeClass:'14工业甲班，14工业乙班',
-          classroom:'A301',
-          theTeacher:"李四",
-          date:"第八周 周五1，2节",
-          class:"14工业甲班",
+          people: "张三",
+          applyCount: "5",
+          course: "工业设计导论",
+          mergeClass: "14工业甲班，14工业乙班",
+          classroom: "A301",
+          theTeacher: "李四",
+          date: "第八周 周五1，2节",
+          class: "14工业甲班",
           state: "已审批",
-          approve:"王五 2016-06-29 |08:33",
-          remark:"",
-          type:"数据有误"
+          approve: "王五 2016-06-29 |08:33",
+          remark: "",
+          type: "数据有误"
         }
       ],
       tableList: []
@@ -203,7 +193,6 @@ export default {
   },
   components: {
     Crumb,
-    Instructions,
     Paging
   },
   mounted: function() {

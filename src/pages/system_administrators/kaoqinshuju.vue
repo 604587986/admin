@@ -10,35 +10,34 @@
   <div id="kaoqinshuju">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
-    <!-- 使用说明 -->
-    <Instructions :instructionsInfo="instructionsInfo"></Instructions>
+
     <!-- Table -->
     <div class="table-container">
       <!-- 表格筛选 -->
       <div class="table-filter">
-        <el-select v-model="columnListValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="depatmentValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
+          <el-option v-for="item in departmentList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="classValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
+          <el-option v-for="item in classList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
       </div>
       <!-- 表格 -->
       <div class="table-body">
         <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
           <el-table-column type="selection" @selection-change="handleSelectionChange"></el-table-column>
-          <el-table-column prop="id" label="ID"></el-table-column>
-          <el-table-column prop="date" label="时间"></el-table-column>
-          <el-table-column prop="course" label="课程"></el-table-column>
-          <el-table-column prop="department" label="所属系"></el-table-column>
-          <el-table-column prop="class" label="所属班级"></el-table-column>
-          <el-table-column prop="teacher" label="老师"></el-table-column>
+          <el-table-column prop="id" label="ID" width="50px"></el-table-column>
+          <el-table-column prop="date" label="时间" width="150px"></el-table-column>
+          <el-table-column prop="course" label="课程" width="100px"></el-table-column>
+          <el-table-column prop="department" label="所属系" width="100px"></el-table-column>
+          <el-table-column prop="class" label="所属班级" width="100px"></el-table-column>
+          <el-table-column prop="teacher" label="老师" width="80px"></el-table-column>
           <el-table-column prop="shouldNum" label="应到人数"></el-table-column>          
           <el-table-column prop="actualNum" label="实到人数"></el-table-column>  
           <el-table-column prop="leaveNum" label="请假人数"></el-table-column>                  
           <el-table-column prop="missNum" label="旷课人数"></el-table-column>   
           <el-table-column prop="efficiency" label="旷课率"></el-table-column>   
-          <el-table-column label="操作">
+          <el-table-column label="操作" width="250px">
             <div slot-scope="scope" class="control-btn">
               <el-button size="small">数据确认</el-button>
               <el-button size="small" @click="shujuxiugai()">数据修改</el-button>
@@ -61,7 +60,6 @@
 /* 引入组件 */
 import Crumb from "@/components/Crumb";
 import Paging from "@/components/Paging";
-import Instructions from "@/components/Instructions";
 /* 内容管理 */
 export default {
   name: "ContentManagement",
@@ -82,45 +80,45 @@ export default {
           url: ""
         }
       ],
-      //使用说明
-      instructionsInfo: [
-        {
-          title: "标题1",
-          content: "添加站点使用说明"
-        },
-        {
-          title: "标题2",
-          content: "添加站点使用说明"
-        }
-      ],
-      //选择站点
-      siteList: [
+      //select数据
+      departmentList: [
         {
           value: 0,
-          label: "9401中国美术学院"
-        }
-      ],
-      siteListValue: "",
-      //选择栏目
-      columnList: [
-        {
-          value: 0,
-          label: "学术交流"
+          label: "1系"
         },
         {
           value: 1,
-          label: "通知公告"
+          label: "2系"
         },
         {
           value: 2,
-          label: "下载中心"
+          label: "3系"
         },
         {
           value: 3,
-          label: "联系我们"
+          label: "4系"
         }
       ],
-      columnListValue: "",
+      depatmentValue: "",
+      classList:[
+         {
+          value: 0,
+          label: "1班"
+        },
+        {
+          value: 1,
+          label: "2班"
+        },
+        {
+          value: 2,
+          label: "3班"
+        },
+        {
+          value: 3,
+          label: "4班"
+        }
+      ],
+      classValue:"",
       //选择发布状态
       stateList: [
         {
@@ -153,7 +151,7 @@ export default {
           actualNum: "44",
           leaveNum: "5",
           missNum: "1",
-          efficiency:"80%"
+          efficiency: "80%"
         },
         {
           id: 1,
@@ -167,16 +165,14 @@ export default {
           actualNum: "44",
           leaveNum: "5",
           missNum: "1",
-          efficiency:"80%"
-        },
-        
+          efficiency: "80%"
+        }
       ],
       tableList: []
     };
   },
   components: {
     Crumb,
-    Instructions,
     Paging
   },
   mounted: function() {
@@ -186,12 +182,16 @@ export default {
   },
   methods: {
     //跳转到打卡数据
-    dakashuju(){
-      this.$router.push('/pages/system_administrators/System_Administrators/dakashuju')
+    dakashuju() {
+      this.$router.push(
+        "/pages/system_administrators/System_Administrators/dakashuju"
+      );
     },
     //跳转到数据修改
-    shujuxiugai(){
-      this.$router.push('/pages/system_administrators/System_Administrators/shujuxiugai')
+    shujuxiugai() {
+      this.$router.push(
+        "/pages/system_administrators/System_Administrators/shujuxiugai"
+      );
     },
     //检索
     articleSearch() {},

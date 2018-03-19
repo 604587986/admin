@@ -14,9 +14,9 @@
     <Instructions :instructionsInfo="instructionsInfo"></Instructions>
     <!-- Form -->
     <div class="form-container" style="margin-bottom:30px">
-    <div class="title" style="font-size:25px ;border-bottom:1px solid #ccc;margin-bottom:25px">考勤提醒设置</div>              
+    <div class="title">考勤提醒设置</div>              
       <!-- 表单 -->
-    <el-form ref="form" label-width="150px" size="mini" label-position="right">
+    <el-form ref="form" label-width="220px" size="mini" label-position="right">
         <el-form-item label="课程变动或提醒信息发送方式：" >
           <el-checkbox-group v-model="form.type">
             <el-checkbox label="邮件"></el-checkbox>
@@ -37,9 +37,9 @@
     </div>
     <!-- Form -->
     <div class="form-container" style="margin-bottom:30px">
-    <div class="title" style="font-size:25px ;border-bottom:1px solid #ccc;margin-bottom:25px">课程提醒设置</div>              
+    <div class="title">课程提醒设置</div>              
       <!-- 表单 -->
-      <el-form ref="form" label-width="150px" size="mini" label-position="right">
+      <el-form ref="form" label-width="220px" size="mini" label-position="right">
         <el-form-item label="选择提醒课程：" >
           <el-select v-model="form.categoryValue" clearable placeholder="请选择系" size="mini">
             <el-option v-for="item in category" :key="item.value" :label="item.label" :value="item.value"></el-option>
@@ -48,7 +48,7 @@
             <el-option v-for="item in category" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="到课率低于多少提醒：">
+        <el-form-item label="到课率低于多少提醒：" class="my-input-container">
           <el-input v-model="form.describe" type="text" :rows="2" placeholder="请输入百分比"></el-input>
         </el-form-item>
          <el-form-item label="提醒信息发送方式：" >
@@ -71,9 +71,9 @@
     </div>
     <!-- Form -->
     <div class="form-container" style="margin-bottom:30px">
-    <div class="title" style="font-size:25px ;border-bottom:1px solid #ccc;margin-bottom:25px">学生提醒设置</div>              
+    <div class="title">学生提醒设置</div>              
       <!-- 表单 -->
-      <el-form ref="form" label-width="150px" size="mini" label-position="right">
+      <el-form ref="form" label-width="220px" size="mini" label-position="right">
         <el-form-item label="选择系/班级：" >
           <el-select v-model="form.categoryValue" clearable placeholder="请选择系" size="mini">
             <el-option v-for="item in category" :key="item.value" :label="item.label" :value="item.value"></el-option>
@@ -82,7 +82,7 @@
             <el-option v-for="item in category" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="旷课多少节进行提醒：">
+        <el-form-item label="旷课多少节进行提醒：" class="my-input-container">
           <el-input v-model="form.describe" type="number" :rows="2" placeholder="请输入数字"></el-input>
         </el-form-item>
                  <el-form-item label="提醒信息发送方式：" >
@@ -389,5 +389,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-
+#kaoqintixingshezhi {
+  .title {
+    font-size: 20px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 25px;
+    padding-bottom: 16px;
+    color: #606266;
+  }
+  .my-input-container {
+    width: 580px;
+  }
+}
 </style>

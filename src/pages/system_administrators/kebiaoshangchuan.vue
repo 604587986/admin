@@ -10,8 +10,7 @@
   <div id="kebiaoshangchuan">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
-    <!-- 使用说明 -->
-    <Instructions :instructionsInfo="instructionsInfo"></Instructions>
+
     <!-- Form -->
     <div class="form-container">
       <div class="prompt">
@@ -23,11 +22,11 @@
       <!-- 表单 -->
       <el-form ref="form" :model="form" :rules="rules" status-icon label-width="95px" size="mini" label-position="right">
         <el-form-item label="选择班级：">
-                    <el-select v-model="columnListValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    <el-select v-model="depatmentValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
+          <el-option v-for="item in departmentList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="classValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
+          <el-option v-for="item in classList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
         </el-form-item>
         <el-form-item label="上传文件：">
@@ -47,7 +46,6 @@
 <script>
 /* 引入组件 */
 import Crumb from "@/components/Crumb";
-import Instructions from "@/components/Instructions";
 /* 添加附件 */
 export default {
   name: "DataBackup",
@@ -68,37 +66,45 @@ export default {
           url: ""
         }
       ],
-            //选择栏目
-      columnList: [
+      //select数据
+      departmentList: [
         {
           value: 0,
-          label: "学术交流"
+          label: "1系"
         },
         {
           value: 1,
-          label: "通知公告"
+          label: "2系"
         },
         {
           value: 2,
-          label: "下载中心"
+          label: "3系"
         },
         {
           value: 3,
-          label: "联系我们"
+          label: "4系"
         }
       ],
-      columnListValue: "",
-      //使用说明
-      instructionsInfo: [
-        {
-          title: "标题1",
-          content: "添加站点使用说明"
+      depatmentValue: "",
+      classList:[
+         {
+          value: 0,
+          label: "1班"
         },
         {
-          title: "标题2",
-          content: "添加站点使用说明"
+          value: 1,
+          label: "2班"
+        },
+        {
+          value: 2,
+          label: "3班"
+        },
+        {
+          value: 3,
+          label: "4班"
         }
       ],
+      classValue:"",
       //提交按钮loading
       subLoading: false,
       form: {
@@ -134,7 +140,6 @@ export default {
   },
   components: {
     Crumb,
-    Instructions
   },
   mounted: function() {
     //侧边导航定位

@@ -13,10 +13,10 @@
     <!-- 使用说明 -->
     <Instructions :instructionsInfo="instructionsInfo"></Instructions>
     <!-- Form -->
-    <div class="form-container" style="margin-bottom:30px">
-    <div class="title" style="font-size:25px ;border-bottom:1px solid #ccc;margin-bottom:25px">请假设置</div>              
+    <div class="form-container">
+    <div class="title">请假设置</div>              
       <!-- 表单 -->
-    <el-form ref="form" label-width="200px" size="mini" label-position="right">
+    <el-form ref="form" label-width="240px" size="mini" label-position="right">
          <el-form-item label="设置提前多少天可以请假：">
           <el-input v-model="form.describe" type="number" :rows="2" placeholder="请输入天数"></el-input>
         </el-form-item>
@@ -32,10 +32,10 @@
       </el-form>
     </div>
     <!-- Form -->
-    <div class="form-container" style="margin-bottom:30px">
-    <div class="title" style="font-size:25px ;border-bottom:1px solid #ccc;margin-bottom:25px">调课设置</div>              
+    <div class="form-container">
+    <div class="title">调课设置</div>              
       <!-- 表单 -->
-      <el-form ref="form" label-width="200px" size="mini" label-position="right">
+      <el-form ref="form" label-width="240px" size="mini" label-position="right">
         <el-form-item label="设置提前多少天可以调课：">
           <el-input v-model="form.describe" type="number" :rows="2" placeholder="请输入天数"></el-input>
         </el-form-item>
@@ -45,10 +45,10 @@
       </el-form>
     </div>
     <!-- Form -->
-    <div class="form-container" style="margin-bottom:30px">
-    <div class="title" style="font-size:25px ;border-bottom:1px solid #ccc;margin-bottom:25px">并课设置</div>              
+    <div class="form-container">
+    <div class="title">并课设置</div>              
       <!-- 表单 -->
-      <el-form ref="form" label-width="200px" size="mini" label-position="right">
+      <el-form ref="form" label-width="240px" size="mini" label-position="right">
                 <el-form-item label="设置提前多少天可以并课：">
           <el-input v-model="form.describe" type="number" :rows="2" placeholder="请输入天数"></el-input>
         </el-form-item>
@@ -58,10 +58,10 @@
       </el-form>
     </div>
     <!-- Form -->
-    <div class="form-container" style="margin-bottom:30px">
-    <div class="title" style="font-size:25px ;border-bottom:1px solid #ccc;margin-bottom:25px">教室预约设置</div>              
+    <div class="form-container">
+    <div class="title">教室预约设置</div>              
       <!-- 表单 -->
-    <el-form ref="form" label-width="200px" size="mini" label-position="right">
+    <el-form ref="form" label-width="240px" size="mini" label-position="right">
           <el-form-item label="设置提前多少天可以预约：">
             <el-input v-model="form.describe" type="number" :rows="2" placeholder="请输入天数"></el-input>
           </el-form-item>
@@ -74,10 +74,10 @@
     </el-form>
     </div>
     <!-- Form -->
-    <div class="form-container" style="margin-bottom:30px">
-    <div class="title" style="font-size:25px ;border-bottom:1px solid #ccc;margin-bottom:25px">学生申诉设置</div>              
+    <div class="form-container">
+    <div class="title">学生申诉设置</div>              
       <!-- 表单 -->
-      <el-form ref="form" label-width="200px" size="mini" label-position="right">
+      <el-form ref="form" label-width="240px" size="mini" label-position="right">
         <el-form-item label="设置多少天之内可以申请申诉：">
           <el-input v-model="form.describe" type="number" :rows="2" placeholder="请输入天数"></el-input>
         </el-form-item>
@@ -87,10 +87,10 @@
       </el-form>
     </div>
     <!-- Form -->
-    <div class="form-container" style="margin-bottom:30px">
-    <div class="title" style="font-size:25px ;border-bottom:1px solid #ccc;margin-bottom:25px">外出教学设置</div>              
+    <div class="form-container">
+    <div class="title">外出教学设置</div>              
       <!-- 表单 -->
-      <el-form ref="form" label-width="200px" size="mini" label-position="right">
+      <el-form ref="form" label-width="240px" size="mini" label-position="right">
         <el-form-item label="设置提前多少天可以申请外出教学：">
           <el-input v-model="form.describe" type="number" :rows="2" placeholder="请输入天数"></el-input>
         </el-form-item>
@@ -341,7 +341,7 @@ export default {
   },
   mounted: function() {
     //侧边导航定位
-    sessionStorage.setItem("system_menu_idx",6);
+    sessionStorage.setItem("system_menu_idx", 6);
     this.$store.commit("update_system_menu_idx", 6);
   },
   methods: {
@@ -385,5 +385,17 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-
+#shenpishezhi {
+  margin-bottom: 30px;
+  .title {
+    font-size: 20px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 25px;
+    padding-bottom: 16px;
+    color: #606266;
+  }
+  .form-container{
+    margin-bottom: 30px;
+  }
+}
 </style>

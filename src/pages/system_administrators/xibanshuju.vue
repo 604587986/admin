@@ -10,19 +10,18 @@
   <div id="jiaoshiliebiao">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
-    <!-- 使用说明 -->
-    <Instructions :instructionsInfo="instructionsInfo"></Instructions>
+
     <!-- Table -->
     <div class="table-container">
       <!-- 表格筛选 -->
       <div class="table-filter">
-        <el-select v-model="siteListValue" clearable placeholder="选择系" size="mini" class="float-left state-selection">
-          <el-option v-for="item in stateList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="departmentValue" clearable placeholder="选择系" size="mini" class="float-left state-selection">
+          <el-option v-for="item in departmentList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-select v-model="siteListValue" clearable placeholder="选择班级" size="mini" class="float-left state-selection">
-          <el-option v-for="item in stateList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="classValue" clearable placeholder="选择班级" size="mini" class="float-left state-selection">
+          <el-option v-for="item in classList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-input placeholder="请输入关键字" v-model="titleSearchValue" class="input-with-select title-search float-right" size="mini">
+        <el-input placeholder="请输入关键字" v-model="searchValue" class="input-with-select title-search float-right" size="mini">
           <el-button slot="append" icon="el-icon-search" @click="articleSearch()"></el-button>
         </el-input>
       </div>
@@ -47,7 +46,7 @@
 /* 引入组件 */
 import Crumb from "@/components/Crumb";
 import Paging from "@/components/Paging";
-import Instructions from "@/components/Instructions";
+
 /* 内容管理 */
 export default {
   name: "ContentManagement",
@@ -68,71 +67,55 @@ export default {
           url: ""
         }
       ],
-      //使用说明
-      instructionsInfo: [
-        {
-          title: "标题1",
-          content: "添加站点使用说明"
-        },
-        {
-          title: "标题2",
-          content: "添加站点使用说明"
-        }
-      ],
-      //选择站点
-      siteList: [
+      //select内容
+
+      departmentList: [
         {
           value: 0,
-          label: "9401中国美术学院"
-        }
-      ],
-      siteListValue: "",
-      //选择栏目
-      columnList: [
-        {
-          value: 0,
-          label: "学术交流"
+          label: "1系"
         },
         {
           value: 1,
-          label: "通知公告"
+          label: "2系"
         },
         {
           value: 2,
-          label: "下载中心"
+          label: "3系"
         },
         {
           value: 3,
-          label: "联系我们"
+          label: "4系"
         }
       ],
-      columnListValue: "",
-      //选择发布状态
-      stateList: [
+      departmentValue: "",
+      classList: [
         {
           value: 0,
-          label: "已发"
+          label: "1班"
         },
         {
           value: 1,
-          label: "待审"
+          label: "2班"
         },
         {
           value: 2,
-          label: "草稿"
+          label: "3班"
+        },
+        {
+          value: 3,
+          label: "4班"
         }
       ],
-      stateValue: "",
-      //栏目检索
-      titleSearchValue: "",
+      classValue: "",
+      searchValue: "",
       //表格
       tableInfo: [
         {
           id: 1,
-          class:'15级工业甲班',
-          department:'工业设计系', 
-          director:'王五',     
-          secretary:'张三' ,
+          class: "15级工业甲班",
+          department: "工业设计系",
+          director: "王五",
+          secretary: "张三"
         }
       ],
       tableList: []
@@ -140,7 +123,6 @@ export default {
   },
   components: {
     Crumb,
-    Instructions,
     Paging
   },
   mounted: function() {
@@ -150,8 +132,10 @@ export default {
   },
   methods: {
     //跳转到教室预约详情
-    jiaoshiyuyuexiangqing(){
-      this.$router.push('/pages/system_administrators/System_Administrators/jiaoshiyuyuexiangqing')
+    jiaoshiyuyuexiangqing() {
+      this.$router.push(
+        "/pages/system_administrators/System_Administrators/jiaoshiyuyuexiangqing"
+      );
     },
     //检索
     articleSearch() {},

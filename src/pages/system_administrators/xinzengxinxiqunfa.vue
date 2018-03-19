@@ -20,6 +20,32 @@
         <el-form-item label="接收用户：" class="form-item">
           <el-input  @focus="tableFlag=true"></el-input>
         </el-form-item>
+            <div class="table-container" v-show="tableFlag">
+      <!-- 表格筛选 -->
+      <div class="table-filter">
+        <el-select v-model="columnListValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
+          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        </el-select>
+        <el-select v-model="columnListValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
+          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        </el-select>
+        <el-input placeholder="请输入关键字" v-model="titleSearchValue" class="input-with-select title-search float-left" size="mini">
+          <el-button slot="append" icon="el-icon-search" @click="articleSearch()"></el-button>
+        </el-input>
+      </div>
+      <!-- 表格 -->
+      <div class="table-body">
+        <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
+          <el-table-column type="selection" @selection-change="handleSelectionChange"></el-table-column>
+          <el-table-column prop="id" label="学号"></el-table-column>
+          <el-table-column prop="name" label="姓名"></el-table-column>
+        </el-table>
+      </div>
+      <!-- 表格控制 -->
+      <div class="table-filter">
+        <el-button type="primary" size="mini" @click="addUser()">添加</el-button>
+      </div>
+  </div>
         <el-form-item label="群发标题：" class="form-item" >
           <el-input ></el-input>
         </el-form-item>
@@ -38,32 +64,6 @@
         </el-form-item>
       </el-form>
       </div>
-    <div class="table-container" v-show="tableFlag">
-      <!-- 表格筛选 -->
-      <div class="table-filter">
-        <el-select v-model="columnListValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-        <el-input placeholder="请输入关键字" v-model="titleSearchValue" class="input-with-select title-search float-left" size="mini">
-          <el-button slot="append" icon="el-icon-search" @click="articleSearch()"></el-button>
-        </el-input>
-      </div>
-      <!-- 表格 -->
-      <div class="table-body">
-        <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
-          <el-table-column type="selection" @selection-change="handleSelectionChange"></el-table-column>
-          <el-table-column prop="id" label="姓名"></el-table-column>
-          <el-table-column prop="name" label="学号"></el-table-column>
-        </el-table>
-      </div>
-      <!-- 表格控制 -->
-      <div class="table-filter">
-        <el-button type="primary" size="mini" @click="tableFlag=false">添加</el-button>
-      </div>
-  </div>
     </div>
   </div>
 </template>
@@ -280,13 +280,12 @@ export default {
       tableInfo: [
         {
           id: 20160926002,
-        name:'张三'
+          name: "张三"
         },
         {
           id: 20160926002,
-        name:'张三'
+          name: "张三"
         }
-
       ]
     };
   },
@@ -318,12 +317,15 @@ export default {
         }
       });
     },
-    
+
     handleSelectionChange(val) {
       this.tableList = val;
       //console.log(val[0].uid)
       //this.tableInfo.splice(val.uid, 1)
       //console.log(this.tableList)
+    },
+    addUser() {
+      this.tableFlag = false;
     }
   }
 };
@@ -333,15 +335,11 @@ export default {
 <style lang="less">
 #xinzengxinxiqunfa {
   .my-container {
-    display: flex;
     .form-container {
       padding: 0 10px;
-      flex: 1;
     }
     .table-container {
-      padding: 0 10px;
-
-      flex: 1;
+      margin-left: 95px;
     }
   }
 }

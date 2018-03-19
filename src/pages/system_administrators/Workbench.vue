@@ -10,7 +10,6 @@
     <Crumb :crumbs="crumbs"></Crumb>
     <!-- 工作台 -->
     <div class="quick-navigation">
-      <div class="title"><span>工作台</span></div>
       <ul>
         <li v-for="item in quick_navigation" class="float-left">
           <router-link :to="'/pages/system_administrators/System_Administrators/'+item.url">
@@ -237,15 +236,17 @@ export default {
 <style lang="less">
 @import "../../assets/css/less_config.less";
 .quick-navigation {
-  padding-bottom: 48px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
   border-bottom: 1px solid @border_color;
   >.title{
-    font-size: 25px;
+    font-size: 20px;
     color: #000;
-    font-weight: 700;
     margin-bottom: 30px;
+    color: #888;
     >span{
-      border-bottom: 5px solid #00a0e9;
+      border-bottom: 3px solid #00a0e9;
+      padding-bottom: 10px;
       line-height: 10px;
     }
   }

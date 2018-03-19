@@ -10,8 +10,7 @@
     <div id="shujubeifen">
         <!-- 面包屑 -->
         <Crumb :crumbs="crumbs"></Crumb>
-        <!-- 使用说明 -->
-        <Instructions :instructionsInfo="instructionsInfo"></Instructions>
+
         <!-- Table -->
         <div class="table-container">
             <!-- 表格筛选 -->
@@ -53,7 +52,7 @@
 /* 引入组件 */
 import Crumb from "@/components/Crumb";
 import Paging from "@/components/Paging";
-import Instructions from "@/components/Instructions";
+
 /* 用户列表 */
 export default {
   name: "UserList",
@@ -74,17 +73,7 @@ export default {
           url: ""
         }
       ],
-      //使用说明
-      instructionsInfo: [
-        {
-          title: "标题1",
-          content: "添加站点使用说明"
-        },
-        {
-          title: "标题2",
-          content: "添加站点使用说明"
-        }
-      ],
+     
       //栏目检索
       titleSearchValue: "",
       //表格
@@ -106,7 +95,7 @@ export default {
   },
   components: {
     Crumb,
-    Instructions,
+
     Paging
   },
   mounted: function() {

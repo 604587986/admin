@@ -10,22 +10,23 @@
   <div id="jiaoshiyuyueguanli">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
-    <!-- 使用说明 -->
-    <Instructions :instructionsInfo="instructionsInfo"></Instructions>
+
     <!-- Table -->
     <div class="table-container">
       <!-- 表格筛选 -->
       <div class="table-filter">
-        <el-select v-model="siteListValue" clearable placeholder="选择状态" size="mini" class="float-left state-selection">
+        <el-select v-model="stateValue" clearable placeholder="选择状态" size="mini" class="float-left state-selection">
           <el-option v-for="item in stateList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-button type="primary" size="mini" style="margin: 0 20px">
-          <router-link to="/pages/system_administrators/System_Administrators/kongjiaoshichaxun" style="color:#fff"> 查询空教室</router-link>
-          </el-button>
-        <el-input placeholder="请输入关键字" v-model="titleSearchValue" class="input-with-select title-search float-left" size="mini">
+          <router-link to="/pages/system_administrators/System_Administrators/kongjiaoshichaxun">
+          <el-button type="primary" size="mini" style="margin: 0 20px">
+           查询空教室
+          </el-button>           
+           </router-link>
+        <el-input placeholder="请输入关键字" v-model="searchValue" class="input-with-select title-search float-left" size="mini">
           <el-button slot="append" icon="el-icon-search" @click="articleSearch()"></el-button>
         </el-input>
-        <el-button type="primary"  style="margin: 0 20px" size="mini">导出EXCEL</el-button>
+        <el-button type="primary"  style="margin: 0 20px" size="mini" class="float-right">导出EXCEL</el-button>
       </div>
       <!-- 表格 -->
       <div class="table-body">
@@ -69,7 +70,7 @@
 /* 引入组件 */
 import Crumb from "@/components/Crumb";
 import Paging from "@/components/Paging";
-import Instructions from "@/components/Instructions";
+
 /* 内容管理 */
 export default {
   name: "ContentManagement",
@@ -90,93 +91,53 @@ export default {
           url: ""
         }
       ],
-      //使用说明
-      instructionsInfo: [
-        {
-          title: "标题1",
-          content: "添加站点使用说明"
-        },
-        {
-          title: "标题2",
-          content: "添加站点使用说明"
-        }
-      ],
-      //选择站点
-      siteList: [
-        {
-          value: 0,
-          label: "9401中国美术学院"
-        }
-      ],
-      siteListValue: "",
-      //选择栏目
-      columnList: [
-        {
-          value: 0,
-          label: "学术交流"
-        },
-        {
-          value: 1,
-          label: "通知公告"
-        },
-        {
-          value: 2,
-          label: "下载中心"
-        },
-        {
-          value: 3,
-          label: "联系我们"
-        }
-      ],
-      columnListValue: "",
-      //选择发布状态
       stateList: [
         {
           value: 0,
-          label: "已发"
+          label: "已审核"
         },
         {
           value: 1,
-          label: "待审"
+          label: "待审核"
         },
         {
           value: 2,
-          label: "草稿"
+          label: "已撤销"
         }
       ],
       stateValue: "",
       //栏目检索
-      titleSearchValue: "",
+      searchValue: "",
       //表格
       tableInfo: [
         {
           uid: 20160926002,
           applyDate: "2017-02-20 08:32",
-          people:"张三",
-          applyCount:"5",
-          course:"工业设计导论",
-          mergeClass:'14工业甲班，14工业乙班',
-          classroom:'A301',
-          theTeacher:"李四",
-          date:"第八周 周五1，2节",
-          class:"14工业甲班",
+          people: "张三",
+          applyCount: "5",
+          course: "工业设计导论",
+          mergeClass: "14工业甲班，14工业乙班",
+          classroom: "A301",
+          theTeacher: "李四",
+          date: "第八周 周五1，2节",
+          class: "14工业甲班",
           state: "已审批",
-          approve:"王五 2016-06-29 |08:33",
-          remark:""
+          approve: "王五 2016-06-29 |08:33",
+          remark: ""
         },
         {
           uid: 20160926002,
           applyDate: "2017-02-20 08:32",
-          people:"张三",
-          applyCount:"5",
-          mergeClass:'14工业甲班，14工业乙班',
-          classroom:'A301',          
-          course:"社会实践1",
-          date:"第八周 周五1，2节",
-          class:"14工业甲班",
+          people: "张三",
+          applyCount: "5",
+          mergeClass: "14工业甲班，14工业乙班",
+          classroom: "A301",
+          course: "社会实践1",
+          date: "第八周 周五1，2节",
+          class: "14工业甲班",
           state: "已审批",
-          approve:"王五 2016-06-29 |08:33",
-          remark:""
+          approve: "王五 2016-06-29 |08:33",
+          remark: ""
         }
       ],
       tableList: []
@@ -184,7 +145,6 @@ export default {
   },
   components: {
     Crumb,
-    Instructions,
     Paging
   },
   mounted: function() {
@@ -194,8 +154,10 @@ export default {
   },
   methods: {
     //跳转到教室预约详情
-    jiaoshiyuyuexiangqing(){
-      this.$router.push('/pages/system_administrators/System_Administrators/jiaoshiyuyuexiangqing')
+    jiaoshiyuyuexiangqing() {
+      this.$router.push(
+        "/pages/system_administrators/System_Administrators/jiaoshiyuyuexiangqing"
+      );
     },
     //检索
     articleSearch() {},

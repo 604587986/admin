@@ -307,7 +307,8 @@ body {
   font-weight: 300;
   padding: 7px 10px;
   margin-left: 0;
-  margin-right: 10px;
+  margin-right: 4px;
+  margin-bottom: 4px;
 }
 .public-wap .main .table-container .table-body .control-btn .el-button a {
   color: #606266;

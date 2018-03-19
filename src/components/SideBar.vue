@@ -41,7 +41,7 @@ export default {
         {
           first_class_column_name: "考勤管理",
           first_class_column_url: "",
-          column_icon: "icon-zhandianguanli",
+          column_icon: "icon-kaoqinguanli",
           column_open: false,
           no_second: false,
           second_class_column: [
@@ -60,7 +60,7 @@ export default {
         {
           first_class_column_name: "课表管理",
           first_class_column_url: "",
-          column_icon: "icon-fujianguanli",
+          column_icon: "icon-kebiaoguanli",
           column_open: false,
           no_second: false,
           second_class_column: [
@@ -89,7 +89,7 @@ export default {
         {
           first_class_column_name: "门禁管理",
           first_class_column_url: "",
-          column_icon: "icon-zujianguanli",
+          column_icon: "icon-menjinguanli",
           column_open: false,
           no_second: false
         },
@@ -120,7 +120,7 @@ export default {
         {
           first_class_column_name: "数据报表",
           first_class_column_url: "",
-          column_icon: "icon-quanxianguanli",
+          column_icon: "icon-shujubaobiao",
           column_open: false,
           no_second: false,
           second_class_column: [
@@ -139,7 +139,7 @@ export default {
         {
           first_class_column_name: "申请审批",
           first_class_column_url: "",
-          column_icon: "icon-xitongshezhi",
+          column_icon: "icon-shenqingshenpi",
           column_open: false,
           no_second: false,
           second_class_column: [
@@ -217,7 +217,7 @@ export default {
         {
            first_class_column_name: "基础数据",
           first_class_column_url: "",
-          column_icon: "icon-xitongshezhi",
+          column_icon: "icon-jichushuju",
           column_open: false,
           no_second: false,
            second_class_column: [
@@ -270,7 +270,7 @@ export default {
   methods: {
     open_column: function(index) {
       for (let obj of this.side_bar) {
-        obj.column_open = false;
+        //obj.column_open = false;
       }
       if (index == 0) {
         this.$router.push({

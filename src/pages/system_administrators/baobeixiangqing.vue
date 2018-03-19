@@ -7,7 +7,7 @@
 
 
 <template>
-  <div id="qingjiaxiangqing">
+  <div id="baobeixiangqing">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
 
@@ -104,15 +104,14 @@ export default {
           url: ""
         },
         {
-          name: "请假管理",
+          name: "报备管理",
           url: ""
         },
         {
-          name: "请假详情",
+          name: "报备详情",
           url: ""
         }
       ],
-      
       listInfo: [
         "20160926002",
         "2016-06-29 08：32",
@@ -130,7 +129,7 @@ export default {
     };
   },
   components: {
-    Crumb,
+    Crumb
   },
   mounted: function() {
     //侧边导航定位
@@ -163,7 +162,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-#qingjiaxiangqing {
+#baobeixiangqing {
   .form-container {
     font-size: 14px;
     .content {

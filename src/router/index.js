@@ -11,26 +11,11 @@ import Administrators from '@/pages/administrators/Administrators'
 //系统管理员后台
 import System_Administrators from '@/pages/system_administrators/System_Administrators'
 import Workbench from '@/pages/system_administrators/Workbench' //首页
-import AddSite from '@/pages/system_administrators/AddSite' //添加站点
-import SiteList from '@/pages/system_administrators/SiteList' //站点列表
-import ContentManagement from '@/pages/system_administrators/ContentManagement' //内容管理
-import DataBackup from '@/pages/system_administrators/DataBackup' //数据备份
-import AddEnclosure from '@/pages/system_administrators/AddEnclosure' //添加附件
-import EnclosureList from '@/pages/system_administrators/EnclosureList' //附件列表
-import AddComponent from '@/pages/system_administrators/AddComponent' //添加组件
-import ComponentList from '@/pages/system_administrators/ComponentList' //组件列表
-import AddTemplate from '@/pages/system_administrators/AddTemplate' //添加模板
-import TemplateList from '@/pages/system_administrators/TemplateList' //模板列表
-import AddUser from '@/pages/system_administrators/AddUser' //添加用户
-import UserList from '@/pages/system_administrators/UserList' //用户列表
-import AddUserGroup from '@/pages/system_administrators/AddUserGroup' //添加用户组
-import UserGroupList from '@/pages/system_administrators/UserGroupList' //用户组列表
-import DepartmentList from '@/pages/system_administrators/DepartmentList' //部门列表
-import SiteInfo from '@/pages/system_administrators/SiteInfo' //站点信息
-import LoginLog from '@/pages/system_administrators/LoginLog' //登陆日志
+
 import qingjiaguanli from '@/pages/system_administrators/qingjiaguanli'//请假管理
 import qingjiaxiangqing from '@/pages/system_administrators/qingjiaxiangqing'//请假详情
 import tiaokeguanli from '@/pages/system_administrators/tiaokeguanli'//调课管理
+import tiaokexiangqing from '@/pages/system_administrators/tiaokexiangqing'//调课详情
 import kaoqinshuju from '@/pages/system_administrators/kaoqinshuju'//考勤数据
 import dakashuju from '@/pages/system_administrators/dakashuju'//考勤数据
 import kaoqintixingshezhi from '@/pages/system_administrators/kaoqintixingshezhi'//考勤提醒设置
@@ -41,7 +26,9 @@ import keshiguanli from '@/pages/system_administrators/keshiguanli'//课时管�
 import keshixiangqing from '@/pages/system_administrators/keshixiangqing'//课时详情
 import kebiaotixing from '@/pages/system_administrators/kebiaotixing'//课表提醒
 import bingkeguanli from '@/pages/system_administrators/bingkeguanli'//并课管理
+import bingkexiangqing from '@/pages/system_administrators/bingkexiangqing'//并课详情
 import baobeiguanli from '@/pages/system_administrators/baobeiguanli'//报备管理
+import baobeixiangqing from '@/pages/system_administrators/baobeixiangqing'//报备详情
 import jiaoshiyuyueguanli from '@/pages/system_administrators/jiaoshiyuyueguanli'//教室预约管理
 import jiaoshiyuyuexiangqing from '@/pages/system_administrators/jiaoshiyuyuexiangqing'//教室预约详情
 import kongjiaoshichaxun from '@/pages/system_administrators/kongjiaoshichaxun'//空教室查询
@@ -76,7 +63,7 @@ export default new Router({
     routes: [
         {
             path: '/',
-            component: Home
+            component: Login
         },
         {
             path: '/pages/index/Home',
@@ -109,74 +96,7 @@ export default new Router({
                 path: 'Workbench',
                 component: Workbench
             },
-            {
-                path: 'AddSite',
-                component: AddSite
-            },
-            {
-                path: 'SiteList',
-                component: SiteList
-            },
-            {
-                path: 'ContentManagement',
-                component: ContentManagement
-            },
-            {
-                path: 'DataBackup',
-                component: DataBackup
-            },
-            {
-                path: 'AddEnclosure',
-                component: AddEnclosure
-            },
-            {
-                path: 'EnclosureList',
-                component: EnclosureList
-            },
-            {
-                path: 'AddComponent',
-                component: AddComponent
-            },
-            {
-                path: 'ComponentList',
-                component: ComponentList
-            },
-            {
-                path: 'AddTemplate',
-                component: AddTemplate
-            },
-            {
-                path: 'TemplateList',
-                component: TemplateList
-            },
-            {
-                path: 'AddUser',
-                component: AddUser
-            },
-            {
-                path: 'UserList',
-                component: UserList
-            },
-            {
-                path: 'AddUserGroup',
-                component: AddUserGroup
-            },
-            {
-                path: 'UserGroupList',
-                component: UserGroupList
-            },
-            {
-                path: 'DepartmentList',
-                component: DepartmentList
-            },
-            {
-                path: 'SiteInfo',
-                component: SiteInfo
-            },
-            {
-                path: 'LoginLog',
-                component: LoginLog
-            },
+            
             {//考勤管理开始
                 path: 'kaoqinshuju',
                 component: kaoqinshuju
@@ -229,12 +149,24 @@ export default new Router({
                 component: tiaokeguanli
             },
             {
+                path: 'tiaokexiangqing',
+                component: tiaokexiangqing
+            },
+            {
                 path: 'bingkeguanli',
                 component: bingkeguanli
             },
             {
+                path: 'bingkexiangqing',
+                component: bingkexiangqing
+            },
+            {
                 path: 'baobeiguanli',
                 component: baobeiguanli
+            },
+            {
+                path: 'baobeixiangqing',
+                component: baobeixiangqing
             },
             {
                 path: 'jiaoshiyuyueguanli',

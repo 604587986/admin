@@ -10,26 +10,24 @@
   <div id="baobiaotuisong">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
-    <!-- 使用说明 -->
-    <Instructions :instructionsInfo="instructionsInfo"></Instructions>
+
     <!-- Form -->
     <div class="form-container" style="margin-bottom:30px">
-    <div class="title" style="font-size:25px ;border-bottom:1px solid #ccc;margin-bottom:25px">报表推送</div>      
       <!-- 表单 -->
-      <el-form ref="form" label-width="150px" size="mini" label-position="right">
+      <el-form ref="form" label-width="200px" size="mini" label-position="right">
         <el-form-item label="选择系/班级：" >
-          <el-select v-model="form.categoryValue" clearable placeholder="请选择系" size="mini">
-            <el-option v-for="item in category" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          <el-select v-model="departmentValue" clearable placeholder="请选择系" size="mini">
+            <el-option v-for="item in departmentList" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
-          <el-select v-model="form.categoryValue" clearable placeholder="请选择班级" size="mini">
-            <el-option v-for="item in category" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          <el-select v-model="classValue" clearable placeholder="请选择班级" size="mini">
+            <el-option v-for="item in classList" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="考勤数据报表发送至邮箱：">
-          <el-input v-model="form.describe" type="textarea" :rows="2" placeholder="请输入邮箱地址，多个邮箱请用英文符号，隔开"></el-input>
+        <el-form-item label="考勤数据报表发送至邮箱：" class="my-input-container">
+          <el-input v-model="emailValue" type="textarea" :rows="2" placeholder="请输入邮箱地址，多个邮箱请用英文符号，隔开"></el-input>
         </el-form-item>
         <el-form-item label="发送频率：">
-             <el-radio-group v-model="form.format">
+             <el-radio-group v-model="rate">
                 <el-radio label="每日"></el-radio>
                 <el-radio label="每周"></el-radio>
                 <el-radio label="每月"></el-radio>
@@ -37,7 +35,7 @@
         </el-form-item>
         <el-form-item class="form-control-btn">
           <el-button type="primary" @click="submitForm('form')" size="large" :loading="subLoading">提交</el-button>
-          <el-button type="primary" size="large"> <router-link to="/pages/system_administrators/System_Administrators/baobiaoyulan" style="color:#fff">报表预览</router-link></el-button>
+           <router-link to="/pages/system_administrators/System_Administrators/baobiaoyulan"><el-button type="primary" size="large">报表预览</el-button></router-link>
         </el-form-item>
       </el-form>
     </div>
@@ -47,7 +45,6 @@
 <script>
 /* 引入组件 */
 import Crumb from "@/components/Crumb";
-import Instructions from "@/components/Instructions";
 /* 添加站点 */
 export default {
   name: "AddSite",
@@ -68,215 +65,53 @@ export default {
           url: ""
         }
       ],
-      //使用说明
-      instructionsInfo: [
+      //select内容
+      departmentList: [
         {
-          title: "标题1",
-          content: "添加站点使用说明"
+          value: 0,
+          label: "1系"
         },
         {
-          title: "标题2",
-          content: "添加站点使用说明"
+          value: 1,
+          label: "2系"
+        },
+        {
+          value: 2,
+          label: "3系"
+        },
+        {
+          value: 3,
+          label: "4系"
         }
       ],
+      departmentValue: "",
+      classList:[
+         {
+          value: 0,
+          label: "1班"
+        },
+        {
+          value: 1,
+          label: "2班"
+        },
+        {
+          value: 2,
+          label: "3班"
+        },
+        {
+          value: 3,
+          label: "4班"
+        }
+      ],
+      classValue:"",
+      emailValue:"",
+      rate:"",
       //提交按钮loading
       subLoading: false,
-      //表单
-      form: {
-        title: "", //站点名称
-        categoryValue: "", //所属类别
-        subordinateDepartmentValue: "", //所属部门
-        code: "", //编码
-        alias: "", //别名
-        domain_name: "", //域名
-        siteAdministratorValue: "", //站点管理员
-        keyword: "", //网站关键字
-        describe: "", //网站描述
-        access_statistics_code: "", //访问统计代码
-        footer_info: "", //底部信息
-        wechat_img: "", //微信公众号二维码
-        weibo_img: "", //新浪微博二维码
-        sort: "", //排序
-        remarks: "", //备注
-        open: true, //是否开启
-        close_info: "系统维护 暂时关闭" //关闭原因
-      },
-      //表单验证
-      rules: {
-        title: [
-          {
-            required: true,
-            message: "请输入站点名称",
-            trigger: "blur"
-          },
-          {
-            min: 1,
-            message: "站点名称不能为空",
-            trigger: "blur"
-          }
-        ],
-        alias: [
-          {
-            required: true,
-            message: "请输入别名",
-            trigger: "blur"
-          },
-          {
-            min: 1,
-            message: "别名不能为空",
-            trigger: "blur"
-          }
-        ],
-        close_info: [
-          {
-            required: true,
-            message: "请输入关闭原因",
-            trigger: "blur"
-          },
-          {
-            min: 1,
-            max: 50,
-            message: "不能超过50个字",
-            trigger: "blur"
-          }
-        ],
-        sort: [
-          {
-            required: true,
-            validator: function(rule, value, callback) {
-              if (!Number.isInteger(value)) {
-                callback(new Error("请输入数字值"));
-              } else {
-                callback();
-              }
-            },
-            trigger: "blur"
-          }
-        ],
-        categoryValue: [
-          {
-            required: true,
-            message: "请选择所属类别",
-            trigger: "change"
-          }
-        ],
-        subordinateDepartmentValue: [
-          {
-            required: true,
-            message: "请选择所属部门",
-            trigger: "change"
-          }
-        ],
-        siteAdministratorValue: [
-          {
-            required: true,
-            message: "请选择站点管理员",
-            trigger: "change"
-          }
-        ]
-      },
-      //所属类别
-      category: [
-        {
-          value: 0,
-          label: "机关部门"
-        },
-        {
-          value: 1,
-          label: "教辅与研创单位"
-        },
-        {
-          value: 2,
-          label: "教学单位"
-        },
-        {
-          value: 3,
-          label: "其他"
-        }
-      ],
-      //所属部门
-      subordinateDepartment: [
-        {
-          value: 0,
-          label: "党员办"
-        },
-        {
-          value: 1,
-          label: "组织人事"
-        },
-        {
-          value: 2,
-          label: "纪监审办公室"
-        },
-        {
-          value: 3,
-          label: "宣传部"
-        },
-        {
-          value: 4,
-          label: "研究生工作部"
-        },
-        {
-          value: 5,
-          label: "学生工作部"
-        },
-        {
-          value: 6,
-          label: "网络中心"
-        },
-        {
-          value: 7,
-          label: "教务处"
-        },
-        {
-          value: 8,
-          label: "招生办公室"
-        },
-        {
-          value: 9,
-          label: "科研创作处"
-        },
-        {
-          value: 10,
-          label: "外事处"
-        },
-        {
-          value: 11,
-          label: "计划财务处"
-        },
-        {
-          value: 12,
-          label: "校园建设和管理处"
-        },
-        {
-          value: 13,
-          label: "工会"
-        },
-        {
-          value: 14,
-          label: "保卫处"
-        }
-      ],
-      //站点管理员
-      siteAdministrator: [
-        {
-          value: 0,
-          label: "系统超级管理员"
-        },
-        {
-          value: 1,
-          label: "分站管理员"
-        },
-        {
-          value: 2,
-          label: "编辑"
-        }
-      ]
-    };
+    }
   },
   components: {
     Crumb,
-    Instructions
   },
   mounted: function() {
     //侧边导航定位
@@ -324,5 +159,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-
+#baobiaotuisong{
+  .my-input-container{
+    width: 560px;
+  }
+}
 </style>

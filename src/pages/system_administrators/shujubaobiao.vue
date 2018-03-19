@@ -10,8 +10,7 @@
   <div id="shujubaobiao">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
-    <!-- 使用说明 -->
-    <Instructions :instructionsInfo="instructionsInfo"></Instructions>
+
     <!-- Table -->
      <div class="table-container" style="margin-bottom:30px">
       <!-- 表格 -->
@@ -29,14 +28,14 @@
     <div class="table-container">
       <!-- 表格筛选 -->
       <div class="table-filter">
-        <el-select v-model="siteListValue" clearable placeholder="按日期查看" size="mini" class="float-left state-selection">
-          <el-option v-for="item in siteList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="dateValue" clearable placeholder="按日期查看" size="mini" class="float-left state-selection">
+          <el-option v-for="item in dateList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="departmentValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
+          <el-option v-for="item in departmentList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="classValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
+          <el-option v-for="item in classList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
         <el-button type="primary" round style="float:right" size="mini">导出EXCEL</el-button>
         <el-button type="primary" round style="float:right" size="mini">打印报表</el-button>
@@ -62,7 +61,7 @@
 /* 引入组件 */
 import Crumb from "@/components/Crumb";
 import Paging from "@/components/Paging";
-import Instructions from "@/components/Instructions";
+
 /* 内容管理 */
 export default {
   name: "ContentManagement",
@@ -83,63 +82,65 @@ export default {
           url: ""
         }
       ],
-      //使用说明
-      instructionsInfo: [
-        {
-          title: "标题1",
-          content: "添加站点使用说明"
-        },
-        {
-          title: "标题2",
-          content: "添加站点使用说明"
-        }
-      ],
-      //选择站点
-      siteList: [
+      //select内容
+      dateList: [
         {
           value: 0,
-          label: "9401中国美术学院"
-        }
-      ],
-      siteListValue: "",
-      //选择栏目
-      columnList: [
-        {
-          value: 0,
-          label: "学术交流"
+          label: "1月1日"
         },
         {
           value: 1,
-          label: "通知公告"
+          label: "1月2日"
         },
         {
           value: 2,
-          label: "下载中心"
+          label: "1月3日"
         },
         {
           value: 3,
-          label: "联系我们"
+          label: "1月4日"
         }
       ],
-      columnListValue: "",
-      //选择发布状态
-      stateList: [
+      dateValue: "",
+      departmentList: [
         {
           value: 0,
-          label: "已发"
+          label: "1系"
         },
         {
           value: 1,
-          label: "待审"
+          label: "2系"
         },
         {
           value: 2,
-          label: "草稿"
+          label: "3系"
+        },
+        {
+          value: 3,
+          label: "4系"
         }
       ],
-      stateValue: "",
-      //栏目检索
-      titleSearchValue: "",
+      departmentValue: "",
+      classList: [
+        {
+          value: 0,
+          label: "1班"
+        },
+        {
+          value: 1,
+          label: "2班"
+        },
+        {
+          value: 2,
+          label: "3班"
+        },
+        {
+          value: 3,
+          label: "4班"
+        }
+      ],
+      classValue: "",
+
       //表格1
       firstTableInfo: [
         {
@@ -183,7 +184,6 @@ export default {
   },
   components: {
     Crumb,
-    Instructions,
     Paging
   },
   mounted: function() {

@@ -1,5 +1,6 @@
 <template>
     <div id="baobiaoyulan">
+    <Crumb :crumbs="crumbs"></Crumb>      
         <div class="table-body">
             <el-table ref="multipleTable" :data="tableInfo1" stripe size="small">
                 <el-table-column prop="date" label="时间"></el-table-column>
@@ -23,7 +24,7 @@
             </el-select>
         </div>
         <div class="table-body">
-            <el-table ref="multipleTable" :data="tableInfo1" stripe size="small">
+            <el-table ref="multipleTable" :data="tableInfo2" stripe size="small">
                 <el-table-column prop="date" label="时间"></el-table-column>
                 <el-table-column prop="shouldNum" label="应到人数"></el-table-column>
                 <el-table-column prop="actualNum" label="实到人数"></el-table-column>
@@ -32,15 +33,39 @@
                 <el-table-column prop="rate" label="到课率"></el-table-column>
             </el-table>
         </div>
+        <!-- 分页 -->
+        <paging></paging>
     </div>
 </template>
 <script>
 const echarts = require("echarts/lib/echarts");
 require("echarts/lib/chart/line");
 require("echarts/lib/component/tooltip");
+
+import Crumb from "@/components/Crumb";
+import Paging from "@/components/Paging";
 export default {
   data() {
     return {
+      //面包屑
+      crumbs: [
+        {
+          name: "工作台",
+          url: "/pages/system_administrators/System_Administrators"
+        },
+        {
+          name: "信息推送",
+          url: ""
+        },
+        {
+          name: "报表推送",
+          url: ""
+        },
+        {
+          name: "报表预览",
+          url: ""
+        }
+      ],
       tableInfo1: [
         {
           date: "今日",
@@ -52,6 +77,24 @@ export default {
         },
         {
           date: "昨日",
+          shouldNum: "856",
+          actualNum: "800",
+          leaveNum: "30",
+          missNum: "26",
+          rate: "96.96%"
+        }
+      ],
+      tableInfo2: [
+        {
+          date: "7月1日",
+          shouldNum: "856",
+          actualNum: "800",
+          leaveNum: "30",
+          missNum: "26",
+          rate: "96.96%"
+        },
+        {
+          date: "7月2日",
           shouldNum: "856",
           actualNum: "800",
           leaveNum: "30",
@@ -89,7 +132,7 @@ export default {
           {
             name: "到课率",
             type: "line",
-            data: [0.05, 0.2, 0.36, 0.1, 0.1, 0.2],
+            data: [0.9, 0.96, 0.99, 0.93, 0.98, 0.9],
             label: {
               normal: {
                 show: true,
@@ -113,13 +156,30 @@ export default {
     };
   },
   mounted() {
+    //侧边导航定位
+    sessionStorage.setItem("system_menu_idx", 5);
+    this.$store.commit("update_system_menu_idx", 5);
+    //echarts
     var that = this;
     var myChart = echarts.init(document.getElementById("echarts-container"));
     myChart.setOption(that.echartsInfo);
+  },
+  components: {
+    Crumb,
+    Paging
   }
 };
 </script>
 <style lang="less">
-
+#baobiaoyulan{
+  .table-filter{
+    margin-bottom: 20px;
+    &::after{
+      content: ' ';
+      display: block;
+      clear: both;
+    }
+  }
+}
 </style>
 

@@ -93,12 +93,7 @@
         <div class="admin-index-btn float-left">
           <router-link to="/pages/system_administrators/System_Administrators" class="underline-hover">工作台</router-link>
         </div>
-        <div class="admin-index-btn xitong-left float-left">
-          <router-link to="/pages/system_administrators/System_Administrators/SiteList" class="underline-hover">站点管理</router-link>
-        </div>
-        <div class="admin-index-btn xitong-left float-left">
-          <router-link to="/pages/system_administrators/System_Administrators/SiteInfo" class="underline-hover">系统设置</router-link>
-        </div>
+
         <div class="admin-index-btn float-right">
           <a href="javascript:void(0);" class="underline-hover" @click="system_info = true">系统信息</a>
         </div>
