@@ -7,7 +7,7 @@
 <template>
   <div id="Footer">
     <div class="footer-container">
-      <p class="float-left">站群管理系统V1.0
+      <p class="float-left">智慧管理系统V1.0
         <a href="javascript:void(0);" target="_blank">杭州启焕网络科技有限公司</a> ©版权所有</p>
       <div class="float-right">
         <div class="tools float-left" v-if="systemFooterShow">
@@ -80,6 +80,7 @@
           </li>
         </ul>
       </el-dialog>
+      
       <!-- 更新缓存dialog -->
       <el-dialog title="提示" :visible.sync="cache_open" class="cache-dialog">
         <p class="cache-info">是否要更新缓存?</p>

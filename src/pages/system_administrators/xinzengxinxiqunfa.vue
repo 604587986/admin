@@ -10,33 +10,32 @@
   <div id="xinzengxinxiqunfa">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
-    <!-- 使用说明 -->
-    <Instructions :instructionsInfo="instructionsInfo"></Instructions>
+    
     <!-- Form -->
     <div class="my-container">
       <div class="form-container">
         <!-- 表单 -->
         <el-form ref="form" status-icon label-width="95px" size="mini" label-position="right">
         <el-form-item label="接收用户：" class="form-item">
-          <el-input  @focus="tableFlag=true"></el-input>
+          <el-input  @focus="tableFlag=true" :value="userList"></el-input>
         </el-form-item>
             <div class="table-container" v-show="tableFlag">
       <!-- 表格筛选 -->
       <div class="table-filter">
-        <el-select v-model="columnListValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="departmentValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
+          <el-option v-for="item in departmentList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-select v-model="columnListValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
-          <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="classValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
+          <el-option v-for="item in classList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-input placeholder="请输入关键字" v-model="titleSearchValue" class="input-with-select title-search float-left" size="mini">
+        <el-input placeholder="请输入关键字" v-model="searchValue" class="input-with-select title-search float-left" size="mini">
           <el-button slot="append" icon="el-icon-search" @click="articleSearch()"></el-button>
         </el-input>
       </div>
       <!-- 表格 -->
       <div class="table-body">
         <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
-          <el-table-column type="selection" @selection-change="handleSelectionChange"></el-table-column>
+          <el-table-column  type="selection" @selection-change="handleSelectionChange"></el-table-column>
           <el-table-column prop="id" label="学号"></el-table-column>
           <el-table-column prop="name" label="姓名"></el-table-column>
         </el-table>
@@ -71,36 +70,18 @@
 <script>
 /* 引入组件 */
 import Crumb from "@/components/Crumb";
-import Instructions from "@/components/Instructions";
 /* 添加组件 */
 export default {
   name: "AddComponent",
   data() {
     return {
-      //选择栏目
-      columnList: [
-        {
-          value: 0,
-          label: "学术交流"
-        },
-        {
-          value: 1,
-          label: "通知公告"
-        },
-        {
-          value: 2,
-          label: "下载中心"
-        },
-        {
-          value: 3,
-          label: "联系我们"
-        }
-      ],
-      columnListValue: "",
-      //栏目检索
-      titleSearchValue: "",
+
       //table的显示隐藏
       tableFlag: false,
+      //checkbox的值
+      tableList:[],
+      //用户列表
+      userList:'',
       //面包屑
       crumbs: [
         {
@@ -120,18 +101,48 @@ export default {
           url: ""
         }
       ],
-      fileList: [],
-      //使用说明
-      instructionsInfo: [
+          // select内容
+      departmentList: [
         {
-          title: "标题1",
-          content: "添加站点使用说明"
+          value: 0,
+          label: "1系"
         },
         {
-          title: "标题2",
-          content: "添加站点使用说明"
+          value: 1,
+          label: "2系"
+        },
+        {
+          value: 2,
+          label: "3系"
+        },
+        {
+          value: 3,
+          label: "4系"
         }
       ],
+      departmentValue: "",
+      classList: [
+        {
+          value: 0,
+          label: "1班"
+        },
+        {
+          value: 1,
+          label: "2班"
+        },
+        {
+          value: 2,
+          label: "3班"
+        },
+        {
+          value: 3,
+          label: "4班"
+        }
+      ],
+      classValue: "",
+      searchValue:'',
+      fileList: [],
+     
       //提交按钮loading
       subLoading: false,
       //表单
@@ -143,139 +154,8 @@ export default {
         sort: "", //排序
         remarks: "" //备注
       },
-      //表单验证
-      rules: {
-        title: [
-          {
-            required: true,
-            message: "请选择接收用户",
-            trigger: "blur"
-          },
-          {
-            max: 100,
-            message: "标题不能为空",
-            trigger: "blur"
-          }
-        ],
-        sort: [
-          {
-            required: true,
-            validator: function(rule, value, callback) {
-              if (!Number.isInteger(value)) {
-                callback(new Error("请输入数字值"));
-              } else {
-                callback();
-              }
-            },
-            trigger: "blur"
-          }
-        ],
-        code: [
-          {
-            required: true,
-            message: "请选择编码",
-            trigger: "change"
-          }
-        ],
-        type: [
-          {
-            required: true,
-            message: "请选择类型",
-            trigger: "change"
-          }
-        ],
-        gave: [
-          {
-            required: true,
-            message: "请选择部门",
-            trigger: "change"
-          }
-        ]
-      },
-      //编码
-      code_list: [
-        {
-          value: 0,
-          label: "UTF8"
-        },
-        {
-          value: 1,
-          label: "GBK"
-        }
-      ],
-      type_list: [
-        {
-          value: 0,
-          label: "组件"
-        },
-        {
-          value: 1,
-          label: "第三方组件"
-        }
-      ],
-      //授权
-      gave_list: [
-        {
-          value: 0,
-          label: "党员办"
-        },
-        {
-          value: 1,
-          label: "组织人事"
-        },
-        {
-          value: 2,
-          label: "纪监审办公室"
-        },
-        {
-          value: 3,
-          label: "宣传部"
-        },
-        {
-          value: 4,
-          label: "研究生工作部"
-        },
-        {
-          value: 5,
-          label: "学生工作部"
-        },
-        {
-          value: 6,
-          label: "网络中心"
-        },
-        {
-          value: 7,
-          label: "教务处"
-        },
-        {
-          value: 8,
-          label: "招生办公室"
-        },
-        {
-          value: 9,
-          label: "科研创作处"
-        },
-        {
-          value: 10,
-          label: "外事处"
-        },
-        {
-          value: 11,
-          label: "计划财务处"
-        },
-        {
-          value: 12,
-          label: "校园建设和管理处"
-        },
-        {
-          value: 13,
-          label: "工会"
-        },
-        {
-          value: 14,
-          label: "保卫处"
-        }
-      ],
+
+
       //表格
       tableInfo: [
         {
@@ -291,7 +171,6 @@ export default {
   },
   components: {
     Crumb,
-    Instructions
   },
   mounted: function() {
     //侧边导航定位
@@ -325,7 +204,11 @@ export default {
       //console.log(this.tableList)
     },
     addUser() {
+      this.userList = this.tableList.join('');
+      console.log(this.tableList);
+      
       this.tableFlag = false;
+
     }
   }
 };

@@ -1,0 +1,116 @@
+/*
+ * @Author: Alex chenzeyongjsj@163.com 
+ * @Date: 2018-01-31 15:51:10 
+ * @Last Modified by: Alex chenzeyongjsj@163.com
+ * @Last Modified time: 2018-02-02 17:28:14
+ */
+
+
+<template>
+    <div id="quanxianliebiao">
+        <!-- 面包屑 -->
+        <Crumb :crumbs="crumbs"></Crumb>
+
+        <!-- Table -->
+        <div class="table-container">
+
+            <!-- 表格 -->
+            <div class="table-body">
+                <el-table ref="multipleTable" :data="tableInfo" stripe size="small" @selection-change="handleSelectionChange">
+                    <el-table-column type="selection"></el-table-column>                    
+                    <el-table-column prop="id" label="ID" width="50px"></el-table-column>
+                    <el-table-column prop="url" label="URL"></el-table-column>
+                    <el-table-column prop="title" label="标题"></el-table-column>
+                    <el-table-column prop="state" label="状态"></el-table-column>
+                    <el-table-column label="操作">
+                        <div slot-scope="scope">
+                            <el-button size="small" >编辑</el-button>
+                        </div>
+                    </el-table-column>                  
+                </el-table>
+            </div>
+            <!-- 表格控制 -->
+            <div class="table-filter">
+                <el-button type="primary" size="mini" @click="effect">选中有效</el-button>
+                <el-button type="primary" size="mini" @click="forbid">选中禁用</el-button>
+                <el-button type="primary" size="mini" @click="deleted">选中删除</el-button>
+            </div>
+            <!-- 分页 -->
+            <Paging></Paging>
+        </div>
+    </div>
+</template>
+
+<script>
+/* 引入组件 */
+import Crumb from "@/components/Crumb";
+import Paging from "@/components/Paging";
+
+/* 用户列表 */
+export default {
+  data() {
+    return {
+      multipleSelection: [],
+      //面包屑
+      crumbs: [
+        {
+          name: "工作台",
+          url: "/pages/system_administrators/System_Administrators"
+        },
+        {
+          name: "系统设置",
+          url: ""
+        },
+        {
+          name: "权限列表",
+          url: ""
+        }
+      ],
+      //表格
+      tableInfo: [
+        {
+          id: 1,
+          url: "/kaoqinshuju",
+          title: "考勤数据",
+          state: "禁用"
+        },
+        {
+          id: 2,
+          url: "/quanxianguanli",
+          title: "权限管理",
+          state: "有效"
+        }
+      ]
+    };
+  },
+  components: {
+    Crumb,
+
+    Paging
+  },
+  mounted: function() {
+    //侧边导航定位
+    sessionStorage.setItem("system_menu_idx", 7);
+    this.$store.commit("update_system_menu_idx", 7);
+  },
+  methods: {
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    },
+    effect() {
+      console.log(this.multipleSelection);
+    },
+    forbid() {
+      console.log(this.multipleSelection);
+    },
+    deleted() {
+      console.log(this.multipleSelection);
+    },
+  }
+};
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="less">
+
+</style>

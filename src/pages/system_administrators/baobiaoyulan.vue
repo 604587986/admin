@@ -13,14 +13,18 @@
         </div>
         <div id="echarts-container" style="width: 1000px;height:400px;"></div>
         <div class="table-filter">
-            <el-select v-model="siteListValue" clearable placeholder="选择日期" size="mini" class="float-left state-selection">
-                <el-option v-for="item in siteList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            <el-date-picker
+                  v-model="dateValue"
+                  type="date"
+                  size="mini"
+                  placeholder="选择日期"
+                  class="float-left">
+            </el-date-picker>
+            <el-select v-model="departmentValue" clearable placeholder="选择系" size="mini" class="float-left state-selection">
+                <el-option v-for="item in departmentList" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
-            <el-select v-model="stateValue" clearable placeholder="选择系" size="mini" class="float-left state-selection">
-                <el-option v-for="item in stateList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-            </el-select>
-            <el-select v-model="columnListValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
-                <el-option v-for="item in columnList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            <el-select v-model="classValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
+                <el-option v-for="item in classList" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
         </div>
         <div class="table-body">
@@ -152,7 +156,46 @@ export default {
             saveAsImage: {}
           }
         }
-      }
+      },
+      dateValue: "",
+      departmentList: [
+        {
+          value: 0,
+          label: "1系"
+        },
+        {
+          value: 1,
+          label: "2系"
+        },
+        {
+          value: 2,
+          label: "3系"
+        },
+        {
+          value: 3,
+          label: "4系"
+        }
+      ],
+      departmentValue: "",
+       classList: [
+        {
+          value: 0,
+          label: "1班"
+        },
+        {
+          value: 1,
+          label: "2班"
+        },
+        {
+          value: 2,
+          label: "3班"
+        },
+        {
+          value: 3,
+          label: "4班"
+        }
+      ],
+      classValue: "",
     };
   },
   mounted() {
@@ -171,11 +214,11 @@ export default {
 };
 </script>
 <style lang="less">
-#baobiaoyulan{
-  .table-filter{
+#baobiaoyulan {
+  .table-filter {
     margin-bottom: 20px;
-    &::after{
-      content: ' ';
+    &::after {
+      content: " ";
       display: block;
       clear: both;
     }

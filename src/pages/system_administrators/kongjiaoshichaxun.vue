@@ -19,31 +19,28 @@
         </el-date-picker>
       </div>
       <!-- 表格 -->
-      <div class="course-table">
-        <div class="all-classroom" v-show="listFlag">
-          <div class="item" v-for="item in classroomList" @click="listFlag=false;currentItem=item">{{item}}</div>
+       <div class="course-table">
+        <div class="head">
+            <div>时间</div>
+            <div>{{classValue}}</div>
         </div>
+        <div class="body">
+          <div>
+            <div class="col">08:30-09:15</div>
+            <div class="col">09:15-10:00</div>
+            <div class="col">10:45-11:30</div>
+            <div class="col">11:30-12:15</div>
+            <div class="col">13:10-13:55</div>
+            <div class="col">13:55-14:40</div>
+            <div class="col">14:40-15:25</div>
+            <div class="col">15:25-16:15</div>
+          </div>
+          <div>
+            <div class="col"  v-for="item in classroomState">{{item}}</div>
+          </div>
+        </div>        
       </div>
-    </div>
-    <div class="classroom-detail" v-show="!listFlag">
-      <div class="title">{{currentItem}}
-      <el-button type="primary" @click="listFlag=true" size="mini" class="float-right">返回</el-button>        
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <td>08:30-09:15</td>
-            <td>09:15-10:00</td>
-            <td>10:45-11:30</td>
-            <td>11:30-12:15</td>
-            <td>13:55-14:40</td>
-            <td>14:40-15:25</td>
-            <td>14:40-15:25</td>
-            <td>15:25-16:15</td>
-          </tr>
-        </thead>
-      </table>
-    </div>
+  </div>
   </div>
 </template>
 <script>
@@ -51,8 +48,6 @@ import Crumb from "@/components/Crumb";
 export default {
   data() {
     return {
-      listFlag:true,
-      currentItem:'',
       //面包屑
       crumbs: [
         {
@@ -101,9 +96,7 @@ export default {
         "a505",
         "a606"
       ],
-      tableInfo:{
-        state
-      }
+      classroomState:['占用','占用','占用','占用','占用','占用','占用','占用',]
     };
   },
   mounted: function() {
@@ -125,22 +118,22 @@ export default {
     margin-bottom: 30px;
   }
   .table-container {
-    .course-table{
-      .all-classroom{
+    .course-table {
+      color:#888;
+      .head {
         display: flex;
-        flex-wrap: wrap;
-        .title{
-          font-size: 14px;
+        margin-bottom: 20px;
+        >div{
+          flex:1;
         }
-        .item{
-          width: 10%;
-          text-align: center;
-          border: 1px solid #ccc;
-          margin-top: -1px;
-          margin-left: -1px;
-          cursor: pointer;
-          padding: 5px 10px;
-          color: #888;
+      }
+      .body{
+        display: flex;
+        >div{
+          flex:1;
+          .col{
+            height: 30px;
+          }
         }
       }
     }

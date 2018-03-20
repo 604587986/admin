@@ -203,6 +203,21 @@ export default {
               column_active: false
             },
             {
+              column_name: "角色列表",
+              column_url: "jueseliebiao",
+              column_active: false
+            },
+            {
+              column_name: "权限列表",
+              column_url: "quanxianliebiao",
+              column_active: false
+            },
+            {
+              column_name: "添加权限",
+              column_url: "tianjiaquanxian",
+              column_active: false
+            },
+            {
               column_name: "数据备份",
               column_url: "shujubeifen",
               column_active: false

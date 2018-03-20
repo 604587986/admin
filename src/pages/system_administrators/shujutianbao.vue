@@ -15,9 +15,13 @@
     <div class="table-container">
       <!-- 表格筛选 -->
       <div class="table-filter">
-        <el-select v-model="dateValue" clearable placeholder="按日期查看" size="mini" class="float-left state-selection">
-          <el-option v-for="item in dateList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
+            <el-date-picker
+                  v-model="dateValue"
+                  type="date"
+                  size="mini"
+                  placeholder="选择日期"
+                  class="float-left">
+            </el-date-picker>
         <el-select v-model="departmentValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
           <el-option v-for="item in departmentList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
@@ -77,24 +81,7 @@ export default {
         }
       ],
       //select内容
-      dateList: [
-        {
-          value: 0,
-          label: "1月1日"
-        },
-        {
-          value: 1,
-          label: "1月2日"
-        },
-        {
-          value: 2,
-          label: "1月3日"
-        },
-        {
-          value: 3,
-          label: "1月4日"
-        }
-      ],
+
       dateValue: "",
       departmentList: [
         {

@@ -85,12 +85,12 @@ export default {
           {
             required: true,
             validator: function(rule, value, callback) {
-              var reg = /^[0-9a-zA-Z_]{3,12}$/; //3-12位数字字母下划线
+              var reg = /^[0-9a-zA-Z_]{6,15}$/; //6-15位数字字母下划线
               if (!value) {
                 callback(new Error("密码不能为空"));
               } else if (reg.test(value) == false) {
                 callback(
-                  new Error("密码必须为数字/字母/下划线,长度3-12位之间")
+                  new Error("密码必须为数字/字母/下划线,长度6-15位之间")
                 );
               } else {
                 callback();
@@ -231,10 +231,11 @@ export default {
   methods: {
     //表单提交
     submitForm(formName) {
+      this.$router.push("/pages/system_administrators/System_Administrators/");//后面删除
+
       var url = "";
       var that = this;
       that.$refs[formName].validate(function(valid) {
-        that.$router.push("/pages/system_administrators/System_Administrators")//后期需删除
         if (valid) {
           that.subLoading = true;
           that
@@ -265,8 +266,12 @@ export default {
             })
             .then(function(res) {
               that.subLoading = false;
-              if (res.data.status == "success") {
-                window.localStorage.setItem("headerName", res.data.name);
+              if (res.data.code == "1") {
+                window.localStorage.setItem(
+                  "headerName",
+                  res.data.user.nickname
+                );
+                window.localStorage.setItem("token", res.data.token);
                 window.localStorage.setItem(
                   "headerUrl",
                   "System_Administrators"
@@ -276,13 +281,13 @@ export default {
                   //  提交成功后跳转到文章列表页面
                   that.$router.push({ path: url });
                 }, 500);
-              } else if (res.data.status == "Account does not exist") {
+              } else if (res.data.code == "2") {
                 that.$message({
                   type: "error",
                   showClose: "true",
                   message: "账号不存在!"
                 });
-              } else if (res.data.status == "Password mistake") {
+              } else if (res.data.code == "3") {
                 that.$message({
                   type: "error",
                   showClose: "true",
@@ -341,7 +346,7 @@ export default {
       -ms-transform: translateX(-50%);
       -o-transform: translateX(-50%);
       transform: translateX(-50%);
-      p{
+      p {
         margin-bottom: 10px;
       }
     }

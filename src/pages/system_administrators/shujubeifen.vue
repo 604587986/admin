@@ -31,7 +31,7 @@
                     <el-table-column prop="date" label="备份时间"></el-table-column>
                     <el-table-column label="操作">
                         <div slot-scope="scope" class="control-btn">
-                            <el-button size="mini" @click="xiugaiyonghu">还原</el-button>
+                            <el-button size="mini">还原</el-button>
                             <el-button @click.native.prevent="deleteRow(scope.$index, tableInfo)" size="mini" class="control-btn-del">删除</el-button>
                         </div>
                     </el-table-column>
@@ -104,10 +104,7 @@ export default {
     this.$store.commit("update_system_menu_idx", 7);
   },
   methods: {
-    //跳转到修改用户
-    xiugaiyonghu(){
-      this.$router.push('/pages/system_administrators/System_Administrators/xiugaiyonghu')
-    },
+
     //检索
     articleSearch() {},
     //删除表格行

@@ -10,10 +10,7 @@
       <!-- 公共显示部分 -->
       <div class="nav-logo float-left">
         <router-link to="/">
-          <div class="logo-rotate float-left">
-            <i class="iconfont icon-logo"></i>
-          </div>
-          <i class="iconfont icon-qihuankeji"></i>
+          <img src="static/img/logo2.png" alt="">
         </router-link>
       </div>
       <!-- 只在前台首页显示 -->
@@ -197,23 +194,16 @@ export default {
       clear: both;
     }
     .nav-logo {
-      .logo-rotate {
-        position: relative;
-        top: 2px;
-        transition: all 0.3s;
-        .icon-logo {
-          font-size: 50px;
-          color: @base-color2;
-          line-height: 90px;
+      margin-top: 18px;
+      width: 164px;
+      height: 54px;
+      a{
+        width: 100px;
+        height: 100%;
+        img{
+          width: 100%;
+          height: 100%;
         }
-      }
-      .icon-qihuankeji {
-        color: @text-color;
-        font-size: 48px;
-        line-height: 90px;
-        position: relative;
-        top: 1px;
-        left: 10px;
       }
     }
     .admin-index-btn {

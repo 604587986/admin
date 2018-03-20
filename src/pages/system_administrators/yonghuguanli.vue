@@ -26,9 +26,13 @@
             <div class="table-body">
                 <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
                     <el-table-column type="selection" @selection-change="handleSelectionChange"></el-table-column>
+                    <el-table-column prop="userId" label="ID" width="50px"></el-table-column>
                     <el-table-column prop="uesrName" label="用户名"></el-table-column>
+                    <el-table-column prop="nickName" label="昵称"></el-table-column>
+                    <el-table-column prop="group" label="用户组"></el-table-column>
                     <el-table-column prop="lastLoginTime" label="最后登录时间"></el-table-column>
                     <el-table-column prop="loginIp" label="登录IP"></el-table-column>
+                    <el-table-column prop="loginCount" label="登录次数"></el-table-column>
                     <el-table-column label="操作">
                         <div slot-scope="scope" class="control-btn">
                             <el-button size="mini" @click="xiugaiyonghu">编辑</el-button>
@@ -79,15 +83,23 @@ export default {
       //表格
       tableInfo: [
         {
+          userId:1,
           uesrName: "admin",
+          nickName:'三胖',
+          group:'系统管理员',
           lastLoginTime: "2016-03-10 09:49:43",
-          loginIp: "115.192.201.17"
+          loginIp: "115.192.201.17",
+          loginCount:'11'
         },
         {
+          userId:2,
           uesrName: "admin",
+          nickName:'三胖',
+          group:'系统管理员',
           lastLoginTime: "2016-03-10 09:49:43",
-          loginIp: "115.192.201.17"
-        }
+          loginIp: "115.192.201.17",
+          loginCount:'11'
+        },
       ],
       tableList: []
     };
