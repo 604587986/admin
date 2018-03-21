@@ -7,9 +7,9 @@
 <template>
   <div id="Footer">
     <div class="footer-container">
-      <p class="float-left">智慧管理系统V1.0
+      <p>智慧管理系统V1.0
         <a href="javascript:void(0);" target="_blank">杭州启焕网络科技有限公司</a> ©版权所有</p>
-      <div class="float-right">
+      <!-- <div class="float-right">
         <div class="tools float-left" v-if="systemFooterShow">
           <i class="iconfont icon-wangyeshengcheng"></i>
           <a href="./page_generation.html">
@@ -36,11 +36,11 @@
           <i class="iconfont icon-gongjuxiang"></i>
           <span>工具箱</span>
         </div>
-      </div>
+      </div> -->
       <!-- 工具箱dialog -->
-      <el-dialog title="工具箱" :visible.sync="tools_open" class="tools-pop">
+      <!-- <el-dialog title="工具箱" :visible.sync="tools_open" class="tools-pop"> -->
         <!--天气-->
-        <iframe allowtransparency="true" id="weather" frameborder="0" width="180" height="36" scrolling="no" src="//tianqi.2345.com/plugin/widget/index.htm?s=3&z=2&t=1&v=0&d=1&bd=0&k=000000&f=808080&ltf=009944&htf=cc0000&q=1&e=0&a=1&c=54511&w=180&h=36&align=center"></iframe>
+        <!-- <iframe allowtransparency="true" id="weather" frameborder="0" width="180" height="36" scrolling="no" src="//tianqi.2345.com/plugin/widget/index.htm?s=3&z=2&t=1&v=0&d=1&bd=0&k=000000&f=808080&ltf=009944&htf=cc0000&q=1&e=0&a=1&c=54511&w=180&h=36&align=center"></iframe>
         <ul class="pop-tools-list">
           <li class="float-left">
             <a href="javascript:void(0);" target="_blank">
@@ -79,16 +79,16 @@
             </a>
           </li>
         </ul>
-      </el-dialog>
+      </el-dialog> -->
       
       <!-- 更新缓存dialog -->
-      <el-dialog title="提示" :visible.sync="cache_open" class="cache-dialog">
+      <!-- <el-dialog title="提示" :visible.sync="cache_open" class="cache-dialog">
         <p class="cache-info">是否要更新缓存?</p>
         <span slot="footer" class="dialog-footer">
           <el-button @click="cache_open = false">取 消</el-button>
           <el-button type="primary" @click="cache_open = false">确 定</el-button>
         </span>
-      </el-dialog>
+      </el-dialog> -->
     </div>
   </div>
 </template>
@@ -126,6 +126,7 @@ export default {
     }
     p {
       font-size: 14px;
+      text-align: center;
       color: @base_grey;
       a {
         color: @base_grey;

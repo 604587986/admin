@@ -69,7 +69,7 @@ export default {
           url: "/pages/system_administrators/System_Administrators"
         },
         {
-          name: "基础信息",
+          name: "基础数据",
           url: ""
         },
         {

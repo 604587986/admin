@@ -10,7 +10,7 @@
       <!-- 表格筛选 -->
       <div class="table-filter">
          <el-select v-model="classValue" clearable placeholder="选择教室" size="large" class="float-left state-selection">
-          <el-option v-for="item in classroomList"  :label="item" :value="item"></el-option>
+          <el-option v-for="(item,index) in classroomList"  :label="item" :value="item" :key="index"></el-option>
         </el-select>
         <el-date-picker
           v-model="datePicker"

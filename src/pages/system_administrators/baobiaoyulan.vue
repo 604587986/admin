@@ -200,8 +200,8 @@ export default {
   },
   mounted() {
     //侧边导航定位
-    sessionStorage.setItem("system_menu_idx", 5);
-    this.$store.commit("update_system_menu_idx", 5);
+    sessionStorage.setItem("system_menu_idx", 4);
+    this.$store.commit("update_system_menu_idx", 4);
     //echarts
     var that = this;
     var myChart = echarts.init(document.getElementById("echarts-container"));

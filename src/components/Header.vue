@@ -10,12 +10,12 @@
     <div class="header-container">
       <div class="float-left header-left">
         <p class="site float-left">
-          <span class="float-left">所属站点：</span>
-          <span class="float-left">{{site}}</span>
+          <span class="float-left">中国美术学院艺术设计学院智慧管理系统</span>
+          <!-- <span class="float-left">{{site}}</span> -->
         </p>
-        <p class="reception float-left">
+        <!-- <p class="reception float-left">
           <router-link to="/" class="underline-hover" target="_blank">前台首页</router-link>
-        </p>
+        </p> -->
       </div>
       <div class="float-right header-right">
         <div class="user float-left">

@@ -208,6 +208,11 @@ export default {
               column_active: false
             },
             {
+              column_name: "添加角色组",
+              column_url: "tianjiajuesezu",
+              column_active: false
+            },
+            {
               column_name: "权限列表",
               column_url: "quanxianliebiao",
               column_active: false
@@ -230,12 +235,17 @@ export default {
           ]
         },
         {
-           first_class_column_name: "基础数据",
+          first_class_column_name: "基础数据",
           first_class_column_url: "",
           column_icon: "icon-jichushuju",
           column_open: false,
           no_second: false,
-           second_class_column: [
+          second_class_column: [
+            {
+              column_name: "院系列表",
+              column_url: "yuanxiliebiao",
+              column_active: false
+            },
             {
               column_name: "学生列表",
               column_url: "xueshengliebiao",
@@ -254,6 +264,21 @@ export default {
             {
               column_name: "课程列表",
               column_url: "kechengliebiao",
+              column_active: false
+            },
+            {
+              column_name: "教室列表",
+              column_url: "classroomList",
+              column_active: false
+            },
+            {
+              column_name: "学年学期",
+              column_url: "xuenianxueqi",
+              column_active: false
+            },
+            {
+              column_name: "节次",
+              column_url: "jieci",
               column_active: false
             }
           ]
@@ -402,7 +427,6 @@ export default {
         }
       }
       > ol {
-
         > li {
           height: 38px;
         }

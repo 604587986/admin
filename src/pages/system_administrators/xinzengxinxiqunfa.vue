@@ -19,7 +19,8 @@
         <el-form-item label="接收用户：" class="form-item">
           <el-input  @focus="tableFlag=true" :value="userList"></el-input>
         </el-form-item>
-            <div class="table-container" v-show="tableFlag">
+        <transition name="el-fade-in">
+       <div class="table-container" v-show="tableFlag">
       <!-- 表格筛选 -->
       <div class="table-filter">
         <el-select v-model="departmentValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
@@ -34,8 +35,8 @@
       </div>
       <!-- 表格 -->
       <div class="table-body">
-        <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
-          <el-table-column  type="selection" @selection-change="handleSelectionChange"></el-table-column>
+        <el-table ref="multipleTable" :data="tableInfo" stripe size="small"  @selection-change="handleSelectionChange">
+          <el-table-column  type="selection"></el-table-column>
           <el-table-column prop="id" label="学号"></el-table-column>
           <el-table-column prop="name" label="姓名"></el-table-column>
         </el-table>
@@ -44,7 +45,8 @@
       <div class="table-filter">
         <el-button type="primary" size="mini" @click="addUser()">添加</el-button>
       </div>
-  </div>
+    </div>
+    </transition>
         <el-form-item label="群发标题：" class="form-item" >
           <el-input ></el-input>
         </el-form-item>
@@ -58,8 +60,8 @@
             </el-upload>
         </el-form-item>
         <el-form-item class="form-control-btn">
-          <el-button type="primary" @click="submitForm('form')" size="large" :loading="subLoading">提交</el-button>
-          <el-button type="primary" @click="submitForm('form')" size="large" :loading="subLoading">预览</el-button>
+          <el-button type="primary" size="large" :loading="subLoading">提交</el-button>
+          <el-button type="primary" size="large" :loading="subLoading">预览</el-button>
         </el-form-item>
       </el-form>
       </div>
@@ -204,8 +206,12 @@ export default {
       //console.log(this.tableList)
     },
     addUser() {
-      this.userList = this.tableList.join('');
-      console.log(this.tableList);
+      this.userList = '';
+      this.tableList.forEach(item => {
+        console.log(item)
+        this.userList +=item.id+','+item.name+';'
+      });
+      console.log(this.userList);
       
       this.tableFlag = false;
 

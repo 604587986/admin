@@ -49,6 +49,7 @@ import zhanghaoshenhe from '@/pages/system_administrators/zhanghaoshenhe'//账�
 import xitongrizhi from '@/pages/system_administrators/xitongrizhi'//系统日志
 import yonghuguanli from '@/pages/system_administrators/yonghuguanli'//用户管理
 import jueseliebiao from '@/pages/system_administrators/jueseliebiao'//角色列表
+import tianjiajuesezu from '@/pages/system_administrators/tianjiajuesezu'//添加角色组
 import quanxianliebiao from '@/pages/system_administrators/quanxianliebiao'//权限列表
 import tianjiaquanxian from '@/pages/system_administrators/tianjiaquanxian'//添加权限
 import tianjiayonghu from '@/pages/system_administrators/tianjiayonghu'//添加用户
@@ -56,10 +57,14 @@ import xiugaiyonghu from '@/pages/system_administrators/xiugaiyonghu'//修改用
 import shujubeifen from '@/pages/system_administrators/shujubeifen'//数据备份
 import beifenshezhi from '@/pages/system_administrators/beifenshezhi'//备份设置
 import shujuxiugai from '@/pages/system_administrators/shujuxiugai'//数据修改
+import yuanxiliebiao from '@/pages/system_administrators/yuanxiliebiao'//院系列表
 import xueshengliebiao from '@/pages/system_administrators/xueshengliebiao'//学生列表
 import jiaoshiliebiao from '@/pages/system_administrators/jiaoshiliebiao'//教师列表
 import xibanshuju from '@/pages/system_administrators/xibanshuju'//系班数据
 import kechengliebiao from '@/pages/system_administrators/kechengliebiao'//课程列表
+import classroomList from '@/pages/system_administrators/classroomList'//教室列表
+import xuenianxueqi from '@/pages/system_administrators/xuenianxueqi'//学年学期
+import jieci from '@/pages/system_administrators/jieci'//节次
 Vue.use(Router)
 
 export default new Router({
@@ -252,6 +257,10 @@ export default new Router({
                 component:jueseliebiao
             },
             {
+                path:"tianjiajuesezu",
+                component:tianjiajuesezu
+            },
+            {
                 path:"quanxianliebiao",
                 component:quanxianliebiao
             },
@@ -276,6 +285,10 @@ export default new Router({
                 component:beifenshezhi
             },
             {//基础数据开始
+                path:"yuanxiliebiao",
+                component:yuanxiliebiao
+            },
+            {
                 path:"xueshengliebiao",
                 component:xueshengliebiao
             },
@@ -290,6 +303,18 @@ export default new Router({
             {
                 path:"kechengliebiao",
                 component:kechengliebiao
+            },
+            {
+                path:"classroomList",
+                component:classroomList
+            },
+            {
+                path:"xuenianxueqi",
+                component:xuenianxueqi
+            },
+            {
+                path:"jieci",
+                component:jieci
             }
             ]
         },
