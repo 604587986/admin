@@ -7,9 +7,9 @@
 <template>
   <div id="Footer">
     <div class="footer-container">
-      <p>智慧管理系统V1.0
+      <p class="float-left">智慧管理系统V1.0
         <a href="javascript:void(0);" target="_blank">杭州启焕网络科技有限公司</a> ©版权所有</p>
-      <!-- <div class="float-right">
+      <div class="float-right">
         <div class="tools float-left" v-if="systemFooterShow">
           <i class="iconfont icon-wangyeshengcheng"></i>
           <a href="./page_generation.html">
@@ -36,11 +36,11 @@
           <i class="iconfont icon-gongjuxiang"></i>
           <span>工具箱</span>
         </div>
-      </div> -->
+      </div>
       <!-- 工具箱dialog -->
-      <!-- <el-dialog title="工具箱" :visible.sync="tools_open" class="tools-pop"> -->
+      <el-dialog title="工具箱" :visible.sync="tools_open" class="tools-pop">
         <!--天气-->
-        <!-- <iframe allowtransparency="true" id="weather" frameborder="0" width="180" height="36" scrolling="no" src="//tianqi.2345.com/plugin/widget/index.htm?s=3&z=2&t=1&v=0&d=1&bd=0&k=000000&f=808080&ltf=009944&htf=cc0000&q=1&e=0&a=1&c=54511&w=180&h=36&align=center"></iframe>
+        <iframe allowtransparency="true" id="weather" frameborder="0" width="180" height="36" scrolling="no" src="//tianqi.2345.com/plugin/widget/index.htm?s=3&z=2&t=1&v=0&d=1&bd=0&k=000000&f=808080&ltf=009944&htf=cc0000&q=1&e=0&a=1&c=54511&w=180&h=36&align=center"></iframe>
         <ul class="pop-tools-list">
           <li class="float-left">
             <a href="javascript:void(0);" target="_blank">
@@ -79,16 +79,49 @@
             </a>
           </li>
         </ul>
-      </el-dialog> -->
+      </el-dialog>
+            <!-- 只在系统管理员页面展示 -->
+      <div v-if="systemNavShow">
+        <div class="admin-index-btn float-right">
+          <a href="javascript:void(0);" class="underline-hover" @click="system_info = true">系统信息</a>
+        </div>
+        <!-- 系统信息dialog -->
+        <el-dialog title="系统信息" :visible.sync="system_info" class="system-info-pop">
+          <p>
+            <span class="system-info-title">用户名:</span>
+            <span>system</span>
+          </p>
+          <p>
+            <span class="system-info-title">所属管理组：</span>
+            <span>系统管理员</span>
+          </p>
+          <p>
+            <span class="system-info-title">数据库信息：</span>
+            <span>暂无</span>
+          </p>
+          <p>
+            <span class="system-info-title">最近登录：</span>
+            <span>2018-01-19 14:10:59</span>
+          </p>
+          <p>
+            <span class="system-info-title">服务器环境：</span>
+            <span>Apache/2.4.9 (Win64)</span>
+          </p>
+          <p>
+            <span class="system-info-title">PHP版本：</span>
+            <span>5.5.12</span>
+          </p>
+        </el-dialog>
+      </div>
       
       <!-- 更新缓存dialog -->
-      <!-- <el-dialog title="提示" :visible.sync="cache_open" class="cache-dialog">
+      <el-dialog title="提示" :visible.sync="cache_open" class="cache-dialog">
         <p class="cache-info">是否要更新缓存?</p>
         <span slot="footer" class="dialog-footer">
           <el-button @click="cache_open = false">取 消</el-button>
           <el-button type="primary" @click="cache_open = false">确 定</el-button>
         </span>
-      </el-dialog> -->
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -97,12 +130,18 @@
 export default {
   name: "Footer",
   props: {
-    systemFooterShow: true //系统管理员页面隐藏模块
+    systemFooterShow: true, //系统管理员页面隐藏模块
+    systemNavShow: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
       tools_open: false, //打开工具箱
-      cache_open: false //打开缓存
+      cache_open: false, //打开缓存
+      //系统信息弹框
+      system_info: false
     };
   },
   methods: {}
@@ -118,6 +157,20 @@ export default {
   .footer-container {
     width: 1200px;
     margin: 0 auto;
+    .admin-index-btn{
+      margin-right: 60px;
+      a {
+        display: block;
+        font-size: 14px;
+        color: @base_grey;
+        &:hover {
+          color: @base-color2;
+        }
+      }
+      .underline-hover:before {
+        background: @base-color2;
+      }
+    }
     &::after {
       content: "";
       display: block;
@@ -126,7 +179,6 @@ export default {
     }
     p {
       font-size: 14px;
-      text-align: center;
       color: @base_grey;
       a {
         color: @base_grey;
@@ -223,6 +275,19 @@ export default {
     }
     .el-dialog {
       width: 600px;
+    }
+  }
+   //系统信息弹框
+  .system-info-pop {
+    .el-dialog {
+      width: 500px;
+      .el-dialog__body {
+        padding-top: 8px;
+      }
+    }
+    .system-info-title {
+      display: inline-block;
+      width: 100px;
     }
   }
 }

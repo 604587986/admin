@@ -9,8 +9,7 @@
   <div id="system_admin" class="public-wap">
     <!-- Header -->
     <Header></Header>
-    <!-- 顶部导航 -->
-    <Nav :systemNavShow="true"></Nav>
+
     <div class="main">
       <!-- 侧边导航 -->
       <SideBar></SideBar>
@@ -20,7 +19,7 @@
       </div>
     </div>
     <!-- Footer -->
-    <Footer :systemFooterShow="false"></Footer>
+    <Footer :systemFooterShow="false"  :systemNavShow="true"></Footer>
   </div>
 </template>
 

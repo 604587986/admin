@@ -10,68 +10,30 @@
     <div id="tianjiayonghu">
         <!-- 面包屑 -->
         <Crumb :crumbs="crumbs"></Crumb>
-        <!-- 使用说明 -->
-        <Instructions :instructionsInfo="instructionsInfo"></Instructions>
+       
         <!-- Form -->
         <div class="form-container">
             <!-- 表单 -->
             <el-form ref="form" :model="form" :rules="rules" status-icon label-width="108px" size="mini" label-position="right">
                 <el-form-item label="用户名：" class="form-item" prop="user_name">
-                    <el-input v-model="form.uesr_name"></el-input>
+                    <el-input v-model="form.user_name"></el-input>
+                </el-form-item>
+                <el-form-item label="昵称：" required class="form-item" prop="nick_name">
+                    <el-input v-model="form.nick_name"></el-input>
                 </el-form-item>
                 <el-form-item label="登录密码：" class="form-item" prop="password">
-                    <el-input v-model="form.password"></el-input>
-                    <span class="site-item-info">最少6位，英文与数字或下划线组合</span>
+                    <el-input type="password" v-model="form.password"></el-input>
+                    <span class="site-item-info">6~15位，英文与数字或下划线组合</span>
                 </el-form-item>
-                <el-form-item label="确认密码：" class="form-item" prop="password">
-                    <el-input v-model="form.password"></el-input>
+                <el-form-item label="确认密码：" class="form-item" prop="comfirmPassword">
+                    <el-input type="password" v-model="form.comfirmPassword"></el-input>
                 </el-form-item>
-                <el-form-item label="权限设置：" class="form-item" prop="password">
-                    <div style="margin-bottom: 15px;">考勤管理
-                    <el-checkbox-group v-model="kaoqinguanli">
-                        <el-checkbox label="考勤数据"></el-checkbox>
-                        <el-checkbox label="数据修改"></el-checkbox>
-                        <el-checkbox label="考勤提醒设置"></el-checkbox>
-                    </el-checkbox-group>
-                    </div>
-                    <div style="margin-bottom: 15px;">课表管理
-                    <el-checkbox-group v-model="kebiaoguanli">
-                        <el-checkbox label="课表数据"></el-checkbox>
-                        <el-checkbox label="课表上传"></el-checkbox>
-                        <el-checkbox label="课时提醒"></el-checkbox>
-                    </el-checkbox-group>
-                    </div>
-                    <div style="margin-bottom: 15px;">信息管理
-                    <el-checkbox-group v-model="xinxiguanli">
-                        <el-checkbox label="报表推送"></el-checkbox>
-                        <el-checkbox label="信息群发"></el-checkbox>
-                        <el-checkbox label="信息推送"></el-checkbox>
-                    </el-checkbox-group>
-                    </div>
-                    <div style="margin-bottom: 15px;">数据报表
-                    <el-checkbox-group v-model="shujubaobiao">
-                        <el-checkbox label="数据报表"></el-checkbox>
-                        <el-checkbox label="填报数据"></el-checkbox>
-                    </el-checkbox-group>
-                    </div>
-                    <div style="margin-bottom: 15px;">申请审批
-                    <el-checkbox-group v-model="shenqingshenpi">
-                        <el-checkbox label="请假管理"></el-checkbox>
-                        <el-checkbox label="调课管理"></el-checkbox>
-                        <el-checkbox label="并课管理"></el-checkbox>
-                        <el-checkbox label="预约管理"></el-checkbox>
-                        <el-checkbox label="申诉管理"></el-checkbox>
-                    </el-checkbox-group>
-                    </div>
-                    <div style="margin-bottom: 15px;">系统设置
-                    <el-checkbox-group v-model="xitongshezhi">
-                        <el-checkbox label="账号申请审核"></el-checkbox>
-                        <el-checkbox label="用户管理"></el-checkbox>
-                        <el-checkbox label="数据备份"></el-checkbox>
-                        <el-checkbox label="管理日志"></el-checkbox>
-                    </el-checkbox-group>
-                    </div>
+                <el-form-item label="角色：" class="form-item">
+                    <el-select v-model="form.role" clearable placeholder="请选择角色" size="mini" class="float-left column-selection">
+                      <el-option v-for="item in dataList" :key="item.id" :label="item.title" :value="item.id"></el-option>
+                    </el-select>
                 </el-form-item>
+
 
                 <el-form-item class="form-control-btn">
                     <el-button type="primary" @click="submitForm('form')" size="large" :loading="subLoading">提交</el-button>
@@ -84,18 +46,11 @@
 <script>
 /* 引入组件 */
 import Crumb from "@/components/Crumb";
-import Instructions from "@/components/Instructions";
 /* 添加用户 */
 export default {
   name: "AddUser",
   data() {
     return {
-        kaoqinguanli:[],
-        kebiaoguanli:[],
-        xinxiguanli:[],
-        shujubaobiao:[],
-        shenqingshenpi:[],
-        xitongshezhi:[],
       //面包屑
       crumbs: [
         {
@@ -115,31 +70,18 @@ export default {
           url: ""
         }
       ],
-      //使用说明
-      instructionsInfo: [
-        {
-          title: "标题1",
-          content: "添加站点使用说明"
-        },
-        {
-          title: "标题2",
-          content: "添加站点使用说明"
-        }
-      ],
+
       //提交按钮loading
       subLoading: false,
       //表单
       form: {
         user_name: "", //用户名
-        name: "", //姓名
-        subordinateDepartmentValue: "", //所属部门
+        nick_name: "", //昵称
         password: "", //密码
-        user_group: "", //用户组
-        site: "", //管理站点
-        remarks: "", //备注
-        open: true, //是否开启
-        close_info: "" //关闭原因
+        comfirmPassword: "" //确认密码
       },
+      //ajax获取到的
+      dataList: [],
       //表单验证
       rules: {
         user_name: [
@@ -154,29 +96,16 @@ export default {
             trigger: "blur"
           }
         ],
-        close_info: [
-          {
-            required: true,
-            message: "请输入关闭原因",
-            trigger: "blur"
-          },
-          {
-            min: 1,
-            max: 50,
-            message: "不能超过50个字",
-            trigger: "blur"
-          }
-        ],
         password: [
           {
             required: true,
             validator: function(rule, value, callback) {
-              var reg = /^[0-9a-zA-Z_]{6,12}$/; //6-12位数字字母下划线
+              var reg = /^[0-9a-zA-Z_]{6,15}$/; //6-15位数字字母下划线
               if (!value) {
                 callback(new Error("密码不能为空"));
               } else if (reg.test(value) == false) {
                 callback(
-                  new Error("密码必须为数字/字母/下划线,长度6-12位之间")
+                  new Error("密码必须为数字/字母/下划线,长度6-15位之间")
                 );
               } else {
                 callback();
@@ -185,115 +114,58 @@ export default {
             trigger: "blur"
           }
         ],
-        user_group: [
+        comfirmPassword: [
           {
             required: true,
-            message: "请选择用户组",
-            trigger: "change"
-          }
-        ],
-        subordinateDepartmentValue: [
-          {
-            required: true,
-            message: "请选择所属部门",
-            trigger: "change"
-          }
-        ],
-        site: [
-          {
-            required: true,
-            message: "请选择站点",
-            trigger: "change"
+            validator: (rule, value, callback) => {
+              if (value === "") {
+                callback(new Error("请再次输入密码"));
+              } else if (value !== this.form.password) {
+                callback(new Error("两次输入密码不一致!"));
+              } else {
+                callback();
+              }
+            },
+            trigger: "blur"
           }
         ]
-      },
-      subordinateDepartment: [
-        {
-          value: 0,
-          label: "党员办"
-        },
-        {
-          value: 1,
-          label: "组织人事"
-        },
-        {
-          value: 2,
-          label: "纪监审办公室"
-        },
-        {
-          value: 3,
-          label: "宣传部"
-        },
-        {
-          value: 4,
-          label: "研究生工作部"
-        },
-        {
-          value: 5,
-          label: "学生工作部"
-        },
-        {
-          value: 6,
-          label: "网络中心"
-        },
-        {
-          value: 7,
-          label: "教务处"
-        },
-        {
-          value: 8,
-          label: "招生办公室"
-        },
-        {
-          value: 9,
-          label: "科研创作处"
-        },
-        {
-          value: 10,
-          label: "外事处"
-        },
-        {
-          value: 11,
-          label: "计划财务处"
-        },
-        {
-          value: 12,
-          label: "校园建设和管理处"
-        },
-        {
-          value: 13,
-          label: "工会"
-        },
-        {
-          value: 14,
-          label: "保卫处"
-        }
-      ],
-      user_group_list: [
-        {
-          value: 0,
-          label: "系统超级管理员"
-        },
-        {
-          value: 1,
-          label: "分站管理员"
-        },
-        {
-          value: 2,
-          label: "编辑"
-        }
-      ],
-      site_list: []
+      }
     };
   },
   components: {
-    Crumb,
-    Instructions
+    Crumb
   },
   mounted: function() {
+    var that = this;
     //侧边导航定位
     sessionStorage.setItem("system_menu_idx", 7);
     this.$store.commit("update_system_menu_idx", 7);
+
+    that
+      .$http({
+        method: "post",
+        url: "/Admin/user/add",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        //格式化
+        transformRequest: [
+          function(data) {
+            let ret = "";
+            for (let it in data) {
+              ret +=
+                encodeURIComponent(it) +
+                "=" +
+                encodeURIComponent(data[it]) +
+                "&";
+            }
+            return ret;
+          }
+        ]
+      })
+      .then(function(res) {
+        that.dataList = res.data;
+      });
   },
   methods: {
     //表单提交
@@ -303,10 +175,46 @@ export default {
         that.subLoading = true;
         if (valid) {
           that.subLoading = false;
-          that.$message({
-            type: "success",
-            message: "提交成功!"
-          });
+          that
+            .$http({
+              method: "post",
+              url: "/Admin/user/insert",
+              data: {
+                name:that.form.user_name,
+                nickname:that.form.nick_name,
+                password:that.form.password,
+                group_id:that.form.role
+              },
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+              },
+              //格式化
+              transformRequest: [
+                function(data) {
+                  let ret = "";
+                  for (let it in data) {
+                    ret +=
+                      encodeURIComponent(it) +
+                      "=" +
+                      encodeURIComponent(data[it]) +
+                      "&";
+                  }
+                  return ret;
+                }
+              ]
+            })
+            .then(function(res) {
+              console.log(res.data);
+              if (res.data.code == 1) {
+                that.subLoading = false;
+                that.$message({
+                  type: "success",
+                  message: "提交成功!"
+                });
+              }else if(res.data.code ==2){
+                that.subLoading = false;                
+              }
+            });
         } else {
           that.subLoading = false;
           that.$message.error("提交失败!");

@@ -8,6 +8,11 @@
 <template>
   <div id="Header">
     <div class="header-container">
+      <div class="nav-logo float-left">
+        <router-link to="/">
+          <img src="static/img/logo2.png" alt="">
+        </router-link>
+      </div>
       <div class="float-left header-left">
         <p class="site float-left">
           <span class="float-left">中国美术学院艺术设计学院智慧管理系统</span>
@@ -63,7 +68,7 @@ export default {
   background: @base-color;
   .header-container {
     width: 1200px;
-    height: 36px;
+    height: 57px;
     margin: 0 auto;
     &::after {
       content: "";
@@ -71,13 +76,24 @@ export default {
       visibility: hidden;
       clear: both;
     }
+    .nav-logo{
+      width: 110px;
+      height: 35px;
+      margin-top: 11px;
+      img{
+        width: 100%;
+        height:100%;
+      }
+    }
     .header-left {
       .site {
         span {
           display: block;
           font-size: 14px;
           color: #fff;
-          line-height: 36px;
+          line-height: 57px;
+          margin-left: 64px;
+          cursor: pointer;
         }
       }
       .reception {
@@ -102,13 +118,13 @@ export default {
         float: left;
         .icon-user {
           color: #fff;
-          line-height: 36px;
+          line-height: 57px;
         }
         span {
           display: block;
           font-size: 14px;
           color: #fff;
-          line-height: 36px;
+          line-height: 57px;
           margin-left: 10px;
         }
       }
@@ -117,7 +133,7 @@ export default {
         margin-left: 30px;
         a {
           font-size: 14px;
-          line-height: 36px;
+          line-height: 57px;
           color: #fff;
           transition: all 0.3s;
           &:hover {
@@ -128,7 +144,7 @@ export default {
           bottom: 8px;
         }
         .icon-shuxian {
-          line-height: 36px;
+          line-height: 57px;
           font-size: 14px;
           color: #fff;
         }

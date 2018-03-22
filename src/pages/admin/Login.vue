@@ -231,7 +231,7 @@ export default {
   methods: {
     //表单提交
     submitForm(formName) {
-      this.$router.push("/pages/system_administrators/System_Administrators/");//后面删除
+      // this.$router.push("/pages/system_administrators/System_Administrators/");//后面删除
 
       var url = "";
       var that = this;
@@ -271,11 +271,8 @@ export default {
                   "headerName",
                   res.data.user.nickname
                 );
-                window.localStorage.setItem("token", res.data.token);
-                window.localStorage.setItem(
-                  "headerUrl",
-                  "System_Administrators"
-                );
+                window.localStorage.setItem("token", res.data.user.token);
+              
                 url = "/pages/system_administrators/System_Administrators";
                 setTimeout(function() {
                   //  提交成功后跳转到文章列表页面
