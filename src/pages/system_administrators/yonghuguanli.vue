@@ -19,7 +19,7 @@
                     <el-button size="mini" type="primary">添加用户</el-button>
                 </router-link>
                 <el-input placeholder="请输入关键字" v-model="searchValue" class="input-with-select title-search float-right" size="mini">
-                    <el-button slot="append" icon="el-icon-search" @click.enter="search"></el-button>
+                    <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
                 </el-input>
             </div>
             <!-- 表格 -->
@@ -35,7 +35,7 @@
                     <el-table-column prop="times" label="登录次数"></el-table-column>
                     <el-table-column label="操作">
                         <div slot-scope="scope" class="control-btn">
-                            <el-button size="mini" @click="xiugaiyonghu">编辑</el-button>
+                            <router-link :to="{path:'/pages/system_administrators/System_Administrators/xiugaiyonghu',query:{id:scope.row.id}}"><el-button size="mini">编辑</el-button></router-link>
                             <el-button @click.native.prevent="deleteRow(scope.$index, tableInfo)" size="mini" class="control-btn-del">删除</el-button>
                         </div>
                     </el-table-column>
@@ -104,16 +104,11 @@ export default {
     this.$store.commit("update_system_menu_idx", 7);
   },
   methods: {
-    //跳转到修改用户
-    xiugaiyonghu() {
-      this.$router.push(
-        "/pages/system_administrators/System_Administrators/xiugaiyonghu"
-      );
-    },
+
     //请求数据的ajax封装
     getData() {
       var that = this;
-      that //默认发送的ajax请求
+      that
         .$http({
           method: "post",
           url: "/Admin/user/index",

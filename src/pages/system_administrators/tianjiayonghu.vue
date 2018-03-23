@@ -34,9 +34,9 @@
                     </el-select>
                 </el-form-item>
 
-
                 <el-form-item class="form-control-btn">
                     <el-button type="primary" @click="submitForm('form')" size="large" :loading="subLoading">提交</el-button>
+                    <el-checkbox label="提交后是否返回？" v-model="back" style="margin-left:104px" border size="large"></el-checkbox>
                 </el-form-item>
             </el-form>
         </div>
@@ -51,6 +51,8 @@ export default {
   name: "AddUser",
   data() {
     return {
+      //是否返回用户列表
+      back: true,
       //面包屑
       crumbs: [
         {
@@ -78,7 +80,8 @@ export default {
         user_name: "", //用户名
         nick_name: "", //昵称
         password: "", //密码
-        comfirmPassword: "" //确认密码
+        comfirmPassword: "", //确认密码
+        role: "" //角色ID
       },
       //ajax获取到的
       dataList: [],
@@ -180,10 +183,11 @@ export default {
               method: "post",
               url: "/Admin/user/insert",
               data: {
-                name:that.form.user_name,
-                nickname:that.form.nick_name,
-                password:that.form.password,
-                group_id:that.form.role
+                name: that.form.user_name,
+                nickname: that.form.nick_name,
+                password: that.form.password,
+                group_id: that.form.role,
+                token: window.localStorage.getItem("token")
               },
               headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -204,15 +208,23 @@ export default {
               ]
             })
             .then(function(res) {
-              console.log(res.data);
               if (res.data.code == 1) {
                 that.subLoading = false;
                 that.$message({
                   type: "success",
-                  message: "提交成功!"
+                  message: "提交成功!",
+                  duration: 1000,
+                  onClose: function() {
+                    that.$refs.form.resetFields();
+                    if (that.back) {
+                      that.$router.push(
+                        "/pages/system_administrators/System_Administrators/yonghuguanli"
+                      );
+                    }
+                  }
                 });
-              }else if(res.data.code ==2){
-                that.subLoading = false;                
+              } else if (res.data.code == 2) {
+                that.subLoading = false;
               }
             });
         } else {
