@@ -207,19 +207,10 @@ export default {
               column_url: "jueseliebiao",
               column_active: false
             },
-            {
-              column_name: "添加角色组",
-              column_url: "tianjiajuesezu",
-              column_active: false
-            },
+
             {
               column_name: "权限列表",
               column_url: "quanxianliebiao",
-              column_active: false
-            },
-            {
-              column_name: "添加权限",
-              column_url: "tianjiaquanxian",
               column_active: false
             },
             {

@@ -25,7 +25,7 @@
             <!-- 表格 -->
             <div class="table-body">
                 <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
-                    <el-table-column type="selection" @selection-change="handleSelectionChange"></el-table-column>
+                    <!-- <el-table-column type="selection" @selection-change="handleSelectionChange"></el-table-column> -->
                     <el-table-column prop="id" label="ID" width="50px"></el-table-column>
                     <el-table-column prop="name" label="用户名"></el-table-column>
                     <el-table-column prop="nickname" label="昵称"></el-table-column>
@@ -36,16 +36,16 @@
                     <el-table-column label="操作">
                         <div slot-scope="scope" class="control-btn">
                             <router-link :to="{path:'/pages/system_administrators/System_Administrators/xiugaiyonghu',query:{id:scope.row.id}}"><el-button size="mini">编辑</el-button></router-link>
-                            <el-button @click.native.prevent="deleteRow(scope.$index, tableInfo)" size="mini" class="control-btn-del">删除</el-button>
+                            <el-button @click.native.prevent="deleteRow(scope.$index, scope.row.id,tableInfo)" size="mini" class="control-btn-del">删除</el-button>
                         </div>
                     </el-table-column>
                 </el-table>
             </div>
             <!-- 表格控制 -->
-            <div class="table-filter">
+            <!-- <div class="table-filter">
                 <el-button type="primary" size="mini" @click="selection(tableInfo)">全选</el-button>
                 <el-button type="primary" size="mini" @click="batchDeleting()">批量删除</el-button>
-            </div>
+            </div> -->
             <!-- 分页 -->
             <Paging :currentPaging="currentPaging" v-on="{sizeChange:handleSizeChange,currentChange:handleCurrentChange}"></Paging>
         </div>
@@ -56,6 +56,7 @@
 /* 引入组件 */
 import Crumb from "@/components/Crumb";
 import Paging from "@/components/Paging";
+import { token } from "@/publicjs/token";
 
 /* 用户列表 */
 export default {
@@ -98,13 +99,28 @@ export default {
   },
   mounted: function() {
     var that = this;
-    that.getData();
+
     //侧边导航定位
     sessionStorage.setItem("system_menu_idx", 7);
     this.$store.commit("update_system_menu_idx", 7);
+    //验证token是否登陆
+    token().then(res => {
+      if (res.verify == true) {
+        that.getData();
+      } else if (res.verify == false) {
+
+        that.$alert("请先登录", "用户尚未登录", {
+          confirmButtonText: "确定",
+          callback: function() {
+            that.$router.push(
+              "/pages/system_administrators/System_Administrators/login"
+            );
+          }
+        });
+      }
+    });
   },
   methods: {
-
     //请求数据的ajax封装
     getData() {
       var that = this;
@@ -115,8 +131,7 @@ export default {
           data: {
             currentPage: that.currentPaging.currentPage,
             pageSize: that.currentPaging.pageSize,
-            keyword: that.searchValue,
-            token: window.localStorage.getItem("token")
+            keyword: that.searchValue
           },
           headers: {
             "Content-Type": "application/x-www-form-urlencoded"
@@ -153,6 +168,7 @@ export default {
           that.currentPaging.totals = Number(res.data.count);
         });
     },
+
     //处理sizeChange
     handleSizeChange(val) {
       this.currentPaging.pageSize = val;
@@ -168,19 +184,47 @@ export default {
     search() {
       this.getData();
     },
-    //删除表格行
-    deleteRow(index, rows) {
-      this.$confirm("此操作将删除该文件, 是否继续?", "提示", {
+    //删除用户/表格行
+    deleteRow(index, id, rows) {
+      this.$confirm("此操作将删除该用户, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          rows.splice(index, 1);
-          this.$message({
-            type: "success",
-            message: "删除成功!"
-          });
+          var that = this;
+          that
+            .$http({
+              method: "post",
+              url: "/Admin/user/delete",
+              data: {
+                id: id
+              },
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+              },
+              //格式化
+              transformRequest: [
+                function(data) {
+                  let ret = "";
+                  for (let it in data) {
+                    ret +=
+                      encodeURIComponent(it) +
+                      "=" +
+                      encodeURIComponent(data[it]) +
+                      "&";
+                  }
+                  return ret;
+                }
+              ]
+            })
+            .then(function() {              
+              rows.splice(index, 1);
+              that.$message({
+                type: "success",
+                message: "删除成功!"
+              });
+            });
         })
         .catch(() => {
           this.$message({
@@ -196,40 +240,6 @@ export default {
     //选中的时候触发
     handleSelectionChange(val) {
       this.tableList = val;
-    },
-    //全选
-    selection(rows) {
-      var that = this;
-      if (this.tableInfo.length !== this.tableList.length) {
-        rows.forEach(row => {
-          that.$refs.multipleTable.toggleRowSelection(row, true);
-        });
-      } else {
-        that.$refs.multipleTable.clearSelection();
-      }
-    },
-    //批量删除
-    batchDeleting() {
-      for (var i = 0; i < this.tableList.length; i++) {
-        //console.log(this.tableList[i].uid)
-      }
-      this.$confirm("此操作将删除该文件, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          this.$message({
-            type: "success",
-            message: "删除成功!"
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
     }
   }
 };

@@ -13,15 +13,25 @@
 
         <!-- Table -->
         <div class="table-container">
-
+           <!-- 表格筛选 -->
+            <div class="table-filter">
+                <router-link to="/pages/system_administrators/System_Administrators/tianjiaquanxian" class="float-left filter-link">
+                    <el-button size="mini" type="primary">添加权限</el-button>
+                </router-link>
+            </div>
             <!-- 表格 -->
             <div class="table-body">
                 <el-table ref="multipleTable" :data="tableInfo" stripe size="small" @selection-change="handleSelectionChange">
                     <el-table-column type="selection"></el-table-column>                    
-                    <el-table-column prop="id" label="ID" width="50px"></el-table-column>
-                    <el-table-column prop="url" label="URL"></el-table-column>
+                    <el-table-column prop="id" label="ID" width="80px"></el-table-column>
+                    <el-table-column prop="name" label="URL"></el-table-column>
                     <el-table-column prop="title" label="标题"></el-table-column>
-                    <el-table-column prop="state" label="状态"></el-table-column>
+                    <el-table-column  label="状态">
+                        <div slot-scope="scope">
+                            <el-tag size="small" v-html="scope.row.status==1?'有效':'禁用'" :type="scope.row.status==1?'success':'warning'"></el-tag>
+                        </div>
+                    </el-table-column>
+                    <el-table-column prop="controller" label="控制器"></el-table-column>
                     <el-table-column label="操作">
                         <div slot-scope="scope">
                             <el-button size="small" >编辑</el-button>
@@ -36,7 +46,7 @@
                 <el-button type="primary" size="mini" @click="deleted">选中删除</el-button>
             </div>
             <!-- 分页 -->
-            <Paging></Paging>
+            <!-- <Paging></Paging> -->
         </div>
     </div>
 </template>
@@ -44,7 +54,8 @@
 <script>
 /* 引入组件 */
 import Crumb from "@/components/Crumb";
-import Paging from "@/components/Paging";
+import { token } from "@/publicjs/token.js";
+// import Paging from "@/components/Paging";
 
 /* 用户列表 */
 export default {
@@ -67,45 +78,129 @@ export default {
         }
       ],
       //表格
-      tableInfo: [
-        {
-          id: 1,
-          url: "/kaoqinshuju",
-          title: "考勤数据",
-          state: "禁用"
-        },
-        {
-          id: 2,
-          url: "/quanxianguanli",
-          title: "权限管理",
-          state: "有效"
-        }
-      ]
+      tableInfo: []
     };
   },
   components: {
-    Crumb,
+    Crumb
 
-    Paging
+    // Paging
   },
   mounted: function() {
+    var that = this;
     //侧边导航定位
     sessionStorage.setItem("system_menu_idx", 7);
     this.$store.commit("update_system_menu_idx", 7);
+
+    //默认请求数据加验证token是否登陆
+    token().then(res => {
+      if (res.verify == true) {
+        that.getData();
+      } else if (res.verify == false) {
+        that.$alert("请先登录", "用户尚未登录", {
+          confirmButtonText: "确定",
+          callback: function() {
+            that.$router.push(
+              "/pages/system_administrators/System_Administrators/login"
+            );
+          }
+        });
+      }
+    });
   },
   methods: {
+    //请求数据的ajax封装
+    getData() {
+      var that = this;
+      that
+        .$http({
+          method: "post",
+          url: "/Admin/Auth/index",
+          // data: {
+          //   currentPage: that.currentPaging.currentPage,
+          //   pageSize: that.currentPaging.pageSize,
+          //   keyword: that.searchValue
+          // },
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          //格式化
+          transformRequest: [
+            function(data) {
+              let ret = "";
+              for (let it in data) {
+                ret +=
+                  encodeURIComponent(it) +
+                  "=" +
+                  encodeURIComponent(data[it]) +
+                  "&";
+              }
+              return ret;
+            }
+          ]
+        })
+        .then(res => {
+          that.tableInfo = res.data;
+        });
+    },
     handleSelectionChange(val) {
-      this.multipleSelection = val;
+      var arr = [];
+      for (let i in val) {
+        arr.push(val[i].id);
+      }
+      this.multipleSelection = arr;
+    },
+    //按钮提交的ajax封装
+    options(val) {
+      var that = this;
+      that
+        .$http({
+          method: "post",
+          url: "/Admin/Auth/opts",
+          data: {
+            ids: that.multipleSelection,
+            submit: val
+          },
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          //格式化
+          transformRequest: [
+            function(data) {
+              let ret = "";
+              for (let it in data) {
+                ret +=
+                  encodeURIComponent(it) +
+                  "=" +
+                  encodeURIComponent(data[it]) +
+                  "&";
+              }
+              return ret;
+            }
+          ]
+        })
+        .then(res => {
+          if (res.data.code == 1) {
+            that.$message({
+              type: "success",
+              message: "操作成功!",
+              duration: 500,
+              onClose: function() {
+                window.location.reload()
+              }
+            });
+          }
+        });
     },
     effect() {
-      console.log(this.multipleSelection);
+      this.options("effective");
     },
     forbid() {
-      console.log(this.multipleSelection);
+      this.options("forbidden");
     },
     deleted() {
-      console.log(this.multipleSelection);
-    },
+      this.options("delete");
+    }
   }
 };
 </script>

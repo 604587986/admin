@@ -9,6 +9,7 @@ import store from './store'
 import axios from 'axios'
 Vue.prototype.$http = axios // 通过修改原型链，来更方便的使用
 
+
 //引入element
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'

@@ -10,10 +10,10 @@
             <div class="item">
                 <div class="left">权限</div>
                 <div class="right">
-                     <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+                     <!-- <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox> -->
                     <div style="margin: 15px 0;"></div>
-                    <el-checkbox-group v-model="checkedPowers" @change="handleCheckedPowersChange">
-                    <el-checkbox v-for="power in powers" :label="power" :key="power">{{power}}</el-checkbox>
+                    <el-checkbox-group v-model="checkedPowers">
+                    <el-checkbox v-for="item in powers" :label="item.id" :key="item.id" style="width:200px">{{item.title}}</el-checkbox>
                     </el-checkbox-group>
                 </div>
             </div>
@@ -23,7 +23,7 @@
 </template>
 <script>
 import Crumb from "@/components/Crumb";
-const powerOptions = ["查看权限列表", "添加权限信息", "编辑权限信息", "查看角色列表","添加角色信息","查看后台用户列表","添加后台用户信息","编辑后台用户信息","删除后台用户信息","查看网站站点信息","编辑网站站点信息","查看备份数据","添加备份数据","查看操作日志"];
+import { token } from "@/publicjs/token.js";
 export default {
   data() {
     return {
@@ -42,29 +42,114 @@ export default {
           url: ""
         }
       ],
-      title:'',
+      title: "",
       checkAll: false,
       checkedPowers: [],
-      powers: powerOptions,
+      powers: [],
       isIndeterminate: true
     };
   },
   methods: {
+    //请求数据的ajax封装
+    getData() {
+      var that = this;
+      that
+        .$http({
+          method: "post",
+          url: "/Admin/Role/add",
+          // data: {
+          //   currentPage: that.currentPaging.currentPage,
+          //   pageSize: that.currentPaging.pageSize,
+          //   keyword: that.searchValue
+          // },
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          //格式化
+          transformRequest: [
+            function(data) {
+              let ret = "";
+              for (let it in data) {
+                ret +=
+                  encodeURIComponent(it) +
+                  "=" +
+                  encodeURIComponent(data[it]) +
+                  "&";
+              }
+              return ret;
+            }
+          ]
+        })
+        .then(res => {
+          that.powers = res.data;
+        });
+    },
     submit() {
-      console.log(this.checkedPowers);
-    },
-    handleCheckAllChange(val) {
-      this.checkedPowers = val ? powerOptions : [];
-      this.isIndeterminate = false;
-    },
-    handleCheckedPowersChange(value) {
-      let checkedCount = value.length;
-      this.checkAll = checkedCount === this.powers.length;
-      this.isIndeterminate =
-        checkedCount > 0 && checkedCount < this.powers.length;
+      var that = this;
+      that
+        .$http({
+          method: "post",
+          url: "/Admin/Role/insert",
+          data: {
+            title: that.title,
+            rules: that.checkedPowers
+          },
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          //格式化
+          transformRequest: [
+            function(data) {
+              let ret = "";
+              for (let it in data) {
+                ret +=
+                  encodeURIComponent(it) +
+                  "=" +
+                  encodeURIComponent(data[it]) +
+                  "&";
+              }
+              return ret;
+            }
+          ]
+        })
+        .then(function(res) {
+          if (res.data.code == 1) {
+            that.$message({
+              type: "success",
+              message: "添加成功!",
+              duration: 1000,
+              onClose: function() {
+                that.$router.push(
+                  "/pages/system_administrators/System_Administrators/jueseliebiao"
+                );
+              }
+            });
+          } else {
+            that.$message({
+              type: "success",
+              message: "添加失败!"
+            });
+          }
+        });
     }
   },
   mounted: function() {
+    var that = this;
+    //默认请求数据加验证token是否登陆
+    token().then(res => {
+      if (res.verify == true) {
+        that.getData();
+      } else if (res.verify == false) {
+        that.$alert("请先登录", "用户尚未登录", {
+          confirmButtonText: "确定",
+          callback: function() {
+            that.$router.push(
+              "/pages/system_administrators/System_Administrators/login"
+            );
+          }
+        });
+      }
+    });
     //侧边导航定位
     sessionStorage.setItem("system_menu_idx", 7);
     this.$store.commit("update_system_menu_idx", 7);
@@ -76,7 +161,7 @@ export default {
 </script>
 <style lang="less">
 #tianjiaquanxianzu {
-    padding-bottom: 50px;
+  padding-bottom: 50px;
   .wrapper {
     color: #606266;
     .item {
@@ -92,7 +177,7 @@ export default {
           border: 1px solid #888;
           padding: 5px 10px;
         }
-        .el-checkbox{
+        .el-checkbox {
           margin: 10px 15px 5px 0;
         }
       }
