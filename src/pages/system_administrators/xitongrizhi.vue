@@ -21,14 +21,22 @@
       <!-- 表格 -->
       <div class="table-body">
         <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
-          <el-table-column prop="username" label="用户名" ></el-table-column>
-          <el-table-column prop="log" label="操作日志"></el-table-column>
-          <el-table-column prop="ip" label="操作IP"></el-table-column>
-          <el-table-column prop="date" label="操作时间"></el-table-column>
+          <el-table-column prop="id" label="ID" width="80px"></el-table-column>
+          <el-table-column prop="ip" label="登录IP"></el-table-column>          
+          <el-table-column prop="address" label="登陆地址" ></el-table-column>
+          <el-table-column prop="username" label="用户名" ></el-table-column>   
+          <el-table-column prop="posttime" label="操作时间"></el-table-column>                 
+          <el-table-column prop="table" label="操作表"></el-table-column>
+          <el-table-column prop="type" label="操作类型"></el-table-column>
+          <el-table-column label="操作">
+              <div slot-scope="scope" class="control-btn">
+                  <router-link :to="{path:'/pages/system_administrators/System_Administrators/rizhixiangqing',query:{id:scope.row.id}}"><el-button size="mini">查看详情</el-button></router-link>
+              </div>
+          </el-table-column>
         </el-table>
       </div>
       <!-- 分页 -->
-      <Paging></Paging>
+      <Paging :currentPaging="currentPaging" v-on="{sizeChange:handleSizeChange,currentChange:handleCurrentChange}"></Paging>
     </div>
   </div>
 </template>
@@ -37,12 +45,20 @@
 /* 引入组件 */
 import Crumb from "@/components/Crumb";
 import Paging from "@/components/Paging";
+import { token } from "@/publicjs/token";
 
 /* 内容管理 */
 export default {
   name: "ContentManagement",
   data() {
     return {
+      //分页数据
+      currentPaging: {
+        currentPage: 1,
+        pageSize: 10,
+        pageSizes: [10, 20, 30, 40],
+        totals: null
+      },
       //面包屑
       crumbs: [
         {
@@ -58,24 +74,9 @@ export default {
           url: ""
         }
       ],
-     
-      
+
       //表格1
-      tableInfo: [
-        {
-          username:"admin",
-          log:"增加管理员： 张山",
-          ip:"115.200.252.182",
-          date:"2016-06-28 13:00:51"
-        },
-        {
-          username:"admin",
-          log:"增加管理员： 张山",
-          ip:"115.200.252.182",
-          date:"2016-06-28 13:00:51"
-        }
-      ],
-      tableList: []
+      tableInfo: []
     };
   },
   components: {
@@ -84,12 +85,56 @@ export default {
     Paging
   },
   mounted: function() {
+    var that = this;
+    //验证token是否登陆
+    token().then(res => {
+      if (res.verify == true) {
+        that.getData();
+      } else if (res.verify == false) {
+        that.$alert("请先登录", "用户尚未登录", {
+          confirmButtonText: "确定",
+          callback: function() {
+            that.$router.push(
+              "/pages/system_administrators/System_Administrators/login"
+            );
+          }
+        });
+      }
+    });
+
     //侧边导航定位
     sessionStorage.setItem("system_menu_idx", 7);
     this.$store.commit("update_system_menu_idx", 7);
   },
   methods: {
-    
+    //请求数据的ajax封装
+    getData() {
+      var that = this;
+      that
+        .$http({
+          method: "get",
+          url: "/Admin/Log/index",
+          params: {
+            p: that.currentPaging.currentPage,
+            pageSize: that.currentPaging.pageSize
+          }
+        })
+        .then(function(res) {
+          that.tableInfo = res.data.data;
+          that.currentPaging.totals = Number(res.data.count);
+        });
+    },
+    //处理sizeChange
+    handleSizeChange(val) {
+      this.currentPaging.pageSize = val;
+      this.currentPaging.currentPage = 1;
+      this.getData();
+    },
+    //处理currentChange
+    handleCurrentChange(val) {
+      this.currentPaging.currentPage = val;
+      this.getData();
+    }
   }
 };
 </script>

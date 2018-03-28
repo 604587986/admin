@@ -160,7 +160,7 @@ export default {
                   type: "success",
                   duration:1000,
                   onClose(){
-                    window.location.reload()
+                    that.getData()
                   }
                 });
               }

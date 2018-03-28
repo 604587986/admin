@@ -65,7 +65,7 @@ export default {
         },
         {
           name: "用户管理",
-          url: ""
+          url: "/pages/system_administrators/System_Administrators/yonghuguanli"
         },
         {
           name: "添加用户",

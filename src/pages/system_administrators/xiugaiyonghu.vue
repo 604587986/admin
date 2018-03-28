@@ -18,7 +18,7 @@
                 <el-form-item label="用户名：" class="form-item" prop="user_name">
                     <el-input v-model="form.user_name"></el-input>
                 </el-form-item>
-                <el-form-item label="昵称：" required class="form-item" prop="nick_name">
+                <el-form-item label="昵称：" class="form-item" prop="nick_name">
                     <el-input v-model="form.nick_name"></el-input>
                 </el-form-item>
                 <el-form-item label="输入新密码：" class="form-item" prop="password">
@@ -72,7 +72,7 @@ export default {
         },
         {
           name: "用户管理",
-          url: ""
+          url: "/pages/system_administrators/System_Administrators/yonghuguanli"
         },
         {
           name: "修改用户",
@@ -107,6 +107,13 @@ export default {
           {
             min: 1,
             message: "用户名不能为空",
+            trigger: "blur"
+          }
+        ],
+        nick_name: [
+          {
+            required: true,
+            message: "请输入昵称",
             trigger: "blur"
           }
         ],
@@ -154,7 +161,7 @@ export default {
     that
       .$http({
         method: "get",
-        url: "/Admin/user/edit?&id=" + that.$route.query.id,
+        url: "/Admin/user/edit?id=" + that.$route.query.id,
         // data: { id: that.$route.query.id },
         headers: {
           "Content-Type": "application/x-www-form-urlencoded"

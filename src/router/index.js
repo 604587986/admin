@@ -47,11 +47,13 @@ import baobiaoshujuxiugai from '@/pages/system_administrators/baobiaoshujuxiugai
 import shenpishezhi from '@/pages/system_administrators/shenpishezhi'//审批设置
 import zhanghaoshenhe from '@/pages/system_administrators/zhanghaoshenhe'//账号审核
 import xitongrizhi from '@/pages/system_administrators/xitongrizhi'//系统日志
+import rizhixiangqing from '@/pages/system_administrators/rizhixiangqing'//日志详情
 import yonghuguanli from '@/pages/system_administrators/yonghuguanli'//用户管理
 import jueseliebiao from '@/pages/system_administrators/jueseliebiao'//角色列表
 import tianjiajuesezu from '@/pages/system_administrators/tianjiajuesezu'//添加角色组
 import quanxianliebiao from '@/pages/system_administrators/quanxianliebiao'//权限列表
 import tianjiaquanxian from '@/pages/system_administrators/tianjiaquanxian'//添加权限
+import bianjiquanxian from '@/pages/system_administrators/bianjiquanxian'//编辑权限
 import tianjiayonghu from '@/pages/system_administrators/tianjiayonghu'//添加用户
 import xiugaiyonghu from '@/pages/system_administrators/xiugaiyonghu'//修改用户
 import shujubeifen from '@/pages/system_administrators/shujubeifen'//数据备份
@@ -249,6 +251,10 @@ export default new Router({
                 component:xitongrizhi
             },
             {
+                path:"rizhixiangqing",
+                component:rizhixiangqing
+            },
+            {
                 path:"yonghuguanli",
                 component:yonghuguanli
             },
@@ -267,6 +273,10 @@ export default new Router({
             {
                 path:"tianjiaquanxian",
                 component:tianjiaquanxian
+            },
+            {
+                path:"bianjiquanxian",
+                component:bianjiquanxian
             },
             {
                 path:"tianjiayonghu",

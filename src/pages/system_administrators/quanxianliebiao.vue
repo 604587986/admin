@@ -10,15 +10,20 @@
     <div id="quanxianliebiao">
         <!-- 面包屑 -->
         <Crumb :crumbs="crumbs"></Crumb>
-
-        <!-- Table -->
-        <div class="table-container">
+                                <!-- 表格控制 -->
+            <div class="table-filter float-left">
+                <el-button type="primary" size="mini" @click="effect" :disabled="multipleSelection.length==0?true:false">选中有效</el-button>
+                <el-button type="primary" size="mini" @click="forbid" :disabled="multipleSelection.length==0?true:false">选中禁用</el-button>
+                <el-button type="primary" size="mini" @click="deleted" :disabled="multipleSelection.length==0?true:false">选中删除</el-button>
+            </div>
            <!-- 表格筛选 -->
-            <div class="table-filter">
+            <div class="table-filter float-right">
                 <router-link to="/pages/system_administrators/System_Administrators/tianjiaquanxian" class="float-left filter-link">
                     <el-button size="mini" type="primary">添加权限</el-button>
                 </router-link>
             </div>
+        <!-- Table -->
+
             <!-- 表格 -->
             <div class="table-body">
                 <el-table ref="multipleTable" :data="tableInfo" stripe size="small" @selection-change="handleSelectionChange">
@@ -34,20 +39,13 @@
                     <el-table-column prop="controller" label="控制器"></el-table-column>
                     <el-table-column label="操作">
                         <div slot-scope="scope">
-                            <el-button size="small" >编辑</el-button>
+                            <router-link :to="{path:'/pages/system_administrators/System_Administrators/bianjiquanxian',query:{id:scope.row.id}}"><el-button size="small" >编辑</el-button></router-link>
                         </div>
                     </el-table-column>                  
                 </el-table>
             </div>
-            <!-- 表格控制 -->
-            <div class="table-filter">
-                <el-button type="primary" size="mini" @click="effect">选中有效</el-button>
-                <el-button type="primary" size="mini" @click="forbid">选中禁用</el-button>
-                <el-button type="primary" size="mini" @click="deleted">选中删除</el-button>
-            </div>
             <!-- 分页 -->
             <!-- <Paging></Paging> -->
-        </div>
     </div>
 </template>
 
@@ -107,6 +105,8 @@ export default {
         });
       }
     });
+
+    
   },
   methods: {
     //请求数据的ajax封装
@@ -186,7 +186,7 @@ export default {
               message: "操作成功!",
               duration: 500,
               onClose: function() {
-                window.location.reload()
+                that.getData();
               }
             });
           }
@@ -207,5 +207,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-
+#quanxianliebiao{
+  .table-filter{
+    width: auto;
+  }
+}
 </style>

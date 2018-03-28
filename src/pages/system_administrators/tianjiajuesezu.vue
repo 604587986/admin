@@ -2,23 +2,20 @@
   <div id="tianjiaquanxianzu">
         <!-- 面包屑 -->
         <Crumb :crumbs="crumbs"></Crumb>
-        <div class="wrapper">
-            <div class="item">
-                <div class="left">标题</div>
-                <div class="right"><input type="text" v-model="title"></div>
-            </div>
-            <div class="item">
-                <div class="left">权限</div>
-                <div class="right">
-                     <!-- <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox> -->
-                    <div style="margin: 15px 0;"></div>
-                    <el-checkbox-group v-model="checkedPowers">
-                    <el-checkbox v-for="item in powers" :label="item.id" :key="item.id" style="width:200px">{{item.title}}</el-checkbox>
-                    </el-checkbox-group>
-                </div>
-            </div>
+        <div class="form-container">
+          <el-form ref="form" :model="form" label-width="100px" :rules="rules"  class="form-box">
+            <el-form-item label="标题：" style="width:400px" prop="title">
+              <el-input v-model="form.title"></el-input>
+            </el-form-item>
+            <el-form-item label="权限：" prop="powers">
+              <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+              <el-checkbox-group v-model="form.checkedPowers"  @change="handleCheckedPowersChange">
+                <el-checkbox v-for="item in powers" :label="item.id" :key="item.id" style="width:200px;margin-left:0">{{item.title}}</el-checkbox>
+            </el-checkbox-group>
+            </el-form-item>
+          </el-form>
         </div>
-        <el-button size="small" type="primary" @click="submit">提交</el-button>
+        <el-button size="small" type="primary" @click="submit('form')">提交</el-button>
   </div>
 </template>
 <script>
@@ -38,15 +35,34 @@ export default {
           url: ""
         },
         {
+          name: "角色列表",
+          url: "/pages/system_administrators/System_Administrators/jueseliebiao"
+        },
+        {
           name: "添加角色组",
           url: ""
         }
       ],
-      title: "",
+      form: {
+        title: "",
+        checkedPowers: []
+      },
       checkAll: false,
-      checkedPowers: [],
       powers: [],
-      isIndeterminate: true
+      isIndeterminate: false,
+      allPowers: [],
+      //表单验证规则
+      rules: {
+        title: [{ required: true, message: "请输入名称", trigger: "blur" }],
+        powers: [
+          {
+            type: "array",
+            required: true,
+            message: "请至少选择一个权限",
+            trigger: "change"
+          }
+        ]
+      }
     };
   },
   methods: {
@@ -82,55 +98,74 @@ export default {
         })
         .then(res => {
           that.powers = res.data;
-        });
-    },
-    submit() {
-      var that = this;
-      that
-        .$http({
-          method: "post",
-          url: "/Admin/Role/insert",
-          data: {
-            title: that.title,
-            rules: that.checkedPowers
-          },
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-          //格式化
-          transformRequest: [
-            function(data) {
-              let ret = "";
-              for (let it in data) {
-                ret +=
-                  encodeURIComponent(it) +
-                  "=" +
-                  encodeURIComponent(data[it]) +
-                  "&";
-              }
-              return ret;
-            }
-          ]
-        })
-        .then(function(res) {
-          if (res.data.code == 1) {
-            that.$message({
-              type: "success",
-              message: "添加成功!",
-              duration: 1000,
-              onClose: function() {
-                that.$router.push(
-                  "/pages/system_administrators/System_Administrators/jueseliebiao"
-                );
-              }
-            });
-          } else {
-            that.$message({
-              type: "success",
-              message: "添加失败!"
-            });
+          for (let i in that.powers) {
+            that.allPowers.push(that.powers[i].id);
           }
         });
+    },
+    submit(formName) {
+      var that = this;
+      that.$refs[formName].validate(function(valid) {
+        if (valid) {
+          that
+            .$http({
+              method: "post",
+              url: "/Admin/Role/insert",
+              data: {
+                title: that.form.title,
+                rules: that.form.checkedPowers
+              },
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+              },
+              //格式化
+              transformRequest: [
+                function(data) {
+                  let ret = "";
+                  for (let it in data) {
+                    ret +=
+                      encodeURIComponent(it) +
+                      "=" +
+                      encodeURIComponent(data[it]) +
+                      "&";
+                  }
+                  return ret;
+                }
+              ]
+            })
+            .then(function(res) {
+              if (res.data.code == 1) {
+                that.$message({
+                  type: "success",
+                  message: "添加成功!",
+                  duration: 1000,
+                  onClose: function() {
+                    that.$router.push(
+                      "/pages/system_administrators/System_Administrators/jueseliebiao"
+                    );
+                  }
+                });
+              } else {
+                that.$message({
+                  type: "error",
+                  message: "添加失败!"
+                });
+              }
+            });
+        }
+      });
+    },
+    // 处理全选
+    handleCheckAllChange(val) {
+      this.form.checkedPowers = val ? this.allPowers : [];
+
+      this.isIndeterminate = false;
+    },
+    handleCheckedPowersChange(value) {
+      let checkedCount = value.length;
+      this.checkAll = checkedCount === this.allPowers.length;
+      this.isIndeterminate =
+        checkedCount > 0 && checkedCount < this.allPowers.length;
     }
   },
   mounted: function() {

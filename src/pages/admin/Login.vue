@@ -294,6 +294,7 @@ export default {
             })
             .catch(function(err) {
               console.log(err);
+              that.subLoading = false
             });
         } else {
           that.subLoading = false;
