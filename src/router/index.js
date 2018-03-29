@@ -61,6 +61,9 @@ import beifenshezhi from '@/pages/system_administrators/beifenshezhi'//备份设
 import shujuxiugai from '@/pages/system_administrators/shujuxiugai'//数据修改
 import yuanxiliebiao from '@/pages/system_administrators/yuanxiliebiao'//院系列表
 import xueshengliebiao from '@/pages/system_administrators/xueshengliebiao'//学生列表
+import xueshengxiangqing from '@/pages/system_administrators/xueshengxiangqing'//学生详情
+import daoruxueshengshuju from '@/pages/system_administrators/daoruxueshengshuju'//导入学生数据
+import xueshenghuishouzhan from '@/pages/system_administrators/xueshenghuishouzhan'//学生回收站
 import jiaoshiliebiao from '@/pages/system_administrators/jiaoshiliebiao'//教师列表
 import xibanshuju from '@/pages/system_administrators/xibanshuju'//系班数据
 import kechengliebiao from '@/pages/system_administrators/kechengliebiao'//课程列表
@@ -301,6 +304,18 @@ export default new Router({
             {
                 path:"xueshengliebiao",
                 component:xueshengliebiao
+            },
+            {
+                path:"xueshengxiangqing",
+                component:xueshengxiangqing
+            },
+            {
+                path:"daoruxueshengshuju",
+                component:daoruxueshengshuju
+            },
+            {
+                path:"xueshenghuishouzhan",
+                component:xueshenghuishouzhan
             },
             {
                 path:"jiaoshiliebiao",

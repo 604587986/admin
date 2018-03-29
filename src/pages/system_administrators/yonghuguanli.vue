@@ -108,7 +108,6 @@ export default {
       if (res.verify == true) {
         that.getData();
       } else if (res.verify == false) {
-
         that.$alert("请先登录", "用户尚未登录", {
           confirmButtonText: "确定",
           callback: function() {
@@ -218,12 +217,19 @@ export default {
                 }
               ]
             })
-            .then(function() {              
-              rows.splice(index, 1);
-              that.$message({
-                type: "success",
-                message: "删除成功!"
-              });
+            .then(function(res) {
+              if (res.data.code == 1) {
+                rows.splice(index, 1);
+                that.$message({
+                  type: "success",
+                  message: "删除成功!"
+                });
+              } else {
+                that.$message({
+                  type: "error",
+                  message: "删除失败!"
+                });
+              }
             });
         })
         .catch(() => {
