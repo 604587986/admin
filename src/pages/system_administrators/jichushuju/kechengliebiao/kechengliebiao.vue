@@ -7,59 +7,41 @@
 
 
 <template>
-  <div id="xueshengliebiao">
+  <div id="kechengliebiao">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
+
     <!-- Table -->
     <div class="table-container">
       <!-- 表格筛选 -->
       <div class="table-filter">
-        <el-select v-model="departmentValue" clearable placeholder="选择系" size="mini" class="float-left state-selection" @change='showClass'>
+        <el-select v-model="departmentValue" clearable placeholder="选择系" size="mini" class="float-left state-selection" @change="showTeacher">
           <el-option v-for="item in departmentList" :key="item.id" :label="item.title" :value="item.id"></el-option>
         </el-select>
-        <el-select v-model="classValue" clearable placeholder="选择班级" size="mini" class="float-left state-selection">
-          <el-option v-for="item in classList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+        <el-select v-model="teacherValue" clearable placeholder="选择老师" size="mini" class="float-left state-selection">
+          <el-option v-for="item in teacherList" :key="item.id" :label="item.name" :value="item.name"></el-option>
         </el-select>
-        <router-link to="/pages/system_administrators/System_Administrators/xueshenghuishouzhan"><el-button type="primary" size="mini" style="float:right;">回收站</el-button>  </router-link>      
-        <router-link to="/pages/system_administrators/System_Administrators/daoruxueshengshuju"><el-button type="primary" size="mini" style="float:right;margin-right:10px">导入学生数据</el-button></router-link>
+        <el-input placeholder="请输入课程关键字" v-model="searchValue" class="input-with-select title-search float-left" size="mini">
+        </el-input>
+          <el-button type="primary" @click="articleSearch()" size="mini" style="margin-left:20px">搜索</el-button>     
+          <router-link to="/pages/system_administrators/System_Administrators/kechenghuishouzhan"><el-button type="primary" size="mini" style="float:right;">回收站</el-button>  </router-link>      
+          <router-link to="/pages/system_administrators/System_Administrators/tianjiakecheng"><el-button type="primary" size="mini" style="float:right;margin-right:10px">添加课程</el-button></router-link>   
       </div>
-    <div class="table-filter">
-      <el-select v-model="stateValue" clearable placeholder="选择状态" size="mini" class="float-left state-selection">
-          <el-option v-for="item in stateList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-      </el-select>
-      <el-input placeholder="请输入关键字" v-model="searchValue" class="input-with-select title-search float-left" size="mini">
-      </el-input>
-      <div style="margin-top:50px">
-        <el-button type="primary" @click="articleSearch()" size="mini">搜索</el-button>
-      </div>
-            
-    </div>
       <!-- 表格 -->
       <div class="table-body">
         <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
-          <el-table-column prop="id" label="ID" width="60"></el-table-column>
-          <el-table-column prop="student_num" label="学号"></el-table-column>
-          <el-table-column prop="name" label="姓名"></el-table-column>
-          <el-table-column label="性别" width="60">
-            <div slot-scope="scope">
-              <el-tag :type="scope.row.sex==0?'danger':''" v-html="scope.row.sex==0?'女':'男'">
-              </el-tag>
-            </div>
-          </el-table-column>
-          <el-table-column prop="tel" label="电话"></el-table-column>                  
-          <el-table-column prop="faculty_id" label="所属院系"></el-table-column>     
-          <el-table-column prop="specialty" label="专业名称"></el-table-column>                         
-          <el-table-column prop="grade_id" label="所属班级"></el-table-column>  
-          <el-table-column prop="systme" label="学制" width="50"></el-table-column>   
-          <el-table-column prop="school_rol_status" label="学籍状态"></el-table-column> 
-          <el-table-column prop="grade" label="所在级"></el-table-column> 
+          <!-- <el-table-column type="selection" @selection-change="handleSelectionChange"></el-table-column> -->
+          <el-table-column prop="id" label="ID" width="80"></el-table-column>
+          <el-table-column prop="name" label="课程名称"></el-table-column>          
+          <el-table-column prop="course_num" label="课程编码"></el-table-column>
+          <el-table-column prop="faculty_id" label="所属系"></el-table-column>
+          <el-table-column prop="teach" label="任课老师"></el-table-column>   
           <el-table-column label="操作">
             <div slot-scope="scope"  class="control-btn">
-              <router-link :to="{path:'/pages/system_administrators/System_Administrators/xueshengxiangqing',query:{id:scope.row.id}}"><el-button size="mini">查看详情</el-button></router-link>
-              <el-button size="mini" @click="pwd(scope.row.id)">还原密码</el-button>
+              <router-link :to="{path:'/pages/system_administrators/System_Administrators/bianjikecheng',query:{id:scope.row.id}}"><el-button  size="mini">编辑</el-button></router-link>
               <el-button size="mini" @click="deleteRow(scope.$index, scope.row.id,tableInfo)">删除</el-button>
             </div>
-          </el-table-column>                                                                         
+          </el-table-column>               
         </el-table>
       </div>
       <!-- 分页 -->
@@ -97,40 +79,24 @@ export default {
           url: ""
         },
         {
-          name: "学生列表",
+          name: "课程列表",
           url: ""
         }
       ],
-      //select内容
-      //系
+
       departmentList: [],
       departmentValue: "",
-
-      //所有班级
-      allClass: [],
-      classList: [],
-      classValue: "",
-
-      stateList: [
-        {
-          value: 1,
-          label: "在校"
-        },
-        {
-          value: 0,
-          label: "离校"
-        }
-      ],
-      stateValue: "",
-
       searchValue: "",
+      allTeacher:[],
+      teacherList:[],
+      teacherValue:[],
       //表格
-      tableInfo: [],
-      tableList: []
+      tableInfo: []
     };
   },
   components: {
     Crumb,
+
     Paging
   },
   mounted: function() {
@@ -162,33 +128,33 @@ export default {
       that
         .$http({
           method: "get",
-          url: "/Admin/Student/index",
+          url: "/Admin/course/index",
           params: {
             p: that.currentPaging.currentPage,
             pageSize: that.currentPaging.pageSize,
-            title: that.searchValue,
-            status: that.stateValue,
-            faculy_id: that.departmentValue,
-            grade_id: that.classValue
+            name: that.searchValue,
+            faculty_id: that.departmentValue,
+            teach:that.teacherValue
           }
         })
         .then(function(res) {
-          that.tableInfo = res.data.Student;
+          that.tableInfo = res.data.course;
           that.currentPaging.totals = Number(res.data.count);
           that.departmentList = res.data.category;
-          that.allClass = res.data.squad;
+          that.allTeacher = res.data.teacher;
         });
     },
-    //显示联动的班级
-    showClass(val) {
-      this.classList = [];
-      for (let i in this.allClass) {
-        if (this.allClass[i].faculty_id == val) {
-          this.classList.push(this.allClass[i]);
+    //显示联动的老师
+    showTeacher(val) {
+      this.teacherList = [];
+      for (let i in this.allTeacher) {
+        if (this.allTeacher[i].faculty_id == val) {
+          this.teacherList.push(this.allTeacher[i]);
         }
       }
+      console.log(this.teacherList);
+      
     },
-
     //处理sizeChange
     handleSizeChange(val) {
       this.currentPaging.pageSize = val;
@@ -216,7 +182,7 @@ export default {
           that
             .$http({
               method: "get",
-              url: "/Admin/Student/del",
+              url: "/Admin/course/del",
               params: {
                 id: id
               }
@@ -243,45 +209,6 @@ export default {
           this.$message({
             type: "info",
             message: "已取消删除"
-          });
-        });
-    },
-    //还原密码
-    pwd(id) {
-      this.$confirm("是否还原密码?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          var that = this;
-          that
-            .$http({
-              method: "get",
-              url: "/Admin/Student/pwd",
-              params: {
-                id: id
-              }
-            })
-            .then(function(res) {
-              if (res.data.code == 1) {
-                that.$message({
-                  type: "success",
-                  message: "密码还原成功!",
-                  duration: 1000
-                });
-              } else {
-                that.$message({
-                  type: "error",
-                  message: "密码还原失败!"
-                });
-              }
-            });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消"
           });
         });
     },
@@ -332,9 +259,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-#xueshengliebiao {
-  .title-search {
-    width: 160px;
-  }
-}
+
 </style>

@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-//前台首页
-import Home from '@/pages/index/Home'
-import Search from '@/pages/index/Search' //前台搜索页
-import Rank from '@/pages/index/Rank' //前台排行榜页
+
 //登录页
 import Login from '@/pages/admin/Login'
 //后台首页
@@ -17,6 +14,7 @@ import qingjiaxiangqing from '@/pages/system_administrators/qingjiaxiangqing'//�
 import tiaokeguanli from '@/pages/system_administrators/tiaokeguanli'//调课管理
 import tiaokexiangqing from '@/pages/system_administrators/tiaokexiangqing'//调课详情
 import kaoqinshuju from '@/pages/system_administrators/kaoqinshuju'//考勤数据
+import shujuxiugai from '@/pages/system_administrators/shujuxiugai'//数据修改
 import dakashuju from '@/pages/system_administrators/dakashuju'//考勤数据
 import kaoqintixingshezhi from '@/pages/system_administrators/kaoqintixingshezhi'//考勤提醒设置
 import kebiaoguanli from '@/pages/system_administrators/kebiaoguanli'//课表管理
@@ -45,31 +43,55 @@ import xinzengxinxiqunfa from '@/pages/system_administrators/xinzengxinxiqunfa'/
 import shujutianbao from '@/pages/system_administrators/shujutianbao'//数据填报
 import baobiaoshujuxiugai from '@/pages/system_administrators/baobiaoshujuxiugai'//报表数据修改
 import shenpishezhi from '@/pages/system_administrators/shenpishezhi'//审批设置
-import zhanghaoshenhe from '@/pages/system_administrators/zhanghaoshenhe'//账号审核
-import xitongrizhi from '@/pages/system_administrators/xitongrizhi'//系统日志
-import rizhixiangqing from '@/pages/system_administrators/rizhixiangqing'//日志详情
-import yonghuguanli from '@/pages/system_administrators/yonghuguanli'//用户管理
-import jueseliebiao from '@/pages/system_administrators/jueseliebiao'//角色列表
-import tianjiajuesezu from '@/pages/system_administrators/tianjiajuesezu'//添加角色组
-import quanxianliebiao from '@/pages/system_administrators/quanxianliebiao'//权限列表
-import tianjiaquanxian from '@/pages/system_administrators/tianjiaquanxian'//添加权限
-import bianjiquanxian from '@/pages/system_administrators/bianjiquanxian'//编辑权限
-import tianjiayonghu from '@/pages/system_administrators/tianjiayonghu'//添加用户
-import xiugaiyonghu from '@/pages/system_administrators/xiugaiyonghu'//修改用户
-import shujubeifen from '@/pages/system_administrators/shujubeifen'//数据备份
-import beifenshezhi from '@/pages/system_administrators/beifenshezhi'//备份设置
-import shujuxiugai from '@/pages/system_administrators/shujuxiugai'//数据修改
-import yuanxiliebiao from '@/pages/system_administrators/yuanxiliebiao'//院系列表
-import xueshengliebiao from '@/pages/system_administrators/xueshengliebiao'//学生列表
-import xueshengxiangqing from '@/pages/system_administrators/xueshengxiangqing'//学生详情
-import daoruxueshengshuju from '@/pages/system_administrators/daoruxueshengshuju'//导入学生数据
-import xueshenghuishouzhan from '@/pages/system_administrators/xueshenghuishouzhan'//学生回收站
-import jiaoshiliebiao from '@/pages/system_administrators/jiaoshiliebiao'//教师列表
-import xibanshuju from '@/pages/system_administrators/xibanshuju'//系班数据
-import kechengliebiao from '@/pages/system_administrators/kechengliebiao'//课程列表
-import classroomList from '@/pages/system_administrators/classroomList'//教室列表
-import xuenianxueqi from '@/pages/system_administrators/xuenianxueqi'//学年学期
-import jieci from '@/pages/system_administrators/jieci'//节次
+
+//系统设置
+import zhanghaoshenhe from '@/pages/system_administrators/xitongshezhi/zhanghaoshenhe/zhanghaoshenhe'//账号审核
+import yonghuguanli from '@/pages/system_administrators/xitongshezhi/yonghuguanli/yonghuguanli'//用户管理
+import tianjiayonghu from '@/pages/system_administrators/xitongshezhi/yonghuguanli/tianjiayonghu'//添加用户
+import xiugaiyonghu from '@/pages/system_administrators/xitongshezhi/yonghuguanli/xiugaiyonghu'//修改用户
+import jueseliebiao from '@/pages/system_administrators/xitongshezhi/jueseliebiao/jueseliebiao'//角色列表
+import tianjiajuesezu from '@/pages/system_administrators/xitongshezhi/jueseliebiao/tianjiajuesezu'//添加角色组
+import quanxianliebiao from '@/pages/system_administrators/xitongshezhi/quanxianliebiao/quanxianliebiao'//权限列表
+import tianjiaquanxian from '@/pages/system_administrators/xitongshezhi/quanxianliebiao/tianjiaquanxian'//添加权限
+import bianjiquanxian from '@/pages/system_administrators/xitongshezhi/quanxianliebiao/bianjiquanxian'//编辑权限
+import shujubeifen from '@/pages/system_administrators/xitongshezhi/shujubeifen/shujubeifen'//数据备份
+import beifenshezhi from '@/pages/system_administrators/xitongshezhi/shujubeifen/beifenshezhi'//备份设置
+import xitongrizhi from '@/pages/system_administrators/xitongshezhi/xitongrizhi/xitongrizhi'//系统日志
+import rizhixiangqing from '@/pages/system_administrators/xitongshezhi/xitongrizhi/rizhixiangqing'//日志详情
+
+//基础数据
+import yuanxiliebiao from '@/pages/system_administrators/jichushuju/yuanxiliebiao/yuanxiliebiao'//院系列表
+import xueshengliebiao from '@/pages/system_administrators/jichushuju/xueshengliebiao/xueshengliebiao'//学生列表
+import xueshengxiangqing from '@/pages/system_administrators/jichushuju/xueshengliebiao/xueshengxiangqing'//学生详情
+import daoruxueshengshuju from '@/pages/system_administrators/jichushuju/xueshengliebiao/daoruxueshengshuju'//导入学生数据
+import xueshenghuishouzhan from '@/pages/system_administrators/jichushuju/xueshengliebiao/xueshenghuishouzhan'//学生回收站
+import jiaoshiliebiao from '@/pages/system_administrators/jichushuju/jiaoshiliebiao/jiaoshiliebiao'//教师列表
+import tianjiajiaoshi from '@/pages/system_administrators/jichushuju/jiaoshiliebiao/tianjiajiaoshi'//添加教师
+import bianjijiaoshi from '@/pages/system_administrators/jichushuju/jiaoshiliebiao/bianjijiaoshi'//编辑教师
+import daorujiaoshishuju from '@/pages/system_administrators/jichushuju/jiaoshiliebiao/daorujiaoshishuju'//导入教师数据
+import jiaoshihuishouzhan from '@/pages/system_administrators/jichushuju/jiaoshiliebiao/jiaoshihuishouzhan'//教师回收站
+import xibanshuju from '@/pages/system_administrators/jichushuju/xibanshuju/xibanshuju'//系班数据
+import bianjibanji from '@/pages/system_administrators/jichushuju/xibanshuju/bianjibanji'//编辑班级
+import tianjiabanji from '@/pages/system_administrators/jichushuju/xibanshuju/tianjiabanji'//添加班级
+import banjihuishouzhan from '@/pages/system_administrators/jichushuju/xibanshuju/banjihuishouzhan'//班级回收站
+import kechengliebiao from '@/pages/system_administrators/jichushuju/kechengliebiao/kechengliebiao'//课程列表
+import bianjikecheng from '@/pages/system_administrators/jichushuju/kechengliebiao/bianjikecheng'//编辑课程
+import tianjiakecheng from '@/pages/system_administrators/jichushuju/kechengliebiao/tianjiakecheng'//添加课程
+import kechenghuishouzhan from '@/pages/system_administrators/jichushuju/kechengliebiao/kechenghuishouzhan'//课程回收站
+import classroomList from '@/pages/system_administrators/jichushuju/classroomList/classroomList'//教室列表
+import bianjiclassroom from '@/pages/system_administrators/jichushuju/classroomList/bianjiclassroom'//编辑教室
+import classroomhuishouzhan from '@/pages/system_administrators/jichushuju/classroomList/classroomhuishouzhan'//教室回收站
+import tianjiaclassroom from '@/pages/system_administrators/jichushuju/classroomList/tianjiaclassroom'//添加教室
+import xuenianxueqi from '@/pages/system_administrators/jichushuju/xuenianxueqi/xuenianxueqi'//学年学期
+import bianjixuenianxueqi from '@/pages/system_administrators/jichushuju/xuenianxueqi/bianjixuenianxueqi'//编辑学年学期
+import tianjiaxuenianxueqi from '@/pages/system_administrators/jichushuju/xuenianxueqi/tianjiaxuenianxueqi'//添加学年学期
+import xuenianxueqihuishouzhan from '@/pages/system_administrators/jichushuju/xuenianxueqi/xuenianxueqihuishouzhan'//学年学期回收站
+import jieci from '@/pages/system_administrators/jichushuju/jieci/jieci'//节次
+import tianjiajieci from '@/pages/system_administrators/jichushuju/jieci/tianjiajieci'//添加节次
+import bianjijieci from '@/pages/system_administrators/jichushuju/jieci/bianjijieci'//编辑节次
+import jiecihuishouzhan from '@/pages/system_administrators/jichushuju/jieci/jiecihuishouzhan'//节次回收站
+import shijianduan from '@/pages/system_administrators/jichushuju/shijianduan/shijianduan'//时间段
+
 Vue.use(Router)
 
 export default new Router({
@@ -77,18 +99,6 @@ export default new Router({
         {
             path: '/',
             component: Login
-        },
-        {
-            path: '/pages/index/Home',
-            component: Home
-        },
-        {
-            path: '/pages/index/Search',
-            component: Search
-        },
-        {
-            path: '/pages/index/Rank',
-            component: Rank
         },
         {
             path: '/pages/admin/Login',
@@ -322,25 +332,105 @@ export default new Router({
                 component:jiaoshiliebiao
             },
             {
+                path:"bianjijiaoshi",
+                component:bianjijiaoshi
+            },
+            {
+                path:"tianjiajiaoshi",
+                component:tianjiajiaoshi
+            },
+            {
+                path:"daorujiaoshishuju",
+                component:daorujiaoshishuju
+            },
+            {
+                path:"jiaoshihuishouzhan",
+                component:jiaoshihuishouzhan
+            },
+            {
                 path:"xibanshuju",
                 component:xibanshuju
+            },
+            {
+                path:"bianjibanji",
+                component:bianjibanji
+            },
+            {
+                path:"tianjiabanji",
+                component:tianjiabanji
+            },
+            {
+                path:"banjihuishouzhan",
+                component:banjihuishouzhan
             },
             {
                 path:"kechengliebiao",
                 component:kechengliebiao
             },
             {
+                path:"bianjikecheng",
+                component:bianjikecheng
+            },
+            {
+                path:"tianjiakecheng",
+                component:tianjiakecheng
+            },
+            {
+                path:"kechenghuishouzhan",
+                component:kechenghuishouzhan
+            },
+            {
                 path:"classroomList",
                 component:classroomList
+            },
+            {
+                path:"bianjiclassroom",
+                component:bianjiclassroom
+            },
+            {
+                path:"tianjiaclassroom",
+                component:tianjiaclassroom
+            },
+            {
+                path:"classroomhuishouzhan",
+                component:classroomhuishouzhan
             },
             {
                 path:"xuenianxueqi",
                 component:xuenianxueqi
             },
             {
+                path:"bianjixuenianxueqi",
+                component:bianjixuenianxueqi
+            },
+            {
+                path:"tianjiaxuenianxueqi",
+                component:tianjiaxuenianxueqi
+            },
+            {
+                path:"xuenianxueqihuishouzhan",
+                component:xuenianxueqihuishouzhan
+            },
+            {
                 path:"jieci",
                 component:jieci
-            }
+            },
+            {
+                path:"tianjiajieci",
+                component:tianjiajieci
+            },
+            {
+                path:"bianjijieci",
+                component:bianjijieci
+            },
+            {
+                path:"jiecihuishouzhan",
+                component:jiecihuishouzhan
+            },
+            {
+                path:"shijianduan",
+                component:shijianduan
+            },
             ]
         },
         {

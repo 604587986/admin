@@ -7,7 +7,7 @@
 
 
 <template>
-  <div id="classroomList">
+  <div id="yuanxiliebiao">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
     <el-button size="small" type="primary" @click="open">添加院系</el-button>

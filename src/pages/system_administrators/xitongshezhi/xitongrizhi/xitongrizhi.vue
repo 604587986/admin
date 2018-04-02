@@ -141,10 +141,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-@import "../../assets/css/less_config.less";
 .prompt {
   font-size: 14px;
-  color: @text-color;
+  color:#606266;
   line-height: 24px;
   margin-bottom: 20px;
   .title {

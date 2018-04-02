@@ -7,35 +7,39 @@
 
 
 <template>
-  <div id="xueshenghuishouzhan">
+  <div id="classroom">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
+
     <!-- Table -->
     <div class="table-container">
+      <!-- 表格筛选 -->
+      <div class="table-filter">
+        <el-select v-model="statusValue" clearable placeholder="选择状态" size="mini" class="float-left state-selection" @change="search">
+          <el-option v-for="item in statusList" :key="item.id" :label="item.title" :value="item.id"></el-option>
+        </el-select>    
+          <router-link to="/pages/system_administrators/System_Administrators/classroomhuishouzhan"><el-button type="primary" size="mini" style="float:right;">回收站</el-button>  </router-link>      
+          <router-link to="/pages/system_administrators/System_Administrators/tianjiaclassroom"><el-button type="primary" size="mini" style="float:right;margin-right:10px">添加教室</el-button></router-link>   
+      </div>
       <!-- 表格 -->
       <div class="table-body">
         <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
-          <el-table-column prop="id" label="ID" width="60"></el-table-column>
-          <el-table-column prop="student_num" label="学号"></el-table-column>
-          <el-table-column prop="name" label="姓名"></el-table-column>
-          <el-table-column label="性别" width="60">
-            <div slot-scope="scope">
-              <el-tag :type="scope.row.sex==0?'danger':''" v-html="scope.row.sex==0?'女':'男'">
+          <!-- <el-table-column type="selection" @selection-change="handleSelectionChange"></el-table-column> -->
+          <el-table-column prop="id" label="ID" width="100"></el-table-column>
+          <el-table-column prop="name" label="教室名称"></el-table-column>          
+          <el-table-column prop="classroom_location" label="教室位置"></el-table-column>
+          <el-table-column  label="是否开启预约">
+             <div slot-scope="scope">
+              <el-tag :type="scope.row.status==1?'':'danger'" v-html="scope.row.status==1?'是':'否'">
               </el-tag>
             </div>
-          </el-table-column>
-          <el-table-column prop="tel" label="电话"></el-table-column>                  
-          <el-table-column prop="faculty_id" label="所属院系"></el-table-column>     
-          <el-table-column prop="specialty" label="专业名称"></el-table-column>                         
-          <el-table-column prop="grade_id" label="所属班级"></el-table-column>  
-          <el-table-column prop="systme" label="学制" width="50"></el-table-column>   
-          <el-table-column prop="school_rol_status" label="学籍状态"></el-table-column> 
-          <el-table-column prop="grade" label="所在级"></el-table-column> 
+          </el-table-column>  
           <el-table-column label="操作">
             <div slot-scope="scope"  class="control-btn">
-              <el-button type="warning" size="mini" @click="restore(scope.row.id)">还原</el-button>
+              <router-link :to="{path:'/pages/system_administrators/System_Administrators/bianjiclassroom',query:{id:scope.row.id}}"><el-button  size="mini">编辑</el-button></router-link>
+              <el-button size="mini" @click="deleteRow(scope.$index, scope.row.id,tableInfo)">删除</el-button>
             </div>
-          </el-table-column>                                                                         
+          </el-table-column>               
         </el-table>
       </div>
       <!-- 分页 -->
@@ -73,22 +77,29 @@ export default {
           url: ""
         },
         {
-          name: "学生列表",
-          url:
-            "/pages/system_administrators/System_Administrators/xueshengliebiao"
-        },
-        {
-          name: "学生回收站",
+          name: "教室列表",
           url: ""
         }
       ],
-
+      //select内容
+      statusList: [
+        {
+          id: 1,
+          title: "可预约"
+        },
+        {
+          id: 2,
+          title: "不可预约"
+        }
+      ],
+      statusValue: "",
       //表格
       tableInfo: []
     };
   },
   components: {
     Crumb,
+
     Paging
   },
   mounted: function() {
@@ -120,18 +131,18 @@ export default {
       that
         .$http({
           method: "get",
-          url: "/Admin/Student/dellist",
+          url: "/Admin/classroom/index",
           params: {
             p: that.currentPaging.currentPage,
-            pageSize: that.currentPaging.pageSize
+            pageSize: that.currentPaging.pageSize,
+            status: that.statusValue
           }
         })
         .then(function(res) {
+          that.tableInfo = res.data.classroom;
           that.currentPaging.totals = Number(res.data.count);
-          that.tableInfo = res.data.student;
         });
     },
-
     //处理sizeChange
     handleSizeChange(val) {
       this.currentPaging.pageSize = val;
@@ -143,7 +154,11 @@ export default {
       this.currentPaging.currentPage = val;
       this.getData();
     },
-    //删除表格行
+    //检索
+    search() {
+      this.getData();
+    },
+    //删除
     deleteRow(index, id, rows) {
       this.$confirm("此操作将删除该行数据, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -155,7 +170,7 @@ export default {
           that
             .$http({
               method: "get",
-              url: "/Admin/Student/del",
+              url: "/Admin/classroom/del",
               params: {
                 id: id
               }
@@ -185,41 +200,44 @@ export default {
           });
         });
     },
-    //还原
-    restore(id) {
+    //选中的时候触发
+    handleSelectionChange(val) {
+      this.tableList = val;
+      //console.log(val[0].uid)
+      //this.tableInfo.splice(val.uid, 1)
+      //console.log(this.tableList)
+    },
+    //全选
+    selection(rows) {
       var that = this;
-      that
-        .$confirm("是否还原?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        })
+      if (this.tableInfo.length !== this.tableList.length) {
+        rows.forEach(row => {
+          that.$refs.multipleTable.toggleRowSelection(row, true);
+        });
+      } else {
+        that.$refs.multipleTable.clearSelection();
+      }
+    },
+    //批量删除
+    batchDeleting() {
+      for (var i = 0; i < this.tableList.length; i++) {
+        //console.log(this.tableList[i].uid)
+      }
+      this.$confirm("此操作将删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
         .then(() => {
-          that
-            .$http({
-              method: "get",
-              url: "/Admin/Student/restore",
-              params: {
-                id: id
-              }
-            })
-            .then(function(res) {
-              if (res.data.code == 1) {
-                that.$message({
-                  type: "success",
-                  message: "还原成功!",
-                  duration: 500,
-                  onClose() {
-                    that.getData();
-                  }
-                });
-              }
-            });
+          this.$message({
+            type: "success",
+            message: "删除成功!"
+          });
         })
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消"
+            message: "已取消删除"
           });
         });
     }

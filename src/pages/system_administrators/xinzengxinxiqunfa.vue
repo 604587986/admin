@@ -17,36 +17,27 @@
         <!-- 表单 -->
         <el-form ref="form" status-icon label-width="95px" size="mini" label-position="right">
         <el-form-item label="接收用户：" class="form-item">
-          <el-input  @focus="tableFlag=true" :value="userList"></el-input>
-        </el-form-item>
-        <transition name="el-fade-in">
-       <div class="table-container" v-show="tableFlag">
-      <!-- 表格筛选 -->
-      <div class="table-filter">
-        <el-select v-model="departmentValue" clearable placeholder="选择系" size="mini" class="float-left column-selection">
-          <el-option v-for="item in departmentList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-        <el-select v-model="classValue" clearable placeholder="选择班级" size="mini" class="float-left column-selection">
-          <el-option v-for="item in classList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-        <el-input placeholder="请输入关键字" v-model="searchValue" class="input-with-select title-search float-left" size="mini">
-          <el-button slot="append" icon="el-icon-search" @click="articleSearch()"></el-button>
-        </el-input>
-      </div>
-      <!-- 表格 -->
-      <div class="table-body">
-        <el-table ref="multipleTable" :data="tableInfo" stripe size="small"  @selection-change="handleSelectionChange">
-          <el-table-column  type="selection"></el-table-column>
-          <el-table-column prop="id" label="学号"></el-table-column>
-          <el-table-column prop="name" label="姓名"></el-table-column>
-        </el-table>
-      </div>
-      <!-- 表格控制 -->
-      <div class="table-filter">
-        <el-button type="primary" size="mini" @click="addUser()">添加</el-button>
-      </div>
-    </div>
-    </transition>
+         <!-- 表格筛选 -->
+          <div class="table-filter" style="margin-bottom:20px">
+            <el-select v-model="departmentValue" clearable placeholder="选择系" size="mini" @change='showClass'>
+              <el-option v-for="item in departmentList" :key="item.id" :label="item.title" :value="item.id"></el-option>
+            </el-select>
+            <el-select v-model="classValue" clearable placeholder="选择班级" size="mini">
+              <el-option v-for="item in classList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+            </el-select>
+            <el-input placeholder="请输入关键字" v-model="searchValue" size="mini" style="display: inline-block; width:200px">
+            </el-input>
+            <el-button  @click="search()">搜索</el-button>       
+          </div>
+          <transition name="el-zoom-in-top">
+          <el-transfer v-model="form.content" :data="studentList" :titles="['待选学生列表','已选列表']" filterable v-show="showTransfer">
+          </el-transfer>
+          </transition>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" size="mini" v-show="showBtn" @click="showTransfer = !showTransfer" v-html="showTransfer?'确定':'展开列表'">
+        </el-button>
+      </el-form-item>
         <el-form-item label="群发标题：" class="form-item" >
           <el-input ></el-input>
         </el-form-item>
@@ -72,18 +63,21 @@
 <script>
 /* 引入组件 */
 import Crumb from "@/components/Crumb";
+import { token } from "@/publicjs/token";
+
 /* 添加组件 */
 export default {
   name: "AddComponent",
   data() {
     return {
-
-      //table的显示隐藏
-      tableFlag: false,
+      //显示隐藏
+      showTransfer: false,
+      showBtn: false,
       //checkbox的值
-      tableList:[],
+      tableList: [],
       //用户列表
-      userList:'',
+      userList: "",
+
       //面包屑
       crumbs: [
         {
@@ -103,83 +97,99 @@ export default {
           url: ""
         }
       ],
-          // select内容
-      departmentList: [
-        {
-          value: 0,
-          label: "1系"
-        },
-        {
-          value: 1,
-          label: "2系"
-        },
-        {
-          value: 2,
-          label: "3系"
-        },
-        {
-          value: 3,
-          label: "4系"
-        }
-      ],
+      // select内容
+      departmentList: [],
       departmentValue: "",
-      classList: [
-        {
-          value: 0,
-          label: "1班"
-        },
-        {
-          value: 1,
-          label: "2班"
-        },
-        {
-          value: 2,
-          label: "3班"
-        },
-        {
-          value: 3,
-          label: "4班"
-        }
-      ],
+      allClass: [],
+      classList: [],
       classValue: "",
-      searchValue:'',
+      searchValue: "",
       fileList: [],
-     
+
       //提交按钮loading
       subLoading: false,
       //表单
       form: {
-        title: "", //站点名称
-        code: "",
-        type: "",
-        gave: "",
-        sort: "", //排序
-        remarks: "" //备注
+        content: []
       },
-
-
+      //搜索到的结果
+      studentList: [],
       //表格
-      tableInfo: [
-        {
-          id: 20160926002,
-          name: "张三"
-        },
-        {
-          id: 20160926002,
-          name: "张三"
-        }
-      ]
+      tableInfo: []
     };
   },
   components: {
-    Crumb,
+    Crumb
   },
   mounted: function() {
+    var that = this;
+    //验证token是否登陆
+    token().then(res => {
+      if (res.verify == true) {
+        that.getData();
+      } else if (res.verify == false) {
+        that.$alert("请先登录", "用户尚未登录", {
+          confirmButtonText: "确定",
+          callback: function() {
+            that.$router.push(
+              "/pages/system_administrators/System_Administrators/login"
+            );
+          }
+        });
+      }
+    });
     //侧边导航定位
     sessionStorage.setItem("system_menu_idx", 4);
     this.$store.commit("update_system_menu_idx", 4);
   },
   methods: {
+    //ajax封装
+    getData() {
+      var that = this;
+      that
+        .$http({
+          method: "get",
+          url: "/Admin/information/index"
+        })
+        .then(function(res) {
+          that.departmentList = res.data.category;
+          that.allClass = res.data.squad;
+        });
+    },
+    //筛选
+    search() {
+      var that = this;
+      that
+        .$http({
+          method: "get",
+          url: "/Admin/information/stu",
+          params: {
+            name: that.searchValue,
+            faculty_id: that.departmentValue,
+            grade_id: that.classValue
+          }
+        })
+        .then(function(res) {
+          that.showTransfer = true;
+          that.showBtn = true;
+          that.studentList = [];
+          for (let i in res.data.Student) {
+            that.studentList.push({
+              key: res.data.Student[i].id,
+              label: res.data.Student[i].student_num+' '+res.data.Student[i].name
+            });
+          }
+        });
+    },
+    //显示联动的班级
+    showClass(val) {
+      this.classList = [];
+      for (let i in this.allClass) {
+        if (this.allClass[i].faculty_id == val) {
+          this.classList.push(this.allClass[i]);
+        }
+      }
+    },
     //表单提交
     submitForm(formName) {
       var that = this;
@@ -206,15 +216,14 @@ export default {
       //console.log(this.tableList)
     },
     addUser() {
-      this.userList = '';
+      this.userList = "";
       this.tableList.forEach(item => {
-        console.log(item)
-        this.userList +=item.id+','+item.name+';'
+        console.log(item);
+        this.userList += item.id + "," + item.name + ";";
       });
       console.log(this.userList);
-      
-      this.tableFlag = false;
 
+      this.tableFlag = false;
     }
   }
 };
@@ -230,6 +239,9 @@ export default {
     .table-container {
       margin-left: 95px;
     }
+  }
+  .el-transfer-panel{
+    width: 250px
   }
 }
 </style>

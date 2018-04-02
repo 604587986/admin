@@ -46,6 +46,8 @@
 <script>
 /* 引入组件 */
 import Crumb from "@/components/Crumb";
+import { token } from "@/publicjs/token";
+
 /* 添加用户 */
 export default {
   name: "AddUser",
@@ -140,37 +142,55 @@ export default {
   },
   mounted: function() {
     var that = this;
+    //验证token是否登陆
+    token().then(res => {
+      if (res.verify == true) {
+        that.getData();
+      } else if (res.verify == false) {
+        that.$alert("请先登录", "用户尚未登录", {
+          confirmButtonText: "确定",
+          callback: function() {
+            that.$router.push(
+              "/pages/system_administrators/System_Administrators/login"
+            );
+          }
+        });
+      }
+    });
     //侧边导航定位
     sessionStorage.setItem("system_menu_idx", 7);
     this.$store.commit("update_system_menu_idx", 7);
-
-    that
-      .$http({
-        method: "post",
-        url: "/Admin/user/add",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        //格式化
-        transformRequest: [
-          function(data) {
-            let ret = "";
-            for (let it in data) {
-              ret +=
-                encodeURIComponent(it) +
-                "=" +
-                encodeURIComponent(data[it]) +
-                "&";
-            }
-            return ret;
-          }
-        ]
-      })
-      .then(function(res) {
-        that.dataList = res.data;
-      });
   },
   methods: {
+    //ajax封装
+    getData() {
+      var that = this;
+      that
+        .$http({
+          method: "post",
+          url: "/Admin/user/add",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          //格式化
+          transformRequest: [
+            function(data) {
+              let ret = "";
+              for (let it in data) {
+                ret +=
+                  encodeURIComponent(it) +
+                  "=" +
+                  encodeURIComponent(data[it]) +
+                  "&";
+              }
+              return ret;
+            }
+          ]
+        })
+        .then(function(res) {
+          that.dataList = res.data;
+        });
+    },
     //表单提交
     submitForm(formName) {
       var that = this;

@@ -7,7 +7,7 @@
             <el-form-item label="标题：" style="width:400px" prop="title">
               <el-input v-model="form.title"></el-input>
             </el-form-item>
-            <el-form-item label="权限：" prop="powers">
+            <el-form-item label="权限：">
               <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
               <el-checkbox-group v-model="form.checkedPowers"  @change="handleCheckedPowersChange">
                 <el-checkbox v-for="item in powers" :label="item.id" :key="item.id" style="width:200px;margin-left:0">{{item.title}}</el-checkbox>
@@ -53,15 +53,7 @@ export default {
       allPowers: [],
       //表单验证规则
       rules: {
-        title: [{ required: true, message: "请输入名称", trigger: "blur" }],
-        powers: [
-          {
-            type: "array",
-            required: true,
-            message: "请至少选择一个权限",
-            trigger: "change"
-          }
-        ]
+        title: [{ required: true, message: "请输入名称", trigger: "blur" }]
       }
     };
   },
@@ -146,9 +138,9 @@ export default {
                   }
                 });
               } else {
-                that.$message({
-                  type: "error",
-                  message: "添加失败!"
+                that.$alert("请至少选择一种权限", "添加失败", {
+                  confirmButtonText: "确定",
+                  type:'warning'
                 });
               }
             });

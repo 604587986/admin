@@ -271,6 +271,11 @@ export default {
               column_name: "节次",
               column_url: "jieci",
               column_active: false
+            },
+            {
+              column_name: "时间段",
+              column_url: "shijianduan",
+              column_active: false
             }
           ]
         }

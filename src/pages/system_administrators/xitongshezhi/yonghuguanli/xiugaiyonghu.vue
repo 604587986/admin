@@ -55,6 +55,8 @@
 <script>
 /* 引入组件 */
 import Crumb from "@/components/Crumb";
+import { token } from "@/publicjs/token";
+
 /* 添加用户 */
 export default {
   name: "AddUser",
@@ -119,7 +121,7 @@ export default {
         ],
         password: [
           {
-            required: true,
+            required: false,
             validator: function(rule, value, callback) {
               var reg = /^[0-9a-zA-Z_]{6,15}$/; //6-15位数字字母下划线
               if (!value) {
@@ -137,11 +139,9 @@ export default {
         ],
         comfirmPassword: [
           {
-            required: true,
+            required: false,
             validator: (rule, value, callback) => {
-              if (value === "") {
-                callback();
-              } else if (value !== this.form.password) {
+              if (value !== this.form.password) {
                 callback(new Error("两次输入密码不一致!"));
               } else {
                 callback();
@@ -158,45 +158,66 @@ export default {
   },
   mounted: function() {
     var that = this;
-    that
-      .$http({
-        method: "get",
-        url: "/Admin/user/edit?id=" + that.$route.query.id,
-        // data: { id: that.$route.query.id },
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        //格式化
-        transformRequest: [
-          function(data) {
-            let ret = "";
-            for (let it in data) {
-              ret +=
-                encodeURIComponent(it) +
-                "=" +
-                encodeURIComponent(data[it]) +
-                "&";
-            }
-            return ret;
-          }
-        ]
-      })
-      .then(function(res) {
-        that.dataList = res.data.group_list;
-        that.form.id = res.data.user_rec.id;
-        that.form.user_name = res.data.user_rec.name;
-        that.form.nick_name = res.data.user_rec.nickname;
-        that.form.lastLogin = res.data.user_rec.logined;
-        that.form.nowLogin = res.data.user_rec.createtime;
-        that.form.loginCount = res.data.user_rec.times;
 
-        that.form.role = res.data.user_rec.AuthGroupAccess.group_id;
-      });
+    //验证token是否登陆
+    token().then(res => {
+      if (res.verify == true) {
+        that.getData();
+      } else if (res.verify == false) {
+        that.$alert("请先登录", "用户尚未登录", {
+          confirmButtonText: "确定",
+          callback: function() {
+            that.$router.push(
+              "/pages/system_administrators/System_Administrators/login"
+            );
+          }
+        });
+      }
+    });
+
     //侧边导航定位
     sessionStorage.setItem("system_menu_idx", 7);
     this.$store.commit("update_system_menu_idx", 7);
   },
   methods: {
+    //ajax封装
+    getData() {
+      var that = this;
+      that
+        .$http({
+          method: "get",
+          url: "/Admin/user/edit?id=" + that.$route.query.id,
+          // data: { id: that.$route.query.id },
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          //格式化
+          transformRequest: [
+            function(data) {
+              let ret = "";
+              for (let it in data) {
+                ret +=
+                  encodeURIComponent(it) +
+                  "=" +
+                  encodeURIComponent(data[it]) +
+                  "&";
+              }
+              return ret;
+            }
+          ]
+        })
+        .then(function(res) {
+          that.dataList = res.data.group_list;
+          that.form.id = res.data.user_rec.id;
+          that.form.user_name = res.data.user_rec.name;
+          that.form.nick_name = res.data.user_rec.nickname;
+          that.form.lastLogin = res.data.user_rec.logined;
+          that.form.nowLogin = res.data.user_rec.createtime;
+          that.form.loginCount = res.data.user_rec.times;
+
+          that.form.role = res.data.user_rec.AuthGroupAccess.group_id;
+        });
+    },
     //表单提交
     submitForm(formName) {
       var that = this;

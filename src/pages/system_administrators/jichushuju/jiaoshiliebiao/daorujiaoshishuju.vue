@@ -7,7 +7,7 @@
 
 
 <template>
-  <div id="daoruxueshengshuju">
+  <div id="daorujiaoshishuju">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
 
@@ -16,29 +16,25 @@
       <div class="prompt">
         <p class="title">提示：</p>
         <p>请先下载模板</p>
-        <a  href="/Admin/Student/dow" ><el-button type="primary" size="mini">模板下载</el-button></a>      
+        <a  href="/Admin/teacher/dow" ><el-button type="primary" size="mini">模板下载</el-button></a>      
       </div>
     </div>
            <!-- Form -->
         <div class="form-container">
             <!-- 表单 -->
             <el-form ref="form" :model="form" :rules="rules" status-icon label-width="108px" size="mini" label-position="right">
-                <el-form-item label="院系分类：" class="form-item" prop="category">
-                    <el-select v-model="form.category" clearable placeholder="选择系" size="mini" class="float-left state-selection" @change='showClass'>
+                <el-form-item label="部门：" class="form-item" prop="category">
+                    <el-select v-model="form.category" clearable placeholder="选择系" size="mini" class="float-left state-selection">
                         <el-option v-for="item in departmentList" :key="item.id" :label="item.title" :value="item.id"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="班级：" class="form-item" prop="squad">
-                    <el-select v-model="form.squad" clearable placeholder="选择班级" size="mini" class="float-left state-selection">
-                        <el-option v-for="item in classList" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                    </el-select>
-                </el-form-item>
+               
                 <el-form-item label="Excel文件：" class="form-item">
                     <el-upload
                         class="upload-demo"
                         ref="upload"
-                        action="/Admin/Student/add"
-                        :data="{'category':form.category,'squad':form.squad}"
+                        action="/Admin/teacher/excel"
+                        :data="{'category':form.category}"
                         name="filename"
                         :on-success="success"
                         :file-list="fileList"
@@ -57,7 +53,7 @@
 <script>
 /* 引入组件 */
 import Crumb from "@/components/Crumb";
-import Paging from "@/components/Paging";
+// import Paging from "@/components/Paging";
 import { token } from "@/publicjs/token";
 
 /* 内容管理 */
@@ -76,12 +72,12 @@ export default {
           url: ""
         },
         {
-          name: "学生列表",
+          name: "教师列表",
           url:
-            "/pages/system_administrators/System_Administrators/xueshengliebiao"
+            "/pages/system_administrators/System_Administrators/jiaoshiliebiao"
         },
         {
-          name: "导入学生数据",
+          name: "导入教师数据",
           url: ""
         }
       ],
@@ -95,9 +91,6 @@ export default {
       //select数据
       departmentList: [],
       departmentValue: "",
-      allClass: [],
-      classList: [],
-      classValue: "",
 
       //文件列表
       fileList: []
@@ -106,7 +99,7 @@ export default {
   components: {
     Crumb,
 
-    Paging
+    // Paging
   },
   mounted: function() {
     var that = this;
@@ -137,22 +130,13 @@ export default {
       that
         .$http({
           method: "get",
-          url: "/Admin/Student/add"
+          url: "/Admin/teacher/add"
         })
         .then(function(res) {
-          that.departmentList = res.data.category;
-          that.allClass = res.data.squad;
+          that.departmentList = res.data;
         });
     },
-    //显示联动的班级
-    showClass(val) {
-      this.classList = [];
-      for (let i in this.allClass) {
-        if (this.allClass[i].faculty_id == val) {
-          this.classList.push(this.allClass[i]);
-        }
-      }
-    },
+   
 
     // 处理上传
     submitUpload(formName) {
@@ -186,10 +170,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-@import "../../assets/css/less_config.less";
+
 .prompt {
   font-size: 14px;
-  color: @text-color;
+  color: #606266;
   line-height: 24px;
   margin-bottom: 20px;
   .title {
