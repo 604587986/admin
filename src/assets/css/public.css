@@ -144,7 +144,7 @@ body {
   overflow: hidden;
 }
 .public-wap .main {
-  width: 1200px;
+  width: 1190px;
   margin: 0 auto;
   margin-top: 40px;
   overflow: hidden;
@@ -238,9 +238,8 @@ body {
 }
 .public-wap .main .table-container .table-filter {
   width: 100%;
-  /* height: 28px; */
+  height: 28px;
   overflow: hidden;
-  margin-bottom: 10px;
   margin-bottom: 20px;
 }
 .public-wap .main .table-container .table-filter button {
@@ -262,7 +261,6 @@ body {
 .public-wap .main .table-container .table-filter .state-selection {
   width: 160px;
   margin-right: 5px;
-  margin-bottom: 10px;
 }
 .public-wap .main .table-container .table-filter .title-search {
   width: 220px;
@@ -307,8 +305,8 @@ body {
   font-weight: 300;
   padding: 7px 10px;
   margin-left: 0;
+  margin-top: 4px;
   margin-right: 4px;
-  margin-bottom: 4px;
 }
 .public-wap .main .table-container .table-body .control-btn .el-button a {
   color: #606266;
@@ -444,8 +442,53 @@ body {
   top: 32%;
 }
 .public-container {
-  width: 1027px;
+  width: 990px;
   background: #fff;
   padding: 20px;
   border-radius: 3px;
+}
+.detail-wrapper .box-card {
+  margin-bottom: 20px;
+}
+.detail-wrapper .box-card .card-header {
+  font-size: 18px;
+}
+.detail-wrapper .box-card .body {
+  color: #606266;
+}
+.detail-wrapper .box-card .body p {
+  border: 1px solid #EBEEF5;
+  margin-top: -1px;
+  padding-top: 8px;
+  font-size: 15px;
+}
+.detail-wrapper .box-card .body p label {
+  display: inline-block;
+  width: 160px;
+  padding: 0 20px;
+  text-align: left;
+  margin-bottom: 10px;
+}
+.detail-wrapper .box-card .body p span {
+  margin-left: 10px;
+  padding-left: 20px;
+  height: 100%;
+}
+.detail-wrapper .box-card .body p span .v-image {
+  width: 120px;
+  transition: all .5s;
+  vertical-align: top;
+}
+.detail-wrapper .box-card .body p span .v-image:hover {
+  width: 400px;
+}
+.detail-wrapper .box-card .body p span .download {
+  vertical-align: bottom;
+}
+.detail-wrapper .box-card .body p span .download span {
+  margin: 4px;
+  padding: 0;
+}
+.detail-wrapper .btn-wrapper {
+  text-align: center;
 }

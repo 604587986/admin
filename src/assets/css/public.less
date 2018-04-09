@@ -94,28 +94,26 @@ a {
 }
 
 @import "./less_config";
-
 /* 滚动条样式 */
 
- ::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
 
- ::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
     border-radius: 10px;
     background: #fff;
 }
 
- ::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background: #aaa;
 }
 
- ::-webkit-scrollbar-thumb:hover {
+::-webkit-scrollbar-thumb:hover {
     background: #888;
 }
-
 
 /* 下划线动画 */
 
@@ -311,6 +309,9 @@ body {
                 .control-btn .el-button {
                     font-weight: 300;
                     padding: 7px 10px;
+                    margin-left: 0;
+                    margin-top: 4px;
+                    margin-right: 4px;
                 }
                 .control-btn .el-button a {
                     color: #606266;
@@ -468,4 +469,52 @@ body {
     background: #fff;
     padding: 20px;
     border-radius: 3px;
+}
+
+.detail-wrapper {
+    .box-card {
+        margin-bottom: 20px;
+        .card-header {
+            font-size: 18px;
+        }
+        .body {
+            color: #606266;
+            p {
+                border: 1px solid #EBEEF5;
+                margin-top: -1px;
+                padding-top:8px;
+                font-size: 15px;
+                label {
+                    display: inline-block;
+                    width: 160px;
+                    padding: 0 20px;
+                    text-align: left;
+                    margin-bottom: 10px;
+                }
+                span {
+                    margin-left: 10px;
+                    padding-left: 20px;
+                    height: 100%;
+                    .v-image{
+                        width: 120px;
+                        transition: all .5s;
+                        vertical-align: top;
+                        &:hover{
+                            width: 400px;
+                        }
+                    }
+                    .download{
+                        vertical-align: bottom;
+                        span{
+                            margin: 4px;
+                            padding: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .btn-wrapper {
+        text-align: center;
+    }
 }

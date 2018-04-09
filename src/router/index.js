@@ -9,10 +9,6 @@ import Administrators from '@/pages/administrators/Administrators'
 import System_Administrators from '@/pages/system_administrators/System_Administrators'
 import Workbench from '@/pages/system_administrators/Workbench' //首页
 
-import qingjiaguanli from '@/pages/system_administrators/qingjiaguanli'//请假管理
-import qingjiaxiangqing from '@/pages/system_administrators/qingjiaxiangqing'//请假详情
-import tiaokeguanli from '@/pages/system_administrators/tiaokeguanli'//调课管理
-import tiaokexiangqing from '@/pages/system_administrators/tiaokexiangqing'//调课详情
 import kaoqinshuju from '@/pages/system_administrators/kaoqinshuju'//考勤数据
 import shujuxiugai from '@/pages/system_administrators/shujuxiugai'//数据修改
 import dakashuju from '@/pages/system_administrators/dakashuju'//考勤数据
@@ -23,26 +19,47 @@ import kebiaochakan from '@/pages/system_administrators/kebiaochakan'//课表查
 import keshiguanli from '@/pages/system_administrators/keshiguanli'//课时管理
 import keshixiangqing from '@/pages/system_administrators/keshixiangqing'//课时详情
 import kebiaotixing from '@/pages/system_administrators/kebiaotixing'//课表提醒
-import bingkeguanli from '@/pages/system_administrators/bingkeguanli'//并课管理
-import bingkexiangqing from '@/pages/system_administrators/bingkexiangqing'//并课详情
-import baobeiguanli from '@/pages/system_administrators/baobeiguanli'//报备管理
-import baobeixiangqing from '@/pages/system_administrators/baobeixiangqing'//报备详情
-import jiaoshiyuyueguanli from '@/pages/system_administrators/jiaoshiyuyueguanli'//教室预约管理
-import jiaoshiyuyuexiangqing from '@/pages/system_administrators/jiaoshiyuyuexiangqing'//教室预约详情
+
+
 import kongjiaoshichaxun from '@/pages/system_administrators/kongjiaoshichaxun'//空教室查询
-import xueshengshensuguanli from '@/pages/system_administrators/xueshengshensuguanli'//学生申诉管理
-import shensuxiangqing from '@/pages/system_administrators/shensuxiangqing'//申诉详情
-import waichujiaoxueguanli from '@/pages/system_administrators/waichujiaoxueguanli'//外出教学管理
-import waichujiaoxuexiangqing from '@/pages/system_administrators/waichujiaoxuexiangqing'//外出教学详情
 import baobiaotuisong from '@/pages/system_administrators/baobiaotuisong'//报表推送
 import baobiaoyulan from '@/pages/system_administrators/baobiaoyulan'//报表预览
 import xinxituisong from '@/pages/system_administrators/xinxituisong'//信息推送
-import xinxiqunfa from '@/pages/system_administrators/xinxiqunfa'//信息群发
 import shujubaobiao from '@/pages/system_administrators/shujubaobiao'//数据报表
-import xinzengxinxiqunfa from '@/pages/system_administrators/xinzengxinxiqunfa'//新增信息群发
 import shujutianbao from '@/pages/system_administrators/shujutianbao'//数据填报
 import baobiaoshujuxiugai from '@/pages/system_administrators/baobiaoshujuxiugai'//报表数据修改
 import shenpishezhi from '@/pages/system_administrators/shenpishezhi'//审批设置
+
+//信息推送
+import xinxiqunfa from '@/pages/system_administrators/xinxituisong/xinxiqunfa/xinxiqunfa'//信息群发
+import xinxiqunfaxiangqing from '@/pages/system_administrators/xinxituisong/xinxiqunfa/xinxiqunfaxiangqing'//信息群发详情
+import xinzengxinxiqunfa from '@/pages/system_administrators/xinxituisong/xinxiqunfa/xinzengxinxiqunfa'//新增信息群发
+import xinxiqunfahuishouzhan from '@/pages/system_administrators/xinxituisong/xinxiqunfa/xinxiqunfahuishouzhan'//新增信息群发
+
+//申请审批
+import jiaoshiyuyueguanli from '@/pages/system_administrators/shenqingshenpi/jiaoshiyuyueguanli/jiaoshiyuyueguanli'//教室预约管理
+import jiaoshiyuyuexiangqing from '@/pages/system_administrators/shenqingshenpi/jiaoshiyuyueguanli/jiaoshiyuyuexiangqing'//教室预约详情
+import qingjiaguanli from '@/pages/system_administrators/shenqingshenpi/qingjiaguanli/qingjiaguanli'//请假管理
+import qingjiaxiangqing from '@/pages/system_administrators/shenqingshenpi/qingjiaguanli/qingjiaxiangqing'//请假详情
+import qingjiahuishouzhan from '@/pages/system_administrators/shenqingshenpi/qingjiaguanli/qingjiahuishouzhan'//请假回收站
+import tiaokeguanli from '@/pages/system_administrators/shenqingshenpi/tiaokeguanli/tiaokeguanli'//调课管理
+import tiaokexiangqing from '@/pages/system_administrators/shenqingshenpi/tiaokeguanli/tiaokexiangqing'//调课详情
+import tiaokehuishouzhan from '@/pages/system_administrators/shenqingshenpi/tiaokeguanli/tiaokehuishouzhan'//调课回收站
+import bingkeguanli from '@/pages/system_administrators/shenqingshenpi/bingkeguanli/bingkeguanli'//并课管理
+import bingkexiangqing from '@/pages/system_administrators/shenqingshenpi/bingkeguanli/bingkexiangqing'//并课详情
+import bingkehuishouzhan from '@/pages/system_administrators/shenqingshenpi/bingkeguanli/bingkehuishouzhan'//并课回收站
+import baobeiguanli from '@/pages/system_administrators/shenqingshenpi/baobeiguanli/baobeiguanli'//报备管理
+import baobeixiangqing from '@/pages/system_administrators/shenqingshenpi/baobeiguanli/baobeixiangqing'//报备详情
+import baobeihuishouzhan from '@/pages/system_administrators/shenqingshenpi/baobeiguanli/baobeihuishouzhan'//报备回收站
+import xueshengshensuguanli from '@/pages/system_administrators/shenqingshenpi/xueshengshensuguanli/xueshengshensuguanli'//学生申诉管理
+import xueshengshensuhuishouzhan from '@/pages/system_administrators/shenqingshenpi/xueshengshensuguanli/xueshengshensuhuishouzhan'//学生申诉回收站
+import xueshengshensuxiangqing from '@/pages/system_administrators/shenqingshenpi/xueshengshensuguanli/xueshengshensuxiangqing'//学生申诉详情
+import waichujiaoxueguanli from '@/pages/system_administrators/shenqingshenpi/waichujiaoxueguanli/waichujiaoxueguanli'//外出教学管理
+import waichujiaoxuexiangqing from '@/pages/system_administrators/shenqingshenpi/waichujiaoxueguanli/waichujiaoxuexiangqing'//外出教学详情
+import waichujiaoxuehuishouzhan from '@/pages/system_administrators/shenqingshenpi/waichujiaoxueguanli/waichujiaoxuehuishouzhan'//外出教学回收站
+
+
+
 
 //系统设置
 import zhanghaoshenhe from '@/pages/system_administrators/xitongshezhi/zhanghaoshenhe/zhanghaoshenhe'//账号审核
@@ -168,8 +185,16 @@ export default new Router({
                 component: qingjiaxiangqing
             },
             {
+                path: 'qingjiahuishouzhan',
+                component: qingjiahuishouzhan
+            },
+            {
                 path: 'tiaokeguanli',
                 component: tiaokeguanli
+            },
+            {
+                path: 'tiaokehuishouzhan',
+                component: tiaokehuishouzhan
             },
             {
                 path: 'tiaokexiangqing',
@@ -184,12 +209,20 @@ export default new Router({
                 component: bingkexiangqing
             },
             {
+                path: 'bingkehuishouzhan',
+                component: bingkehuishouzhan
+            },
+            {
                 path: 'baobeiguanli',
                 component: baobeiguanli
             },
             {
                 path: 'baobeixiangqing',
                 component: baobeixiangqing
+            },
+            {
+                path: 'baobeihuishouzhan',
+                component: baobeihuishouzhan
             },
             {
                 path: 'jiaoshiyuyueguanli',
@@ -208,8 +241,12 @@ export default new Router({
                 component: xueshengshensuguanli
             },
             {
-                path: 'shensuxiangqing',
-                component: shensuxiangqing
+                path: 'xueshengshensuhuishouzhan',
+                component: xueshengshensuhuishouzhan
+            },
+            {
+                path: 'xueshengshensuxiangqing',
+                component: xueshengshensuxiangqing
             },
             {
                 path: 'waichujiaoxueguanli',
@@ -218,6 +255,10 @@ export default new Router({
             {
                 path: 'waichujiaoxuexiangqing',
                 component: waichujiaoxuexiangqing
+            },
+            {
+                path: 'waichujiaoxuehuishouzhan',
+                component: waichujiaoxuehuishouzhan
             },
             {
                 path: 'shenpishezhi',
@@ -238,6 +279,14 @@ export default new Router({
             {
                 path: 'xinxiqunfa',
                 component: xinxiqunfa
+            },
+            {
+                path: 'xinxiqunfaxiangqing',
+                component: xinxiqunfaxiangqing
+            },
+            {
+                path: 'xinxiqunfahuishouzhan',
+                component: xinxiqunfahuishouzhan
             },
             {
                 path: 'xinzengxinxiqunfa',
