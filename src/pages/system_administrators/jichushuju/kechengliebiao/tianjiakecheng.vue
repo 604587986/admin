@@ -61,7 +61,8 @@ export default {
         },
         {
           name: "课程列表",
-          url: "/pages/system_administrators/System_Administrators/kechengliebiao"
+          url:
+            "/pages/system_administrators/System_Administrators/kechengliebiao"
         },
         {
           name: "添加课程",
@@ -140,7 +141,16 @@ export default {
           url: "/Admin/course/add"
         })
         .then(function(res) {
-          that.dataList = res.data.category;
+          if (res.data.code == 6) {
+            this.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // this.$router.go(-1);
+              }
+            });
+          } else {
+            that.dataList = res.data.category;
+          }
         });
     },
 
@@ -173,7 +183,14 @@ export default {
               ]
             })
             .then(function(res) {
-              if (res.data.code == 1) {
+              if (res.data.code == 6) {
+                this.$alert(res.data.error, "提示", {
+                  confirmButtonText: "确定",
+                  callback: () => {
+                    // this.$router.go(-1);
+                  }
+                });
+              } else if (res.data.code == 1) {
                 that.$message({
                   type: "success",
                   message: "提交成功!",

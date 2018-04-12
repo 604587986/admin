@@ -7,7 +7,7 @@
 
 
 <template>
-  <div id="daorujiaoshishuju">
+  <div id="daoruxueshengshuju">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>
 
@@ -16,25 +16,34 @@
       <div class="prompt">
         <p class="title">提示：</p>
         <p>请先下载模板</p>
-        <a  href="/Admin/teacher/dow" ><el-button type="primary" size="mini">模板下载</el-button></a>      
+        <a  href="/Admin/Schedule/dow" ><el-button type="primary" size="mini">模板下载</el-button></a>      
       </div>
     </div>
            <!-- Form -->
         <div class="form-container">
             <!-- 表单 -->
             <el-form ref="form" :model="form" :rules="rules" status-icon label-width="108px" size="mini" label-position="right">
-                <el-form-item label="部门：" class="form-item" prop="category">
-                    <el-select v-model="form.category" clearable placeholder="选择系" size="mini" class="float-left state-selection">
+                <el-form-item label="院系分类：" class="form-item" prop="category">
+                    <el-select v-model="form.category" clearable placeholder="选择系" size="mini" class="float-left state-selection" @change='showClass'>
                         <el-option v-for="item in departmentList" :key="item.id" :label="item.title" :value="item.id"></el-option>
                     </el-select>
                 </el-form-item>
-               
+                <el-form-item label="班级：" class="form-item" prop="squad">
+                    <el-select v-model="form.squad" clearable placeholder="选择班级" size="mini" class="float-left state-selection">
+                        <el-option v-for="item in classList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="学年学期：" class="form-item" prop="squad">
+                    <el-select v-model="form.termValue" clearable placeholder="选择学年学期" size="mini" class="float-left state-selection">
+                        <el-option v-for="item in termList" :key="item.id" :label="item.school_year" :value="item.id"></el-option>
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="Excel文件：" class="form-item">
                     <el-upload
                         class="upload-demo"
                         ref="upload"
-                        action="/Admin/teacher/excel"
-                        :data="{'category':form.category}"
+                        action="/Admin/Schedule/add"
+                        :data="{'faculty_id':form.category,'grade_id':form.squad,'schoolyear':form.termValue}"
                         name="filename"
                         :on-success="success"
                         :file-list="fileList"
@@ -53,7 +62,7 @@
 <script>
 /* 引入组件 */
 import Crumb from "@/components/Crumb";
-// import Paging from "@/components/Paging";
+import Paging from "@/components/Paging";
 import { token } from "@/publicjs/token";
 
 /* 内容管理 */
@@ -72,17 +81,20 @@ export default {
           url: ""
         },
         {
-          name: "教师列表",
-          url:
-            "/pages/system_administrators/System_Administrators/jiaoshiliebiao"
+          name: "课表管理",
+          url: "/pages/system_administrators/System_Administrators/kebiaoguanli"
         },
         {
-          name: "导入教师数据",
+          name: "导入课表",
           url: ""
         }
       ],
       //表单数据
-      form: {},
+      form: {
+        departmentValue: "",
+        classValue: "",
+        termValue: ""
+      },
       //表单验证
       rules: {
         category: [{ required: true, message: "不能为空", trigger: "blur" }],
@@ -90,16 +102,18 @@ export default {
       },
       //select数据
       departmentList: [],
-      departmentValue: "",
+      allClass: [],
+      classList: [],
+      termList: [],
 
       //文件列表
       fileList: []
     };
   },
   components: {
-    Crumb
+    Crumb,
 
-    // Paging
+    Paging
   },
   mounted: function() {
     var that = this;
@@ -120,8 +134,8 @@ export default {
     });
 
     //侧边导航定位
-    sessionStorage.setItem("system_menu_idx", 8);
-    this.$store.commit("update_system_menu_idx", 8);
+    sessionStorage.setItem("system_menu_idx", 2);
+    this.$store.commit("update_system_menu_idx", 2);
   },
   methods: {
     //请求数据的ajax封装
@@ -130,20 +144,31 @@ export default {
       that
         .$http({
           method: "get",
-          url: "/Admin/teacher/add"
+          url: "/Admin/Schedule/add"
         })
         .then(function(res) {
           if (res.data.code == 6) {
-            this.$alert(res.data.error, "提示", {
+            that.$alert(res.data.error, "提示", {
               confirmButtonText: "确定",
               callback: () => {
-                // this.$router.go(-1);
+                that.$router.go(-1);
               }
             });
           } else {
-            that.departmentList = res.data;
+            that.departmentList = res.data.category;
+            that.termList = res.data.schoolyear;
+            that.allClass = res.data.squad;
           }
         });
+    },
+    //显示联动的班级
+    showClass(val) {
+      this.classList = [];
+      for (let i in this.allClass) {
+        if (this.allClass[i].faculty_id == val) {
+          this.classList.push(this.allClass[i]);
+        }
+      }
     },
 
     // 处理上传
@@ -161,20 +186,13 @@ export default {
     //上传成功回调
     success(response, file, fileList) {
       var that = this;
-      if (res.data.code == 6) {
-        this.$alert(res.data.error, "提示", {
-          confirmButtonText: "确定",
-          callback: () => {
-            // this.$router.go(-1);
-          }
-        });
-      } else if (response.code == 1) {
+      if (response.code == 1) {
         that.$message({
           type: "success",
           message: "提交成功!",
           duration: 1000,
           onClose() {
-            that.$refs.form.resetFields();
+            that.$router.push('/pages/system_administrators/System_Administrators/kebiaoguanli');
           }
         });
       }

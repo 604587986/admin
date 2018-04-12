@@ -28,7 +28,8 @@
           <span class="float-left header-name">欢迎您，{{user}}</span>
         </div>
         <div class="control-box float-left">
-          <a href="javascript:void(0);" class="underline-hover float-left">修改密码</a>
+          <router-link :to="{path:'/pages/system_administrators/System_Administrators/xiugaiyonghu',query:{id:id}}"><span class="underline-hover float-left">修改密码</span></router-link>
+          <a href="javascript:void(0);"></a>
           <i class="iconfont icon-shuxian float-left"></i>
           <a href="javascript:void(0);" class="underline-hover float-left" @click="clear_local()">退出</a>
         </div>
@@ -43,7 +44,8 @@ export default {
   data() {
     return {
       user: "(管理员)",
-      site: "学院官网"
+      site: "学院官网",
+      id: window.localStorage.getItem("id")
     };
   },
   mounted: function() {
@@ -51,9 +53,14 @@ export default {
   },
   methods: {
     clear_local() {
-      localStorage.clear(); //退出登录清除登录信息
-      sessionStorage.setItem("system_menu_idx", 0); //退出登录清除登录信息
-      this.$router.push({ path: "/" });
+      this.$http({
+        method: "get",
+        url: "/Admin/Login/logout"
+      }).then(res => {
+        localStorage.clear(); //退出登录清除登录信息
+        sessionStorage.setItem("system_menu_idx", 0); //退出登录清除登录信息
+        this.$router.push({ path: "/" });
+      });
     }
   }
 };
@@ -76,13 +83,13 @@ export default {
       visibility: hidden;
       clear: both;
     }
-    .nav-logo{
+    .nav-logo {
       width: 110px;
       height: 35px;
       margin-top: 11px;
-      img{
+      img {
         width: 100%;
-        height:100%;
+        height: 100%;
       }
     }
     .header-left {

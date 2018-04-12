@@ -72,7 +72,7 @@ export default {
           url: ""
         }
       ],
-    dialogVisible: false,
+      dialogVisible: false,
       //表单
       form: {}
     };
@@ -112,7 +112,16 @@ export default {
           url: "/Admin/information/particulars?id=" + that.$route.query.id
         })
         .then(function(res) {
-          that.form = res.data.information;
+          if (res.data.code == 6) {
+            this.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // this.$router.go(-1);
+              }
+            });
+          } else {
+            that.form = res.data.information;
+          }
         });
     }
   }
@@ -121,36 +130,36 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-#xinxiqunfaxiangqing{
-    .detail{
-        .title{
-            text-align: center;
-            font-size: 20px;
-            font-weight: 500;
-        }
-        .desc{
-            text-align: center;
-            font-size: 12px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            color: #606266;
-            label{
-                margin-left: 10px;
-            }
-        }
-        .btn::after{
-            content: ' ';
-            display: block;
-            clear: both;
-        }
-        .content{
-            .box-card{
-                margin: 10px auto;
-                text-align: justify;
-                font-size: 15px;
-                line-height: 30px;
-            }
-        }
+#xinxiqunfaxiangqing {
+  .detail {
+    .title {
+      text-align: center;
+      font-size: 20px;
+      font-weight: 500;
     }
+    .desc {
+      text-align: center;
+      font-size: 12px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      color: #606266;
+      label {
+        margin-left: 10px;
+      }
+    }
+    .btn::after {
+      content: " ";
+      display: block;
+      clear: both;
+    }
+    .content {
+      .box-card {
+        margin: 10px auto;
+        text-align: justify;
+        font-size: 15px;
+        line-height: 30px;
+      }
+    }
+  }
 }
 </style>

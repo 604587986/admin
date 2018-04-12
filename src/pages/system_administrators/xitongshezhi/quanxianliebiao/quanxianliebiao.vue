@@ -105,8 +105,6 @@ export default {
         });
       }
     });
-
-    
   },
   methods: {
     //请求数据的ajax封装
@@ -140,7 +138,16 @@ export default {
           ]
         })
         .then(res => {
-          that.tableInfo = res.data;
+          if (res.data.code == 6) {
+            that.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // that.$router.go(-1);
+              }
+            });
+          } else {
+            that.tableInfo = res.data;
+          }
         });
     },
     handleSelectionChange(val) {
@@ -180,7 +187,14 @@ export default {
           ]
         })
         .then(res => {
-          if (res.data.code == 1) {
+          if (res.data.code == 6) {
+            that.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // that.$router.go(-1);
+              }
+            });
+          } else if (res.data.code == 1) {
             that.$message({
               type: "success",
               message: "操作成功!",
@@ -207,8 +221,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-#quanxianliebiao{
-  .table-filter{
+#quanxianliebiao {
+  .table-filter {
     width: auto;
   }
 }

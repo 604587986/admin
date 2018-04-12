@@ -12,7 +12,7 @@
         <Crumb :crumbs="crumbs"></Crumb>
        
         <!-- Form -->
-        <div class="form-container">
+        <div class="form-container" v-if="dataList.length">
             <!-- 表单 -->
             <el-form ref="form" :model="form" :rules="rules" status-icon label-width="108px" size="mini" label-position="right">
                 <el-form-item label="用户名：" class="form-item" prop="user_name">
@@ -50,7 +50,6 @@ import { token } from "@/publicjs/token";
 
 /* 添加用户 */
 export default {
-  name: "AddUser",
   data() {
     return {
       //是否返回用户列表
@@ -188,7 +187,16 @@ export default {
           ]
         })
         .then(function(res) {
-          that.dataList = res.data;
+          if (res.data.code == 6) {
+            that.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                that.$router.go(-1);
+              }
+            });
+          } else {
+            that.dataList = res.data;
+          }
         });
     },
     //表单提交

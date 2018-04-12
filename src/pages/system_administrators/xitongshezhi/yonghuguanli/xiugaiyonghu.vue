@@ -12,7 +12,7 @@
         <Crumb :crumbs="crumbs"></Crumb>
 
        <!-- Form -->
-        <div class="form-container">
+        <div class="form-container" v-if="form.id">
             <!-- 表单 -->
             <el-form ref="form" :model="form" :rules="rules" status-icon label-width="108px" size="mini" label-position="right">
                 <el-form-item label="用户名：" class="form-item" prop="user_name">
@@ -207,15 +207,23 @@ export default {
           ]
         })
         .then(function(res) {
-          that.dataList = res.data.group_list;
-          that.form.id = res.data.user_rec.id;
-          that.form.user_name = res.data.user_rec.name;
-          that.form.nick_name = res.data.user_rec.nickname;
-          that.form.lastLogin = res.data.user_rec.logined;
-          that.form.nowLogin = res.data.user_rec.createtime;
-          that.form.loginCount = res.data.user_rec.times;
-
-          that.form.role = res.data.user_rec.AuthGroupAccess.group_id;
+          if (res.data.code == 6) {
+            that.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                that.$router.go(-1);
+              }
+            });
+          } else {
+            that.dataList = res.data.group_list;
+            that.form.id = res.data.user_rec.id;
+            that.form.user_name = res.data.user_rec.name;
+            that.form.nick_name = res.data.user_rec.nickname;
+            that.form.lastLogin = res.data.user_rec.logined;
+            that.form.nowLogin = res.data.user_rec.createtime;
+            that.form.loginCount = res.data.user_rec.times;
+            that.form.role = res.data.user_rec.AuthGroupAccess.group_id;
+          }
         });
     },
     //表单提交
@@ -235,7 +243,6 @@ export default {
                 nickname: that.form.nick_name,
                 password: that.form.password,
                 group_id: that.form.role,
-                token: window.localStorage.getItem("token")
               },
               headers: {
                 "Content-Type": "application/x-www-form-urlencoded"

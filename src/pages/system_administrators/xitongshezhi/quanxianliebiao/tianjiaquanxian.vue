@@ -43,7 +43,8 @@ export default {
         },
         {
           name: "权限列表",
-          url: "/pages/system_administrators/System_Administrators/quanxianliebiao"
+          url:
+            "/pages/system_administrators/System_Administrators/quanxianliebiao"
         },
         {
           name: "添加权限",
@@ -59,8 +60,12 @@ export default {
       //表单验证规则
       rules: {
         name: [{ required: true, message: "权限不能为空", trigger: "blur" }],
-        title: [{ required: true, message: "权限标题不能为空", trigger: "blur" }],
-        controller: [{ required: true, message: "控制器不能为空", trigger: "blur" }],
+        title: [
+          { required: true, message: "权限标题不能为空", trigger: "blur" }
+        ],
+        controller: [
+          { required: true, message: "控制器不能为空", trigger: "blur" }
+        ]
       }
     };
   },
@@ -77,7 +82,7 @@ export default {
                 name: that.form.name,
                 title: that.form.title,
                 controller: that.form.controller,
-                status:that.form.status
+                status: that.form.status
               },
               headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -98,7 +103,14 @@ export default {
               ]
             })
             .then(function(res) {
-              if (res.data.code == 1) {
+              if (res.data.code == 6) {
+                that.$alert(res.data.error, "提示", {
+                  confirmButtonText: "确定",
+                  callback: () => {
+                    that.$router.go(-1);
+                  }
+                });
+              } else if (res.data.code == 1) {
                 that.$message({
                   type: "success",
                   message: "添加成功!",

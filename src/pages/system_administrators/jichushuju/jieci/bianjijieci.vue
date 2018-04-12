@@ -55,8 +55,7 @@ export default {
         },
         {
           name: "节次列表",
-          url:
-            "/pages/system_administrators/System_Administrators/jieci"
+          url: "/pages/system_administrators/System_Administrators/jieci"
         },
         {
           name: "编辑节次",
@@ -67,15 +66,17 @@ export default {
       //表单
       form: {},
       //时间段
-      time_quantum:[],
+      time_quantum: [],
       //表单验证
       rules: {
-        name: [{ required: true, message: "教室名称不能为空", trigger: "blur" }],
-        classroom_location: [{ required: true, message: "教室位置不能为空", trigger: "blur" }],
-        status: [{ required: true, message: "请选择状态", trigger: "blur" }],
-      },
-
-
+        name: [
+          { required: true, message: "教室名称不能为空", trigger: "blur" }
+        ],
+        classroom_location: [
+          { required: true, message: "教室位置不能为空", trigger: "blur" }
+        ],
+        status: [{ required: true, message: "请选择状态", trigger: "blur" }]
+      }
     };
   },
   components: {
@@ -113,8 +114,17 @@ export default {
           url: "/Admin/section/edit?id=" + that.$route.query.id
         })
         .then(function(res) {
-          that.form = res.data.section;
-          that.time_quantum = res.data.time_quantum
+          if (res.data.code == 6) {
+            this.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // this.$router.go(-1);
+              }
+            });
+          } else {
+            that.form = res.data.section;
+            that.time_quantum = res.data.time_quantum;
+          }
         });
     },
 
@@ -147,7 +157,14 @@ export default {
               ]
             })
             .then(function(res) {
-              if (res.data.code == 1) {
+              if (res.data.code == 6) {
+                this.$alert(res.data.error, "提示", {
+                  confirmButtonText: "确定",
+                  callback: () => {
+                    // this.$router.go(-1);
+                  }
+                });
+              } else if (res.data.code == 1) {
                 that
                   .$confirm("修改成功，是否返回节次列表?", "提示", {
                     confirmButtonText: "返回",

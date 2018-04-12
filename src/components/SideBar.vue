@@ -69,16 +69,11 @@ export default {
               column_url: "kebiaoguanli",
               column_active: false
             },
-            {
-              column_name: "课表上传",
-              column_url: "kebiaoshangchuan",
-              column_active: false
-            },
-            {
-              column_name: "课时管理",
-              column_url: "keshiguanli",
-              column_active: false
-            },
+            // {
+            //   column_name: "课时管理",
+            //   column_url: "keshiguanli",
+            //   column_active: false
+            // },
             {
               column_name: "课表提醒",
               column_url: "kebiaotixing",
@@ -192,11 +187,11 @@ export default {
           column_open: false,
           no_second: false,
           second_class_column: [
-            {
-              column_name: "账号审核",
-              column_url: "zhanghaoshenhe",
-              column_active: false
-            },
+            // {
+            //   column_name: "账号审核",
+            //   column_url: "zhanghaoshenhe",
+            //   column_active: false
+            // },
             {
               column_name: "用户管理",
               column_url: "yonghuguanli",

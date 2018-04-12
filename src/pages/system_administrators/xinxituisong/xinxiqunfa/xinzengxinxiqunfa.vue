@@ -179,8 +179,17 @@ export default {
           url: "/Admin/information/index"
         })
         .then(function(res) {
-          that.departmentList = res.data.category;
-          that.allClass = res.data.squad;
+          if (res.data.code == 6) {
+            this.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // this.$router.go(-1);
+              }
+            });
+          } else {
+            that.departmentList = res.data.category;
+            that.allClass = res.data.squad;
+          }
         });
     },
     //筛选
@@ -197,17 +206,28 @@ export default {
           }
         })
         .then(function(res) {
-          that.showTransfer = true;
-          that.showBtn = true;
-          that.studentList = [];
-          that.form.user = [];
-
-          for (let i in res.data.Student) {
-            that.studentList.push({
-              key: res.data.Student[i].id,
-              label:
-                res.data.Student[i].student_num + " " + res.data.Student[i].name
+          if (res.data.code == 6) {
+            this.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // this.$router.go(-1);
+              }
             });
+          } else {
+            that.showTransfer = true;
+            that.showBtn = true;
+            that.studentList = [];
+            that.form.user = [];
+
+            for (let i in res.data.Student) {
+              that.studentList.push({
+                key: res.data.Student[i].id,
+                label:
+                  res.data.Student[i].student_num +
+                  " " +
+                  res.data.Student[i].name
+              });
+            }
           }
         });
     },
@@ -274,7 +294,14 @@ export default {
               ]
             })
             .then(res => {
-              if (res.data.code == 1) {
+              if (res.data.code == 6) {
+                this.$alert(res.data.error, "提示", {
+                  confirmButtonText: "确定",
+                  callback: () => {
+                    // this.$router.go(-1);
+                  }
+                });
+              } else if (res.data.code == 1) {
                 that
                   .$confirm("发送成功, 是否返回?", "提示", {
                     confirmButtonText: "返回",
@@ -295,12 +322,6 @@ export default {
         }
       });
     },
-    handleSelectionChange(val) {
-      this.tableList = val;
-      //console.log(val[0].uid)
-      //this.tableInfo.splice(val.uid, 1)
-      //console.log(this.tableList)
-    }
   }
 };
 </script>

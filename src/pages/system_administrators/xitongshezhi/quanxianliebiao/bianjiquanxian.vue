@@ -12,7 +12,7 @@
         <Crumb :crumbs="crumbs"></Crumb>
 
        <!-- Form -->
-        <div class="form-container">
+        <div class="form-container" v-if="form.id">
             <!-- 表单 -->
            <el-form ref="form" :model="form"  :rules="rules"  class="form-box">
             <el-form-item label="权限名称：" style="width:300px" prop="name">
@@ -60,7 +60,8 @@ export default {
         },
         {
           name: "权限列表",
-          url: "/pages/system_administrators/System_Administrators/quanxianliebiao"
+          url:
+            "/pages/system_administrators/System_Administrators/quanxianliebiao"
         },
         {
           name: "编辑权限",
@@ -148,12 +149,21 @@ export default {
           ]
         })
         .then(function(res) {
-          that.form.id = res.data.id;
-          that.form.controller = res.data.controller;
-          that.form.name = res.data.name;
-          that.form.status = res.data.status;
-          that.form.title = res.data.title;
-          that.form.type = res.data.type;
+          if (res.data.code == 6) {
+            that.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                that.$router.go(-1);
+              }
+            });
+          } else {
+            that.form.id = res.data.id;
+            that.form.controller = res.data.controller;
+            that.form.name = res.data.name;
+            that.form.status = res.data.status;
+            that.form.title = res.data.title;
+            that.form.type = res.data.type;
+          }
         });
     },
     //表单提交
@@ -197,7 +207,7 @@ export default {
                   }
                 });
               } else {
-                 that.$message({
+                that.$message({
                   type: "error",
                   message: "修改失败!",
                   duration: 1500

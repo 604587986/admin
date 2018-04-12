@@ -76,11 +76,10 @@ export default {
         sex: [{ required: true, message: "不能为空", trigger: "blur" }],
         tel: [{ required: true, message: "不能为空", trigger: "blur" }],
         faculty_id: [{ required: true, message: "不能为空", trigger: "blur" }],
-        duty: [{ required: true, message: "不能为空", trigger: "blur" }],
-
+        duty: [{ required: true, message: "不能为空", trigger: "blur" }]
       },
 
-      departmentList: [],
+      departmentList: []
     };
   },
   components: {
@@ -118,8 +117,17 @@ export default {
           url: "/Admin/course/edit?id=" + that.$route.query.id
         })
         .then(function(res) {
-          that.form = res.data.course;
-          that.departmentList = res.data.category;
+          if (res.data.code == 6) {
+            this.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // this.$router.go(-1);
+              }
+            });
+          } else {
+            that.form = res.data.course;
+            that.departmentList = res.data.category;
+          }
         });
     },
 
@@ -131,7 +139,7 @@ export default {
           that
             .$http({
               method: "post",
-              url: "/Admin/teacher/edit",
+              url: "/Admin/course/edit",
               data: that.form,
               headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -152,7 +160,14 @@ export default {
               ]
             })
             .then(function(res) {
-              if (res.data.code == 1) {
+              if (res.data.code == 6) {
+                this.$alert(res.data.error, "提示", {
+                  confirmButtonText: "确定",
+                  callback: () => {
+                    // this.$router.go(-1);
+                  }
+                });
+              } else if (res.data.code == 1) {
                 that
                   .$confirm("修改成功，是否返回课程列表?", "提示", {
                     confirmButtonText: "返回",

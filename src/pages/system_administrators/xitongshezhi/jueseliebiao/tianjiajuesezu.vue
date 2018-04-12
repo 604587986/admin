@@ -89,9 +89,18 @@ export default {
           ]
         })
         .then(res => {
-          that.powers = res.data;
-          for (let i in that.powers) {
-            that.allPowers.push(that.powers[i].id);
+          if (res.data.code == 6) {
+            that.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                that.$router.go(-1);
+              }
+            });
+          } else {
+            that.powers = res.data;
+            for (let i in that.powers) {
+              that.allPowers.push(that.powers[i].id);
+            }
           }
         });
     },
@@ -140,7 +149,7 @@ export default {
               } else {
                 that.$alert("请至少选择一种权限", "添加失败", {
                   confirmButtonText: "确定",
-                  type:'warning'
+                  type: "warning"
                 });
               }
             });

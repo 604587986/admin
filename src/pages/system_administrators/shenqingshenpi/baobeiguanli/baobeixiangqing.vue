@@ -121,7 +121,16 @@ export default {
           }
         })
         .then(function(res) {
-          that.dataList = res.data.data;
+          if (res.data.code == 6) {
+            this.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // this.$router.go(-1);
+              }
+            });
+          } else {
+            that.dataList = res.data.data;
+          }
         });
     },
     //单个审核与驳回
@@ -161,7 +170,14 @@ export default {
             ]
           })
           .then(res => {
-            if (res.data.code == 1) {
+            if (res.data.code == 6) {
+              this.$alert(res.data.error, "提示", {
+                confirmButtonText: "确定",
+                callback: () => {
+                  // this.$router.go(-1);
+                }
+              });
+            } else if (res.data.code == 1) {
               that.$message({
                 message: "操作成功",
                 type: "success"

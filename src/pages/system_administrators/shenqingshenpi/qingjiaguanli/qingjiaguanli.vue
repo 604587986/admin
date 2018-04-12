@@ -13,6 +13,8 @@
 
     <!-- Table -->
     <div class="table-container">
+      <!-- 提示 -->
+        <p class="prompt">提示：选择待审批状态可批量审核或驳回</p>      
       <!-- 表格筛选 -->
       <div class="table-filter">
         <el-select v-model="statusValue" clearable placeholder="选择状态" size="mini" class="float-left state-selection" @change="getData">
@@ -23,8 +25,7 @@
         <!-- <el-input placeholder="申请人关键字" v-model="searchValue" class="input-with-select title-search float-left" size="mini">
           <el-button slot="append" icon="el-icon-search" @click="getData"></el-button>
         </el-input> -->
-      <router-link to="/pages/system_administrators/System_Administrators/qingjiahuishouzhan"><el-button type="primary" size="mini" style="float:right;">回收站</el-button>  </router-link> 
-        
+      <router-link to="/pages/system_administrators/System_Administrators/qingjiahuishouzhan"><el-button type="primary" size="mini" style="float:right;">回收站</el-button>  </router-link>        
       </div>
       <!-- 表格 -->
       <div class="table-body">
@@ -61,12 +62,14 @@
           </el-table-column>
         </el-table>
       </div>
-      <!-- 表格控制 -->
+            <!-- 表格控制 -->
       <div class="table-filter">
         <el-button type="primary" size="mini" @click="selection(tableInfo)">全选</el-button>
-        <el-button type="primary" size="mini">批量审核</el-button>
-        <el-button type="primary" size="mini">批量驳回</el-button>
+        <el-button type="primary" size="mini" @click="batch('pass')" :disabled="tableList.length==0" v-show="statusValue==1">批量审核</el-button>
+        <el-button type="primary" size="mini" @click="batch('reject')" :disabled="tableList.length==0" v-show="statusValue==1">批量驳回</el-button>
+        <el-button type="primary" size="mini" @click="batch('del')" :disabled="tableList.length==0">批量删除</el-button>
       </div>
+      
       <!-- 分页 -->
         <Paging :currentPaging="currentPaging" v-on="{sizeChange:handleSizeChange,currentChange:handleCurrentChange}"></Paging>
       
@@ -157,8 +160,17 @@ export default {
           }
         })
         .then(function(res) {
-          that.tableInfo = res.data.request;
-          that.currentPaging.totals = Number(res.data.count);
+          if (res.data.code == 6) {
+            this.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // this.$router.go(-1);
+              }
+            });
+          } else {
+            that.tableInfo = res.data.request;
+            that.currentPaging.totals = Number(res.data.count);
+          }
         });
     },
     //处理sizeChange
@@ -180,49 +192,60 @@ export default {
       this.$prompt("请输入备注", title, {
         confirmButtonText: "确认",
         cancelButtonText: "取消"
-      }).then(({ value }) => {
-        that
-          .$http({
-            method: "post",
-            url: "/Admin/Request/audit",
-            data: {
-              id: id,
-              status: status,
-              remarks: value
-            },
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded"
-            },
-            //格式化
-            transformRequest: [
-              function(data) {
-                let ret = "";
-                for (let it in data) {
-                  ret +=
-                    encodeURIComponent(it) +
-                    "=" +
-                    encodeURIComponent(data[it]) +
-                    "&";
+      })
+        .then(({ value }) => {
+          that
+            .$http({
+              method: "post",
+              url: "/Admin/Request/audit",
+              data: {
+                id: id,
+                status: status,
+                remarks: value
+              },
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+              },
+              //格式化
+              transformRequest: [
+                function(data) {
+                  let ret = "";
+                  for (let it in data) {
+                    ret +=
+                      encodeURIComponent(it) +
+                      "=" +
+                      encodeURIComponent(data[it]) +
+                      "&";
+                  }
+                  return ret;
                 }
-                return ret;
+              ]
+            })
+            .then(res => {
+              if (res.data.code == 6) {
+                this.$alert(res.data.error, "提示", {
+                  confirmButtonText: "确定",
+                  callback: () => {
+                    // this.$router.go(-1);
+                  }
+                });
+              } else if (res.data.code == 1) {
+                that.$message({
+                  message: "操作成功",
+                  type: "success"
+                });
+                that.getData();
+              } else {
+                that.$message({
+                  message: "操作失败",
+                  type: "error"
+                });
               }
-            ]
-          })
-          .then(res => {
-            if (res.data.code == 1) {
-              that.$message({
-                message: "操作成功",
-                type: "success"
-              });
-              that.getData();
-            } else {
-              that.$message({
-                message: "操作失败",
-                type: "error"
-              });
-            }
-          });
-      });
+            });
+        })
+        .catch(() => {
+          return;
+        });
     },
     //软删除
     del(id) {
@@ -236,7 +259,14 @@ export default {
           }
         })
         .then(function(res) {
-          if (res.data.code == 1) {
+          if (res.data.code == 6) {
+            this.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // this.$router.go(-1);
+              }
+            });
+          } else if (res.data.code == 1) {
             that.$alert("删除成功", "操作提示", {
               confirmButtonText: "确定",
               callback: () => {
@@ -253,7 +283,10 @@ export default {
 
     //选中的时候触发
     handleSelectionChange(val) {
-      this.tableList = val;
+      this.tableList = [];
+      for (let i in val) {
+        this.tableList.push(val[i].id);
+      }
     },
     //全选
     selection(rows) {
@@ -265,6 +298,141 @@ export default {
         });
       } else {
         that.$refs.multipleTable.clearSelection();
+      }
+    },
+
+    //批量操作
+    batch(operation) {
+      var title = "";
+      switch (operation) {
+        case "del":
+          title = "是否批量删除选中项";
+          break;
+        case "restore":
+          title = "是否批量还原选中项";
+          break;
+        case "delete":
+          title = "是否永久删除选中项";
+          break;
+        case "pass":
+          title = "批量审核选中项";
+          break;
+        case "reject":
+          title = "批量驳回选中项";
+          break;
+      }
+      if (operation == "del") {
+        this.$confirm(title, "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            this.$http({
+              method: "post",
+              url: "/Admin/request/batch",
+              data: {
+                operation: operation,
+                id: this.tableList
+              },
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+              },
+              //格式化
+              transformRequest: [
+                function(data) {
+                  let ret = "";
+                  for (let it in data) {
+                    ret +=
+                      encodeURIComponent(it) +
+                      "=" +
+                      encodeURIComponent(data[it]) +
+                      "&";
+                  }
+                  return ret;
+                }
+              ]
+            }).then(res => {
+              if (res.data.code == 6) {
+                this.$alert(res.data.error, "提示", {
+                  confirmButtonText: "确定",
+                  callback: () => {
+                    // this.$router.go(-1);
+                  }
+                });
+              } else if (res.data.code == 1) {
+                this.$message({
+                  type: "success",
+                  message: "批量操作成功!"
+                });
+                this.getData();
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "批量操作失败!"
+                });
+              }
+            });
+          })
+          .catch(() => {
+            return;
+          });
+      } else {
+        this.$prompt("请输入备注", title, {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消"
+        })
+          .then(({ value }) => {
+            this.$http({
+              method: "post",
+              url: "/Admin/Request/batch",
+              data: {
+                operation: operation,
+                id: this.tableList,
+                remarks: value
+              },
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+              },
+              //格式化
+              transformRequest: [
+                function(data) {
+                  let ret = "";
+                  for (let it in data) {
+                    ret +=
+                      encodeURIComponent(it) +
+                      "=" +
+                      encodeURIComponent(data[it]) +
+                      "&";
+                  }
+                  return ret;
+                }
+              ]
+            }).then(res => {
+              if (res.data.code == 6) {
+                this.$alert(res.data.error, "提示", {
+                  confirmButtonText: "确定",
+                  callback: () => {
+                    // this.$router.go(-1);
+                  }
+                });
+              } else if (res.data.code == 1) {
+                this.$message({
+                  type: "success",
+                  message: "批量操作成功!"
+                });
+                this.getData();
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "批量操作失败!"
+                });
+              }
+            });
+          })
+          .catch(() => {
+            return;
+          });
       }
     }
   }

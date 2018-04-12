@@ -37,10 +37,10 @@
         <p><label>请假理由:</label><span>{{dataList.reason}}</span></p>
         <p><label>附件:</label>
         <span>
-          <img :src="'http://demo3.q-huan.com/'+dataList.accessory" class="v-image">
-          <a :href="'http://demo3.q-huan.com/Admin/request/download/id/'+dataList.id">
-            <el-button type="primary" size="mini" class="download">下载</el-button>
+           <a :href="'/Admin/request/download/id/'+dataList.id" class="btn-download">
+            下载
           </a>
+          <img :src="dataList.accessory" class="v-image">
         </span>
         </p>
       </div>
@@ -64,6 +64,7 @@
   <div class="btn-wrapper">
     <el-button type="primary" v-show="dataList.status=='1'" @click="submit(dataList.id,2)">通过</el-button>            
     <el-button type="danger" v-show="dataList.status=='1'" @click="submit(dataList.id,3)">驳回</el-button>            
+    <router-link :to="{path:'/pages/system_administrators/System_Administrators/qingjiadayin',query:{id:dataList.id}}"><el-button type="primary">打印</el-button></router-link>            
   </div>
 
   </div>
@@ -77,7 +78,6 @@ import { token } from "@/publicjs/token";
 
 /* 添加站点 */
 export default {
-  name: "AddSite",
   data() {
     return {
       //获取到的数据
@@ -142,7 +142,16 @@ export default {
           }
         })
         .then(function(res) {
-          that.dataList = res.data.data;
+          if (res.data.code == 6) {
+            this.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // this.$router.go(-1);
+              }
+            });
+          } else {
+            that.dataList = res.data.data;
+          }
         });
     },
     //单个审核与驳回
@@ -182,7 +191,14 @@ export default {
             ]
           })
           .then(res => {
-            if (res.data.code == 1) {
+            if (res.data.code == 6) {
+              this.$alert(res.data.error, "提示", {
+                confirmButtonText: "确定",
+                callback: () => {
+                  // this.$router.go(-1);
+                }
+              });
+            } else if (res.data.code == 1) {
               that.$message({
                 message: "操作成功",
                 type: "success"
@@ -203,5 +219,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-
+.btn-download {
+  background-color: #409eff;
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-top: 10px;
+}
 </style>

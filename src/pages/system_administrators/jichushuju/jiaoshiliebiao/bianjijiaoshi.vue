@@ -124,7 +124,7 @@ export default {
         ]
       },
 
-      departmentList: [],
+      departmentList: []
     };
   },
   components: {
@@ -162,10 +162,19 @@ export default {
           url: "/Admin/teacher/edit?id=" + that.$route.query.id
         })
         .then(function(res) {
-          res.data.teacher.password = "";
-          res.data.teacher.comfirmPassword = "";
-          that.form = res.data.teacher;
-          that.departmentList = res.data.category;
+          if (res.data.code == 6) {
+            this.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // this.$router.go(-1);
+              }
+            });
+          } else {
+            res.data.teacher.password = "";
+            res.data.teacher.comfirmPassword = "";
+            that.form = res.data.teacher;
+            that.departmentList = res.data.category;
+          }
         });
     },
 
@@ -198,7 +207,14 @@ export default {
               ]
             })
             .then(function(res) {
-              if (res.data.code == 1) {
+              if (res.data.code == 6) {
+                this.$alert(res.data.error, "提示", {
+                  confirmButtonText: "确定",
+                  callback: () => {
+                    // this.$router.go(-1);
+                  }
+                });
+              } else if (res.data.code == 1) {
                 that
                   .$confirm("修改成功，是否返回教师列表?", "提示", {
                     confirmButtonText: "返回",
@@ -207,7 +223,7 @@ export default {
                   })
                   .then(() => {
                     that.$router.push(
-                      "/pages/system_administrators/System_Administrators/xueshengliebiao"
+                      "/pages/system_administrators/System_Administrators/jiaoshiliebiao"
                     );
                   });
               }

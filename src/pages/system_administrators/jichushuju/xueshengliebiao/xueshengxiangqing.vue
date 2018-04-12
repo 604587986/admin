@@ -171,13 +171,22 @@ export default {
           url: "/Admin/Student/edit?id=" + that.$route.query.id
         })
         .then(function(res) {
-          that.form = res.data.student;
-          that.departmentList = res.data.category;
-          that.allClass = res.data.squad;
+          if (res.data.code == 6) {
+            this.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // this.$router.go(-1);
+              }
+            });
+          } else {
+            that.form = res.data.student;
+            that.departmentList = res.data.category;
+            that.allClass = res.data.squad;
 
-          for (let i in that.allClass) {
-            if (that.allClass[i].faculty_id == that.form.faculty_id) {
-              that.classList.push(that.allClass[i]);
+            for (let i in that.allClass) {
+              if (that.allClass[i].faculty_id == that.form.faculty_id) {
+                that.classList.push(that.allClass[i]);
+              }
             }
           }
         });
@@ -222,14 +231,25 @@ export default {
               ]
             })
             .then(function(res) {
-              if (res.data.code == 1) {
-                that.$confirm("修改成功，是否返回学生列表?", "提示", {
-                  confirmButtonText: "返回",
-                  cancelButtonText: "留在当前页",
-                  type: 'success'
-                }).then(()=>{
-                  that.$router.push('/pages/system_administrators/System_Administrators/xueshengliebiao')
+              if (res.data.code == 6) {
+                this.$alert(res.data.error, "提示", {
+                  confirmButtonText: "确定",
+                  callback: () => {
+                    // this.$router.go(-1);
+                  }
                 });
+              } else if (res.data.code == 1) {
+                that
+                  .$confirm("修改成功，是否返回学生列表?", "提示", {
+                    confirmButtonText: "返回",
+                    cancelButtonText: "留在当前页",
+                    type: "success"
+                  })
+                  .then(() => {
+                    that.$router.push(
+                      "/pages/system_administrators/System_Administrators/xueshengliebiao"
+                    );
+                  });
               }
             });
         } else {

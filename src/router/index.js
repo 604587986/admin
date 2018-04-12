@@ -13,15 +13,11 @@ import kaoqinshuju from '@/pages/system_administrators/kaoqinshuju'//考勤数�
 import shujuxiugai from '@/pages/system_administrators/shujuxiugai'//数据修改
 import dakashuju from '@/pages/system_administrators/dakashuju'//考勤数据
 import kaoqintixingshezhi from '@/pages/system_administrators/kaoqintixingshezhi'//考勤提醒设置
-import kebiaoguanli from '@/pages/system_administrators/kebiaoguanli'//课表管理
-import kebiaoshangchuan from '@/pages/system_administrators/kebiaoshangchuan'//课表上传
-import kebiaochakan from '@/pages/system_administrators/kebiaochakan'//课表查看
 import keshiguanli from '@/pages/system_administrators/keshiguanli'//课时管理
 import keshixiangqing from '@/pages/system_administrators/keshixiangqing'//课时详情
 import kebiaotixing from '@/pages/system_administrators/kebiaotixing'//课表提醒
 
 
-import kongjiaoshichaxun from '@/pages/system_administrators/kongjiaoshichaxun'//空教室查询
 import baobiaotuisong from '@/pages/system_administrators/baobiaotuisong'//报表推送
 import baobiaoyulan from '@/pages/system_administrators/baobiaoyulan'//报表预览
 import xinxituisong from '@/pages/system_administrators/xinxituisong'//信息推送
@@ -29,6 +25,14 @@ import shujubaobiao from '@/pages/system_administrators/shujubaobiao'//数据报
 import shujutianbao from '@/pages/system_administrators/shujutianbao'//数据填报
 import baobiaoshujuxiugai from '@/pages/system_administrators/baobiaoshujuxiugai'//报表数据修改
 import shenpishezhi from '@/pages/system_administrators/shenpishezhi'//审批设置
+
+//课表管理
+import kebiaoguanli from '@/pages/system_administrators/kebiaoguanli/kebiaoguanli'//课表管理
+import kebiaoxiangqing from '@/pages/system_administrators/kebiaoguanli/kebiaoxiangqing'//课表管理
+import kebiaohuishouzhan from '@/pages/system_administrators/kebiaoguanli/kebiaohuishouzhan'//课表回收站
+import daorukebiao from '@/pages/system_administrators/kebiaoguanli/daorukebiao'//导入课表
+
+
 
 //信息推送
 import xinxiqunfa from '@/pages/system_administrators/xinxituisong/xinxiqunfa/xinxiqunfa'//信息群发
@@ -39,8 +43,12 @@ import xinxiqunfahuishouzhan from '@/pages/system_administrators/xinxituisong/xi
 //申请审批
 import jiaoshiyuyueguanli from '@/pages/system_administrators/shenqingshenpi/jiaoshiyuyueguanli/jiaoshiyuyueguanli'//教室预约管理
 import jiaoshiyuyuexiangqing from '@/pages/system_administrators/shenqingshenpi/jiaoshiyuyueguanli/jiaoshiyuyuexiangqing'//教室预约详情
+import jiaoshiyuyuehuishouzhan from '@/pages/system_administrators/shenqingshenpi/jiaoshiyuyueguanli/jiaoshiyuyuehuishouzhan'//教室预约回收站
+import kongjiaoshichaxun from '@/pages/system_administrators/shenqingshenpi/jiaoshiyuyueguanli/kongjiaoshichaxun'//空教室查询
+
 import qingjiaguanli from '@/pages/system_administrators/shenqingshenpi/qingjiaguanli/qingjiaguanli'//请假管理
 import qingjiaxiangqing from '@/pages/system_administrators/shenqingshenpi/qingjiaguanli/qingjiaxiangqing'//请假详情
+import qingjiadayin from '@/pages/system_administrators/shenqingshenpi/qingjiaguanli/qingjiadayin'//请假打印
 import qingjiahuishouzhan from '@/pages/system_administrators/shenqingshenpi/qingjiaguanli/qingjiahuishouzhan'//请假回收站
 import tiaokeguanli from '@/pages/system_administrators/shenqingshenpi/tiaokeguanli/tiaokeguanli'//调课管理
 import tiaokexiangqing from '@/pages/system_administrators/shenqingshenpi/tiaokeguanli/tiaokexiangqing'//调课详情
@@ -156,13 +164,18 @@ export default new Router({
             {//课表管理开始
                 path: 'kebiaoguanli',
                 component: kebiaoguanli
-            },{
-                path: 'kebiaoshangchuan',
-                component: kebiaoshangchuan
             },
             {
-                path: 'kebiaochakan',
-                component: kebiaochakan
+                path: 'kebiaohuishouzhan',
+                component: kebiaohuishouzhan
+            },
+            {
+                path: 'daorukebiao',
+                component: daorukebiao
+            },
+            {
+                path: 'kebiaoxiangqing',
+                component: kebiaoxiangqing
             },
             {
                 path: 'keshiguanli',
@@ -183,6 +196,10 @@ export default new Router({
             {
                 path: 'qingjiaxiangqing',
                 component: qingjiaxiangqing
+            },
+            {
+                path: 'qingjiadayin',
+                component: qingjiadayin
             },
             {
                 path: 'qingjiahuishouzhan',
@@ -227,6 +244,10 @@ export default new Router({
             {
                 path: 'jiaoshiyuyueguanli',
                 component: jiaoshiyuyueguanli
+            },
+            {
+                path: 'jiaoshiyuyuehuishouzhan',
+                component: jiaoshiyuyuehuishouzhan
             },
             {
                 path: 'jiaoshiyuyuexiangqing',

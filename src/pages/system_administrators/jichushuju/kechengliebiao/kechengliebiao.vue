@@ -29,8 +29,8 @@
       </div>
       <!-- 表格 -->
       <div class="table-body">
-        <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
-          <!-- <el-table-column type="selection" @selection-change="handleSelectionChange"></el-table-column> -->
+        <el-table ref="multipleTable" :data="tableInfo" stripe size="small" @selection-change="handleSelectionChange">
+          <el-table-column type="selection"></el-table-column>
           <el-table-column prop="id" label="ID" width="80"></el-table-column>
           <el-table-column prop="name" label="课程名称"></el-table-column>          
           <el-table-column prop="course_num" label="课程编码"></el-table-column>
@@ -43,6 +43,11 @@
             </div>
           </el-table-column>               
         </el-table>
+      </div>
+      <!-- 表格控制 -->
+      <div class="table-filter">
+        <el-button type="primary" size="mini" @click="selection(tableInfo)">全选</el-button>
+        <el-button type="primary" size="mini" @click="batch('del')" :disabled="tableList.length==0">批量删除</el-button>
       </div>
       <!-- 分页 -->
         <Paging :currentPaging="currentPaging" v-on="{sizeChange:handleSizeChange,currentChange:handleCurrentChange}"></Paging>
@@ -87,11 +92,12 @@ export default {
       departmentList: [],
       departmentValue: "",
       searchValue: "",
-      allTeacher:[],
-      teacherList:[],
-      teacherValue:[],
+      allTeacher: [],
+      teacherList: [],
+      teacherValue: [],
       //表格
-      tableInfo: []
+      tableInfo: [],
+      tableList: []
     };
   },
   components: {
@@ -134,14 +140,23 @@ export default {
             pageSize: that.currentPaging.pageSize,
             name: that.searchValue,
             faculty_id: that.departmentValue,
-            teach:that.teacherValue
+            teach: that.teacherValue
           }
         })
         .then(function(res) {
-          that.tableInfo = res.data.course;
-          that.currentPaging.totals = Number(res.data.count);
-          that.departmentList = res.data.category;
-          that.allTeacher = res.data.teacher;
+          if (res.data.code == 6) {
+            this.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // this.$router.go(-1);
+              }
+            });
+          } else {
+            that.tableInfo = res.data.course;
+            that.currentPaging.totals = Number(res.data.count);
+            that.departmentList = res.data.category;
+            that.allTeacher = res.data.teacher;
+          }
         });
     },
     //显示联动的老师
@@ -152,8 +167,6 @@ export default {
           this.teacherList.push(this.allTeacher[i]);
         }
       }
-      console.log(this.teacherList);
-      
     },
     //处理sizeChange
     handleSizeChange(val) {
@@ -188,7 +201,14 @@ export default {
               }
             })
             .then(function(res) {
-              if (res.data.code == 1) {
+              if (res.data.code == 6) {
+                this.$alert(res.data.error, "提示", {
+                  confirmButtonText: "确定",
+                  callback: () => {
+                    // this.$router.go(-1);
+                  }
+                });
+              } else if (res.data.code == 1) {
                 that.$message({
                   type: "success",
                   message: "删除成功!",
@@ -214,15 +234,16 @@ export default {
     },
     //选中的时候触发
     handleSelectionChange(val) {
-      this.tableList = val;
-      //console.log(val[0].uid)
-      //this.tableInfo.splice(val.uid, 1)
-      //console.log(this.tableList)
+      this.tableList = [];
+      for (let i in val) {
+        this.tableList.push(val[i].id);
+      }
     },
     //全选
     selection(rows) {
       var that = this;
-      if (this.tableInfo.length !== this.tableList.length) {
+
+      if (that.tableInfo.length != that.tableList.length) {
         rows.forEach(row => {
           that.$refs.multipleTable.toggleRowSelection(row, true);
         });
@@ -230,27 +251,80 @@ export default {
         that.$refs.multipleTable.clearSelection();
       }
     },
-    //批量删除
-    batchDeleting() {
-      for (var i = 0; i < this.tableList.length; i++) {
-        //console.log(this.tableList[i].uid)
+    //批量操作
+    batch(operation) {
+      var title = "";
+      switch (operation) {
+        case "del":
+          title = "是否批量删除选中项";
+          break;
+        case "restore":
+          title = "是否批量还原选中项";
+          break;
+        case "delete":
+          title = "是否永久删除选中项";
+          break;
+        case "pass":
+          title = "批量审核选中项";
+          break;
+        case "reject":
+          title = "批量驳回选中项";
+          break;
       }
-      this.$confirm("此操作将删除该文件, 是否继续?", "提示", {
+      this.$confirm(title, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          this.$message({
-            type: "success",
-            message: "删除成功!"
+          this.$http({
+            method: "post",
+            url: "/Admin/course/batch",
+            data: {
+              operation: operation,
+              id: this.tableList
+            },
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded"
+            },
+            //格式化
+            transformRequest: [
+              function(data) {
+                let ret = "";
+                for (let it in data) {
+                  ret +=
+                    encodeURIComponent(it) +
+                    "=" +
+                    encodeURIComponent(data[it]) +
+                    "&";
+                }
+                return ret;
+              }
+            ]
+          }).then(res => {
+            if (res.data.code == 6) {
+              this.$alert(res.data.error, "提示", {
+                confirmButtonText: "确定",
+                callback: () => {
+                  // this.$router.go(-1);
+                }
+              });
+            } else if (res.data.code == 1) {
+              this.$message({
+                type: "success",
+                message: "批量操作成功!"
+              });
+              this.getData();
+            } else {
+              this.$message({
+                type: "error",
+                message: "批量操作失败!"
+              });
+            }
           });
         })
         .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
+          return;
         });
     }
   }

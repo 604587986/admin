@@ -70,10 +70,18 @@ export default {
       form: {},
       //表单验证
       rules: {
-        name: [{ required: true, message: "班级名称不能为空", trigger: "blur" }],
-        director: [{ required: true, message: "系主任不能为空", trigger: "blur" }],
-        secretary: [{ required: true, message: "系秘书不能为空", trigger: "blur" }],
-        faculty_id: [{ required: true, message: "系名称不能为空", trigger: "blur" }],
+        name: [
+          { required: true, message: "班级名称不能为空", trigger: "blur" }
+        ],
+        director: [
+          { required: true, message: "系主任不能为空", trigger: "blur" }
+        ],
+        secretary: [
+          { required: true, message: "系秘书不能为空", trigger: "blur" }
+        ],
+        faculty_id: [
+          { required: true, message: "系名称不能为空", trigger: "blur" }
+        ]
       },
 
       departmentList: []
@@ -114,8 +122,17 @@ export default {
           url: "/Admin/squad/edit?id=" + that.$route.query.id
         })
         .then(function(res) {
-          that.form = res.data.squad;
-          that.departmentList = res.data.category;
+          if (res.data.code == 6) {
+            this.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // this.$router.go(-1);
+              }
+            });
+          } else {
+            that.form = res.data.squad;
+            that.departmentList = res.data.category;
+          }
         });
     },
 
@@ -148,7 +165,14 @@ export default {
               ]
             })
             .then(function(res) {
-              if (res.data.code == 1) {
+              if (res.data.code == 6) {
+                this.$alert(res.data.error, "提示", {
+                  confirmButtonText: "确定",
+                  callback: () => {
+                    // this.$router.go(-1);
+                  }
+                });
+              } else if (res.data.code == 1) {
                 that
                   .$confirm("修改成功，是否返回班级列表?", "提示", {
                     confirmButtonText: "返回",

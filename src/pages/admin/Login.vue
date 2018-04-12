@@ -272,6 +272,7 @@ export default {
                   res.data.user.nickname
                 );
                 window.localStorage.setItem("token", res.data.user.token);
+                window.localStorage.setItem("id", res.data.user.id);
               
                 url = "/pages/system_administrators/System_Administrators";
                 setTimeout(function() {

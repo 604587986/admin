@@ -38,7 +38,7 @@
                         class="upload-demo"
                         ref="upload"
                         action="/Admin/Student/add"
-                        :data="{'category':form.category,'squad':form.squad}"
+                        :data="{'faculty_id':form.category,'grade_id':form.squad}"
                         name="filename"
                         :on-success="success"
                         :file-list="fileList"
@@ -140,8 +140,17 @@ export default {
           url: "/Admin/Student/add"
         })
         .then(function(res) {
-          that.departmentList = res.data.category;
-          that.allClass = res.data.squad;
+          if (res.data.code == 6) {
+            this.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // this.$router.go(-1);
+              }
+            });
+          } else {
+            that.departmentList = res.data.category;
+            that.allClass = res.data.squad;
+          }
         });
     },
     //显示联动的班级
@@ -169,13 +178,20 @@ export default {
     //上传成功回调
     success(response, file, fileList) {
       var that = this;
-      if (response.code == 1) {
+      if (response.data.code == 6) {
+        this.$alert(response.data.error, "提示", {
+          confirmButtonText: "确定",
+          callback: () => {
+            // this.$router.go(-1);
+          }
+        });
+      } else if (response.code == 1) {
         that.$message({
           type: "success",
           message: "提交成功!",
           duration: 1000,
-          onClose(){
-              that.$refs.form.resetFields();
+          onClose() {
+            that.$refs.form.resetFields();
           }
         });
       }
@@ -186,7 +202,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-
 .prompt {
   font-size: 14px;
   color: #606266;

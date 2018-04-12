@@ -119,10 +119,10 @@ export default {
       return arr.includes(id);
     },
     //打开弹出框
-    open(id,title) {
+    open(id, title) {
       var that = this;
       that
-        .$prompt("原名称："+title, "请输入新名称", {
+        .$prompt("原名称：" + title, "请输入新名称", {
           confirmButtonText: "确定",
           cancelButtonText: "取消"
         })
@@ -158,9 +158,9 @@ export default {
                 that.$message({
                   message: "编辑成功",
                   type: "success",
-                  duration:1000,
-                  onClose(){
-                    that.getData()
+                  duration: 1000,
+                  onClose() {
+                    that.getData();
                   }
                 });
               }
@@ -198,10 +198,19 @@ export default {
           ]
         })
         .then(res => {
-          for (var i in res.data.group) {
-            res.data.group[i].ruleList = res.data.rule;
+          if (res.data.code == 6) {
+            that.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // that.$router.go(-1);
+              }
+            });
+          } else {
+            for (var i in res.data.group) {
+              res.data.group[i].ruleList = res.data.rule;
+            }
+            that.tableInfo = res.data.group;
           }
-          that.tableInfo = res.data.group;
         });
     },
     afun(roleId, ruleId) {
@@ -237,13 +246,9 @@ export default {
             that.$message({
               type: "success",
               message: "修改成功!",
-              duration: 1000,
-              onClose: function() {
-                that.$router.push(
-                  "/pages/system_administrators/System_Administrators/jueseliebiao"
-                );
-              }
+              duration: 1000
             });
+            that.getData();
           } else {
             that.$message({
               type: "error",
@@ -286,7 +291,7 @@ export default {
                 }
               ]
             })
-            .then(function() {              
+            .then(function() {
               rows.splice(index, 1);
               that.$message({
                 type: "success",
@@ -300,7 +305,7 @@ export default {
             message: "已取消删除"
           });
         });
-    },
+    }
   }
 };
 </script>

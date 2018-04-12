@@ -120,8 +120,17 @@ export default {
           }
         })
         .then(function(res) {
-          that.tableInfo = res.data.data;
-          that.currentPaging.totals = Number(res.data.count);
+          if (res.data.code == 6) {
+            that.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                that.$router.go(-1);
+              }
+            });
+          } else {
+            that.tableInfo = res.data.data;
+            that.currentPaging.totals = Number(res.data.count);
+          }
         });
     },
     //处理sizeChange
@@ -143,7 +152,7 @@ export default {
 <style lang="less">
 .prompt {
   font-size: 14px;
-  color:#606266;
+  color: #606266;
   line-height: 24px;
   margin-bottom: 20px;
   .title {

@@ -67,12 +67,14 @@ export default {
       form: {},
       //表单验证
       rules: {
-        name: [{ required: true, message: "教室名称不能为空", trigger: "blur" }],
-        classroom_location: [{ required: true, message: "教室位置不能为空", trigger: "blur" }],
-        status: [{ required: true, message: "请选择状态", trigger: "blur" }],
-      },
-
-
+        name: [
+          { required: true, message: "教室名称不能为空", trigger: "blur" }
+        ],
+        classroom_location: [
+          { required: true, message: "教室位置不能为空", trigger: "blur" }
+        ],
+        status: [{ required: true, message: "请选择状态", trigger: "blur" }]
+      }
     };
   },
   components: {
@@ -80,7 +82,7 @@ export default {
   },
   mounted: function() {
     var that = this;
-    //验证token是否登陆
+    // 验证token是否登陆
     token().then(res => {
       if (res.verify == true) {
         that.getData();
@@ -110,8 +112,16 @@ export default {
           url: "/Admin/classroom/edit?id=" + that.$route.query.id
         })
         .then(function(res) {
-          that.form = res.data.classroom;
-          
+          if (res.data.code == 6) {
+            this.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // this.$router.go(-1);
+              }
+            });
+          } else {
+            that.form = res.data.classroom;
+          }
         });
     },
 
@@ -144,7 +154,14 @@ export default {
               ]
             })
             .then(function(res) {
-              if (res.data.code == 1) {
+              if (res.data.code == 6) {
+                this.$alert(res.data.error, "提示", {
+                  confirmButtonText: "确定",
+                  callback: () => {
+                    // this.$router.go(-1);
+                  }
+                });
+              } else if (res.data.code == 1) {
                 that
                   .$confirm("修改成功，是否返回教室列表?", "提示", {
                     confirmButtonText: "返回",
