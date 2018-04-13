@@ -148,18 +148,27 @@ export default {
           url: "/Admin/timequantum/index"
         })
         .then(function(res) {
-          for (let i in res.data) {
-            if (res.data[i].grade == "1") {
-              res.data[i].grade = "顶级类别";
-            } else if (res.data[i].grade == "2") {
-              res.data[i].grade = "二级类别";
-              res.data[i].title = ">>>" + res.data[i].title;
-            } else if (res.data[i].grade == "3") {
-              res.data[i].grade = "三级类别";
-              res.data[i].title = ">>>>>>" + res.data[i].title;
+          if (res.data.code == 6) {
+            that.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // this.$router.go(-1);
+              }
+            });
+          } else {
+            for (let i in res.data) {
+              if (res.data[i].grade == "1") {
+                res.data[i].grade = "顶级类别";
+              } else if (res.data[i].grade == "2") {
+                res.data[i].grade = "二级类别";
+                res.data[i].title = ">>>" + res.data[i].title;
+              } else if (res.data[i].grade == "3") {
+                res.data[i].grade = "三级类别";
+                res.data[i].title = ">>>>>>" + res.data[i].title;
+              }
             }
+            that.tableInfo = res.data;
           }
-          that.tableInfo = res.data;
         });
     },
     //添加子类

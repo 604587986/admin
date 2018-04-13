@@ -7,7 +7,7 @@
 
 
 <template>
-  <div id="xinzengxinxiqunfa">
+  <div id="xinzengjiaoshixinxiqunfa">
     <!-- 面包屑 -->
     <Crumb :crumbs="crumbs"></Crumb>    
     
@@ -16,22 +16,19 @@
       <div class="form-container">
         <!-- 表单 -->
         <el-form ref="form" :model="form" :rules="rules" status-icon label-width="95px" size="mini" label-position="right">
-          <el-form-item label="接收学生：" class="form-item">
+          <el-form-item label="接收教师：" class="form-item">
          <!-- 表格筛选 -->
           <div class="table-filter" style="margin-bottom:20px;margin-top:0">
-            <el-select v-model="departmentValue" clearable placeholder="选择系" size="mini" @change='showClass'>
+            <el-select v-model="departmentValue" clearable placeholder="选择部门" size="mini">
               <el-option v-for="item in departmentList" :key="item.id" :label="item.title" :value="item.id"></el-option>
-            </el-select>
-            <el-select v-model="classValue" clearable placeholder="选择班级" size="mini">
-              <el-option v-for="item in classList" :key="item.id" :label="item.name" :value="item.id"></el-option>
             </el-select>
             <el-input placeholder="请输入关键字" v-model="searchValue" size="mini" style="display: inline-block; width:200px">
             </el-input>
             <el-button  @click="search()">搜索</el-button>       
-            <el-button  @click="searchAll()">发送至全部学生</el-button>       
+            <el-button  @click="searchAll()">发送至全部教师</el-button>       
           </div>
           <transition name="el-zoom-in-top">
-          <el-transfer v-model="form.user" :data="studentList" :titles="['待选学生列表','接收学生列表']" :button-texts="['取消', '确认']" filterable v-show="showTransfer">
+          <el-transfer v-model="form.user" :data="teacherList" :titles="['待选教师列表','接收教师列表']" :button-texts="['取消', '确认']" filterable v-show="showTransfer">
           </el-transfer>
           </transition>
           </el-form-item>
@@ -93,21 +90,15 @@ export default {
           url: "/pages/system_administrators/System_Administrators/xinxiqunfa"
         },
         {
-          name: "新增信息群发（学生）",
+          name: "新增信息群发（教师）",
           url: ""
         }
       ],
       // select内容
       departmentList: [],
       departmentValue: "",
-      allClass: [],
-      classList: [],
-      classValue: "",
       searchValue: "",
-      // fileList: [],
 
-      //提交按钮loading
-      // subLoading: false,
       //表单
       form: {
         user: [],
@@ -141,7 +132,7 @@ export default {
         ]
       },
       //搜索到的结果
-      studentList: []
+      teacherList: []
     };
   },
   components: {
@@ -188,7 +179,6 @@ export default {
             });
           } else {
             that.departmentList = res.data.category;
-            that.allClass = res.data.squad;
           }
         });
     },
@@ -198,7 +188,7 @@ export default {
       that
         .$http({
           method: "get",
-          url: "/Admin/information/stu",
+          url: "/Admin/information/teacher",
           params: {
             name: that.searchValue,
             faculty_id: that.departmentValue,
@@ -216,16 +206,16 @@ export default {
           } else {
             that.showTransfer = true;
             that.showBtn = true;
-            that.studentList = [];
+            that.teacherList = [];
             that.form.user = [];
 
-            for (let i in res.data.Student) {
-              that.studentList.push({
-                key: res.data.Student[i].id,
+            for (let i in res.data.teacher) {
+              that.teacherList.push({
+                key: res.data.teacher[i].id,
                 label:
-                  res.data.Student[i].student_num +
+                  res.data.teacher[i].job_num +
                   " " +
-                  res.data.Student[i].name
+                  res.data.teacher[i].name
               });
             }
           }
@@ -237,7 +227,7 @@ export default {
       that
         .$http({
           method: "get",
-          url: "/Admin/information/stu",
+          url: "/Admin/information/teacher",
           params: {
             all: 1
           }
@@ -245,21 +235,12 @@ export default {
         .then(function(res) {
           that.showTransfer = false;
           that.showBtn = false;
-          that.studentList = [];
+          that.teacherList = [];
           that.form.user = [];
-          for (let i in res.data.Student) {
-            that.form.user.push(res.data.Student[i].id);
+          for (let i in res.data.teacher) {
+            that.form.user.push(res.data.teacher[i].id);
           }
         });
-    },
-    //显示联动的班级
-    showClass(val) {
-      this.classList = [];
-      for (let i in this.allClass) {
-        if (this.allClass[i].faculty_id == val) {
-          this.classList.push(this.allClass[i]);
-        }
-      }
     },
     //表单提交
     submit(formName) {
@@ -274,7 +255,7 @@ export default {
                 send_obj: that.form.user,
                 title: that.form.title,
                 content: that.form.content,
-                identity:'1'
+                identity:'2'
               },
               headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -329,6 +310,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
+
   .my-container {
     .form-container {
       padding: 0 10px;

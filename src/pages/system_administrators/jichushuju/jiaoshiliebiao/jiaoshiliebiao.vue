@@ -26,9 +26,9 @@
       </div>
       <!-- 表格 -->
       <div class="table-body">
-        <el-table ref="multipleTable" :data="tableInfo" stripe size="small" @selection-change="handleSelectionChange">
+        <el-table ref="multipleTable" :data="tableInfo" stripe size="small" @selection-change="handleSelectionChange" @sort-change="sort" :default-sort="{prop:'id'}">
           <el-table-column type="selection"></el-table-column>
-          <el-table-column prop="id" label="ID" width="60"></el-table-column>
+          <el-table-column prop="id" label="ID" width="60" sortable='custom'></el-table-column>
           <el-table-column prop="name" label="姓名" width="100"></el-table-column>          
           <el-table-column prop="job_num" label="工号" width="100"></el-table-column>
           <el-table-column  label="性别">
@@ -99,7 +99,9 @@ export default {
       searchValue: "",
       //表格
       tableInfo: [],
-      tableList: []
+      tableList: [],
+      //排序规则
+      sortRule: ""
     };
   },
   components: {
@@ -141,12 +143,13 @@ export default {
             p: that.currentPaging.currentPage,
             pageSize: that.currentPaging.pageSize,
             title: that.searchValue,
-            faculty_id: that.departmentValue
+            faculty_id: that.departmentValue,
+            order: that.sortRule
           }
         })
         .then(function(res) {
           if (res.data.code == 6) {
-            this.$alert(res.data.error, "提示", {
+            that.$alert(res.data.error, "提示", {
               confirmButtonText: "确定",
               callback: () => {
                 // this.$router.go(-1);
@@ -194,7 +197,7 @@ export default {
             })
             .then(function(res) {
               if (res.data.code == 6) {
-                this.$alert(res.data.error, "提示", {
+                that.$alert(res.data.error, "提示", {
                   confirmButtonText: "确定",
                   callback: () => {
                     // this.$router.go(-1);
@@ -318,6 +321,21 @@ export default {
         .catch(() => {
           return;
         });
+    },
+    //表格排序
+    sort(val) {
+      if (val.column != null) {
+        let type = "";
+        if (val.order == "descending") {
+          type = "desc";
+        } else if (val.order == "ascending") {
+          type = "asc";
+        }
+        this.sortRule = "a." + val.prop + " " + type;
+      } else {
+        this.sortRule = "";
+      }
+      this.getData();
     }
   }
 };

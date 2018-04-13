@@ -34,9 +34,9 @@
       </div>
       <!-- 表格 -->
       <div class="table-body">
-        <el-table ref="multipleTable" :data="tableInfo" stripe size="small" @selection-change="handleSelectionChange">
+        <el-table ref="multipleTable" :data="tableInfo" stripe size="small" @selection-change="handleSelectionChange" @sort-change="sort" :default-sort="{prop:'id'}">
           <el-table-column type="selection"></el-table-column>          
-          <el-table-column prop="id" label="ID" width="60"></el-table-column>
+          <el-table-column prop="id" label="ID" width="60" sortable='custom'></el-table-column>
           <el-table-column prop="student_num" label="学号"></el-table-column>
           <el-table-column prop="name" label="姓名"></el-table-column>
           <el-table-column label="性别" width="60">
@@ -51,7 +51,7 @@
           <el-table-column prop="grade_id" label="所属班级"></el-table-column>  
           <el-table-column prop="systme" label="学制" width="50"></el-table-column>   
           <el-table-column prop="school_rol_status" label="学籍状态"></el-table-column> 
-          <el-table-column prop="grade" label="所在级"></el-table-column> 
+          <el-table-column prop="grade" label="所在级" sortable='custom'></el-table-column> 
           <el-table-column label="操作">
             <div slot-scope="scope"  class="control-btn">
               <router-link :to="{path:'/pages/system_administrators/System_Administrators/xueshengxiangqing',query:{id:scope.row.id}}"><el-button size="mini">查看详情</el-button></router-link>
@@ -130,7 +130,9 @@ export default {
       searchValue: "",
       //表格
       tableInfo: [],
-      tableList: []
+      tableList: [],
+      //排序规则
+      sortRule: ""
     };
   },
   components: {
@@ -173,12 +175,13 @@ export default {
             title: that.searchValue,
             status: that.stateValue,
             faculty_id: that.departmentValue,
-            grade_id: that.classValue
+            grade_id: that.classValue,
+            order: that.sortRule
           }
         })
         .then(function(res) {
           if (res.data.code == 6) {
-            this.$alert(res.data.error, "提示", {
+            that.$alert(res.data.error, "提示", {
               confirmButtonText: "确定",
               callback: () => {
                 // this.$router.go(-1);
@@ -236,7 +239,7 @@ export default {
             })
             .then(function(res) {
               if (res.data.code == 6) {
-                this.$alert(res.data.error, "提示", {
+                that.$alert(res.data.error, "提示", {
                   confirmButtonText: "确定",
                   callback: () => {
                     // this.$router.go(-1);
@@ -285,7 +288,7 @@ export default {
             })
             .then(function(res) {
               if (res.data.code == 6) {
-                this.$alert(res.data.error, "提示", {
+                that.$alert(res.data.error, "提示", {
                   confirmButtonText: "确定",
                   callback: () => {
                     // this.$router.go(-1);
@@ -406,6 +409,21 @@ export default {
         .catch(() => {
           return;
         });
+    },
+    //表格排序
+    sort(val) {
+      if (val.column != null) {
+        let type = "";
+        if (val.order == "descending") {
+          type = "desc";
+        } else if (val.order == "ascending") {
+          type = "asc";
+        }
+        this.sortRule = "a." + val.prop + " " + type;
+      } else {
+        this.sortRule = "";
+      }
+      this.getData();
     }
   }
 };

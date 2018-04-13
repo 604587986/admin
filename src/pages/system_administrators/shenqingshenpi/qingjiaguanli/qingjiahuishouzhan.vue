@@ -16,12 +16,12 @@
 
       <!-- 表格 -->
       <div class="table-body">
-        <el-table ref="multipleTable" :data="tableInfo" stripe size="small" @selection-change="handleSelectionChange">
+        <el-table ref="multipleTable" :data="tableInfo" stripe size="small" @selection-change="handleSelectionChange" @sort-change="sort" :default-sort="{prop:'request_num'}">
           <el-table-column type="selection"></el-table-column>
-          <el-table-column prop="request_num" label="申请编号"></el-table-column>
-          <el-table-column prop="time" label="申请时间"></el-table-column>
+          <el-table-column prop="request_num" label="申请编号" sortable='custom'></el-table-column>
+          <el-table-column prop="time" label="申请时间" sortable='custom'></el-table-column>
           <el-table-column prop="name" label="申请人"></el-table-column>
-          <el-table-column prop="year" label="请假天数"></el-table-column>
+          <el-table-column prop="year" label="请假天数" width="80"></el-table-column>
           <el-table-column  label="请假类型">
             <div slot-scope="scope">
               <el-tag v-show="scope.row.request_type == 1">事假</el-tag>  
@@ -29,8 +29,8 @@
               <el-tag v-show="scope.row.request_type == 3">补假</el-tag>  
             </div>
             </el-table-column>          
-          <el-table-column prop="start_time" label="开始时间"></el-table-column>          
-          <el-table-column prop="end_time" label="结束时间"></el-table-column>          
+          <el-table-column prop="start_time" label="开始时间" sortable='custom'></el-table-column>          
+          <el-table-column prop="end_time" label="结束时间" sortable='custom'></el-table-column>          
           <el-table-column prop="squad_id" label="所属班级"></el-table-column>          
           <el-table-column label="状态">
             <div slot-scope="scope">
@@ -39,7 +39,7 @@
               <el-tag close-transition  size="mini" v-show="scope.row.status==3" type="warning">已驳回</el-tag>
             </div>
           </el-table-column>
-          <el-table-column label="操作">
+          <el-table-column label="操作" width="80">
             <div slot-scope="scope" class="control-btn">
               <el-button size="small" @click="restore(scope.row.id)">还原</el-button>
               <el-button size="small" @click="del(scope.row.id)">删除</el-button>
@@ -104,7 +104,9 @@ export default {
       searchValue: "",
       //表格
       tableInfo: [],
-      tableList: []
+      tableList: [],
+      //排序规则
+      sortRule: ""
     };
   },
   components: {
@@ -144,12 +146,13 @@ export default {
             p: that.currentPaging.currentPage,
             pageSize: that.currentPaging.pageSize,
             status: that.statusValue,
-            title: that.searchValue
+            title: that.searchValue,
+            order: that.sortRule
           }
         })
         .then(function(res) {
           if (res.data.code == 6) {
-            this.$alert(res.data.error, "提示", {
+            that.$alert(res.data.error, "提示", {
               confirmButtonText: "确定",
               callback: () => {
                 // this.$router.go(-1);
@@ -192,7 +195,7 @@ export default {
             })
             .then(function(res) {
               if (res.data.code == 6) {
-                this.$alert(res.data.error, "提示", {
+                that.$alert(res.data.error, "提示", {
                   confirmButtonText: "确定",
                   callback: () => {
                     // this.$router.go(-1);
@@ -237,7 +240,7 @@ export default {
             })
             .then(function(res) {
               if (res.data.code == 6) {
-                this.$alert(res.data.error, "提示", {
+                that.$alert(res.data.error, "提示", {
                   confirmButtonText: "确定",
                   callback: () => {
                     // this.$router.go(-1);
@@ -356,6 +359,21 @@ export default {
         .catch(() => {
           return;
         });
+    },
+    //表格排序
+    sort(val) {
+      if (val.column != null) {
+        let type = "";
+        if (val.order == "descending") {
+          type = "desc";
+        } else if (val.order == "ascending") {
+          type = "asc";
+        }
+        this.sortRule = "a." + val.prop + " " + type;
+      } else {
+        this.sortRule = "";
+      }
+      this.getData();
     }
   }
 };

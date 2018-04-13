@@ -141,7 +141,7 @@ export default {
         })
         .then(function(res) {
           if (res.data.code == 6) {
-            this.$alert(res.data.error, "提示", {
+            that.$alert(res.data.error, "提示", {
               confirmButtonText: "确定",
               callback: () => {
                 // this.$router.go(-1);
@@ -183,7 +183,7 @@ export default {
             })
             .then(function(res) {
               if (res.data.code == 6) {
-                this.$alert(res.data.error, "提示", {
+                that.$alert(res.data.error, "提示", {
                   confirmButtonText: "确定",
                   callback: () => {
                     // this.$router.go(-1);

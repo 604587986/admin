@@ -20,6 +20,7 @@
         <p><label>申请时间:</label><span>{{dataList.application_time}}</span></p>
         <p><label>申请人:</label><span>{{dataList.proposer}}</span></p>
         <p><label>申请教室:</label><span>{{dataList.jiaoshi}}</span></p>
+        <p><label>使用人数:</label><span>{{dataList.people}}</span></p>
         <p><label>开始时间:</label><span>{{dataList.start_time}}</span></p>
         <p><label>结束时间:</label><span>{{dataList.end_time}}</span></p>
         <p><label>申请次数:</label><span>{{dataList.frequency}}</span></p>
@@ -133,7 +134,7 @@ export default {
         })
         .then(function(res) {
           if (res.data.code == 6) {
-            this.$alert(res.data.error, "提示", {
+            that.$alert(res.data.error, "提示", {
               confirmButtonText: "确定",
               callback: () => {
                 // this.$router.go(-1);
@@ -182,7 +183,7 @@ export default {
           })
           .then(res => {
             if (res.data.code == 6) {
-              this.$alert(res.data.error, "提示", {
+              that.$alert(res.data.error, "提示", {
                 confirmButtonText: "确定",
                 callback: () => {
                   // this.$router.go(-1);

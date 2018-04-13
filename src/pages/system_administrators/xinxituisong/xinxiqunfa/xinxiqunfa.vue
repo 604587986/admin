@@ -14,21 +14,34 @@
     <!-- Table -->
     <div class="table-container">
       <!-- 表格筛选 -->
-      <div class="table-filter">  
+      <div class="table-filter"> 
+        <el-select v-model="searchValue" placeholder="选择接受用户身份" clearable size="mini" @change="getData" class="float-left">
+          <el-option label="学生" value="1"></el-option>
+          <el-option label="教师" value="2"></el-option>
+        </el-select>
+        <el-input placeholder="请输入关键字" v-model="title" class="input-with-select title-search float-left" size="mini">
+                    <el-button slot="append" icon="el-icon-search" @click="getData"></el-button>
+        </el-input>
           <router-link to="/pages/system_administrators/System_Administrators/xinxiqunfahuishouzhan"><el-button type="primary" size="mini" style="float:right;">回收站</el-button>  </router-link>      
-          <router-link to="/pages/system_administrators/System_Administrators/xinzengxinxiqunfa"><el-button type="primary" size="mini" style="float:right;margin-right:10px">新增信息群发</el-button></router-link>   
+          <router-link to="/pages/system_administrators/System_Administrators/xinzengxinxiqunfa"><el-button type="primary" size="mini" style="float:right;margin-right:10px">新增信息群发（学生）</el-button></router-link>   
+          <router-link to="/pages/system_administrators/System_Administrators/xinzengjiaoshixinxiqunfa"><el-button type="primary" size="mini" style="float:right;margin-right:10px">新增信息群发（教师）</el-button></router-link>   
       </div>
       <!-- 表格 -->
       <div class="table-body">
-        <el-table ref="multipleTable" :data="tableInfo" stripe size="small" @selection-change="handleSelectionChange">
+        <el-table ref="multipleTable" :data="tableInfo" stripe size="small" @selection-change="handleSelectionChange" @sort-change="sort" :default-sort="{prop:'id'}">
           <el-table-column type="selection"></el-table-column>
-          <el-table-column prop="id" label="ID" width="100"></el-table-column>
-          <el-table-column prop="time" label="发送时间"></el-table-column>          
+          <el-table-column prop="id" label="ID" width="100" sortable='custom'></el-table-column>
+          <el-table-column prop="time" label="发送时间" sortable='custom'></el-table-column>          
           <el-table-column prop="title" label="发送标题"></el-table-column>
           <el-table-column prop="name" label="发送人"></el-table-column>
           <el-table-column prop="time_quantum_id" label="已读人数">
             <div slot-scope="scope">
               {{scope.row.read_num}}/{{scope.row.count_num}}
+            </div>
+          </el-table-column>  
+          <el-table-column label="接收人身份">
+            <div slot-scope="scope">
+              <el-tag :type="scope.row.identity==1?'info':'warning'"  v-html="scope.row.identity==1?'学生':'教师'"></el-tag>
             </div>
           </el-table-column>  
           <el-table-column label="操作">
@@ -83,9 +96,14 @@ export default {
           url: ""
         }
       ],
+      //筛选值
+      searchValue: "",
+      title:'',
       //表格
       tableInfo: [],
-      tableList: []
+      tableList: [],
+      //排序规则
+      sortRule: ""
     };
   },
   components: {
@@ -125,12 +143,15 @@ export default {
           url: "/Admin/information/index",
           params: {
             p: that.currentPaging.currentPage,
-            pageSize: that.currentPaging.pageSize
+            pageSize: that.currentPaging.pageSize,
+            identity:that.searchValue,
+            title:that.title,
+            order: that.sortRule
           }
         })
         .then(function(res) {
           if (res.data.code == 6) {
-            this.$alert(res.data.error, "提示", {
+            that.$alert(res.data.error, "提示", {
               confirmButtonText: "确定",
               callback: () => {
                 // this.$router.go(-1);
@@ -172,7 +193,7 @@ export default {
             })
             .then(function(res) {
               if (res.data.code == 6) {
-                this.$alert(res.data.error, "提示", {
+                that.$alert(res.data.error, "提示", {
                   confirmButtonText: "确定",
                   callback: () => {
                     // this.$router.go(-1);
@@ -296,6 +317,21 @@ export default {
         .catch(() => {
           return;
         });
+    },
+    //表格排序
+    sort(val) {
+      if (val.column != null) {
+        let type = "";
+        if (val.order == "descending") {
+          type = "desc";
+        } else if (val.order == "ascending") {
+          type = "asc";
+        }
+        this.sortRule = "a." + val.prop + " " + type;
+      } else {
+        this.sortRule = "";
+      }
+      this.getData();
     }
   }
 };

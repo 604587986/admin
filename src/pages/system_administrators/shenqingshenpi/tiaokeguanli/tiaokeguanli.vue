@@ -29,17 +29,16 @@
       </div>
       <!-- 表格 -->
       <div class="table-body">
-        <el-table ref="multipleTable" :data="tableInfo" stripe size="small" @selection-change="handleSelectionChange">
+        <el-table ref="multipleTable" :data="tableInfo" stripe size="small" @selection-change="handleSelectionChange" @sort-change="sort" :default-sort="{prop:'request_num'}">
           <el-table-column type="selection"></el-table-column>
-          <el-table-column prop="request_num" label="申请编号"></el-table-column>
-          <el-table-column prop="time" label="申请时间"></el-table-column>
+          <el-table-column prop="request_num" label="申请编号" sortable='custom' width="94"></el-table-column>
+          <el-table-column prop="time" label="申请时间" sortable='custom' width="94"></el-table-column>
           <el-table-column prop="name" label="申请人"></el-table-column>
-          <el-table-column prop="frequency" label="申请次数"></el-table-column>
+          <el-table-column prop="frequency" label="申请次数" width="68"></el-table-column>
           <el-table-column prop="switching_course" label="调课课程"></el-table-column>         
-          <el-table-column prop="switching_start" label="申请人上课时间"></el-table-column>         
-          <el-table-column prop="other_teacher" label="对方调课教师"></el-table-column>         
-          <el-table-column prop="other_course" label="对方调课课程"></el-table-column>         
-          <el-table-column prop="switching_end" label="对方上课时间"></el-table-column>                 
+          <el-table-column prop="switching_start" label="申请人上课时间" sortable='custom' width="128"></el-table-column>                 
+          <el-table-column prop="other_course" label="对方调课课程" width="94"></el-table-column>         
+          <el-table-column prop="switching_end" label="对方上课时间" sortable='custom'width="118"></el-table-column>                 
           <el-table-column label="状态">
             <div slot-scope="scope">
               <el-tag close-transition  size="mini" v-show="scope.row.status==1" type="danger">待审批</el-tag>
@@ -47,7 +46,7 @@
               <el-tag close-transition  size="mini" v-show="scope.row.status==3" type="warning">已驳回</el-tag>
             </div>
           </el-table-column>
-          <el-table-column label="操作">
+          <el-table-column label="操作" width="65">
             <div slot-scope="scope" class="control-btn">
               <router-link :to="{path:'/pages/system_administrators/System_Administrators/tiaokexiangqing',query:{id:scope.row.id}}"><el-button size="small">详情</el-button></router-link>
               <el-button size="small" @click="submit(scope.row.id,2)" v-if="scope.row.status=='1'">审核</el-button>
@@ -110,7 +109,9 @@ export default {
       searchValue: "",
       //表格
       tableInfo: [],
-      tableList: []
+      tableList: [],
+      //排序规则
+      sortRule: ""
     };
   },
   components: {
@@ -149,13 +150,14 @@ export default {
           params: {
             p: that.currentPaging.currentPage,
             pageSize: that.currentPaging.pageSize,
-            status: that.statusValue
+            status: that.statusValue,
+            order: that.sortRule
             // title: that.searchValue
           }
         })
         .then(function(res) {
           if (res.data.code == 6) {
-            this.$alert(res.data.error, "提示", {
+            that.$alert(res.data.error, "提示", {
               confirmButtonText: "确定",
               callback: () => {
                 // this.$router.go(-1);
@@ -216,7 +218,7 @@ export default {
           })
           .then(res => {
             if (res.data.code == 6) {
-              this.$alert(res.data.error, "提示", {
+              that.$alert(res.data.error, "提示", {
                 confirmButtonText: "确定",
                 callback: () => {
                   // this.$router.go(-1);
@@ -250,7 +252,7 @@ export default {
         })
         .then(function(res) {
           if (res.data.code == 6) {
-            this.$alert(res.data.error, "提示", {
+            that.$alert(res.data.error, "提示", {
               confirmButtonText: "确定",
               callback: () => {
                 // this.$router.go(-1);
@@ -422,6 +424,21 @@ export default {
             return;
           });
       }
+    },
+    //表格排序
+    sort(val) {
+      if (val.column != null) {
+        let type = "";
+        if (val.order == "descending") {
+          type = "desc";
+        } else if (val.order == "ascending") {
+          type = "asc";
+        }
+        this.sortRule = "a." + val.prop + " " + type;
+      } else {
+        this.sortRule = "";
+      }
+      this.getData();
     }
   }
 };

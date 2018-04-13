@@ -148,18 +148,27 @@ export default {
           url: "/Admin/Category/index"
         })
         .then(function(res) {
-          for (let i in res.data) {
-            if (res.data[i].grade == "1") {
-              res.data[i].grade = "顶级类别";
-            } else if (res.data[i].grade == "2") {
-              res.data[i].grade = "二级类别";
-              res.data[i].title = ">>>" + res.data[i].title;
-            } else if (res.data[i].grade == "3") {
-              res.data[i].grade = "三级类别";
-              res.data[i].title = ">>>>>>" + res.data[i].title;
+          if (res.data.code == 6) {
+            that.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // this.$router.go(-1);
+              }
+            });
+          } else {
+            for (let i in res.data) {
+              if (res.data[i].grade == "1") {
+                res.data[i].grade = "顶级类别";
+              } else if (res.data[i].grade == "2") {
+                res.data[i].grade = "二级类别";
+                res.data[i].title = ">>>" + res.data[i].title;
+              } else if (res.data[i].grade == "3") {
+                res.data[i].grade = "三级类别";
+                res.data[i].title = ">>>>>>" + res.data[i].title;
+              }
             }
+            that.tableInfo = res.data;
           }
-          that.tableInfo = res.data;
         });
     },
     //添加子类
@@ -193,8 +202,15 @@ export default {
               }
             })
             .then(res => {
-              if (res.data.code == 1) {
-                this.$message({
+              if (res.data.code == 6) {
+                that.$alert(res.data.error, "提示", {
+                  confirmButtonText: "确定",
+                  callback: () => {
+                    // this.$router.go(-1);
+                  }
+                });
+              } else if (res.data.code == 1) {
+                that.$message({
                   type: "success",
                   message: "添加成功！",
                   duration: 1000,
@@ -235,7 +251,14 @@ export default {
               }
             })
             .then(function(res) {
-              if (res.data.code == 1) {
+              if (res.data.code == 6) {
+                that.$alert(res.data.error, "提示", {
+                  confirmButtonText: "确定",
+                  callback: () => {
+                    // this.$router.go(-1);
+                  }
+                });
+              } else if (res.data.code == 1) {
                 that.$message({
                   type: "success",
                   message: "删除成功!",
@@ -271,7 +294,14 @@ export default {
           }
         })
         .then(res => {
-          if (res.data.code == 2) {
+          if (res.data.code == 6) {
+            that.$alert(res.data.error, "提示", {
+              confirmButtonText: "确定",
+              callback: () => {
+                // this.$router.go(-1);
+              }
+            });
+          } else if (res.data.code == 2) {
             that.$alert(res.data.msg, "提示", {
               confirmButtonText: "确定"
             });
@@ -294,8 +324,15 @@ export default {
                     }
                   })
                   .then(res => {
-                    if (res.data.code == 1) {
-                      this.$message({
+                    if (res.data.code == 6) {
+                      that.$alert(res.data.error, "提示", {
+                        confirmButtonText: "确定",
+                        callback: () => {
+                          // this.$router.go(-1);
+                        }
+                      });
+                    } else if (res.data.code == 1) {
+                      that.$message({
                         type: "success",
                         message: "修改成功！",
                         duration: 1000,

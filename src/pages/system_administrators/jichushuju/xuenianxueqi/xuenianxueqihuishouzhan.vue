@@ -14,13 +14,13 @@
     <div class="table-container">
       <!-- 表格 -->
       <div class="table-body">
-        <el-table ref="multipleTable" :data="tableInfo" stripe size="small" @selection-change="handleSelectionChange">
+        <el-table ref="multipleTable" :data="tableInfo" stripe size="small" @selection-change="handleSelectionChange" @sort-change="sort" :default-sort="{prop:'id'}">
           <el-table-column type="selection"></el-table-column> 
-          <el-table-column prop="id" label="ID" width="100"></el-table-column>
+          <el-table-column prop="id" label="ID" width="100" sortable='custom'></el-table-column>
           <el-table-column prop="school_year" label="学年学期"></el-table-column>          
-          <el-table-column prop="start_time" label="开始时间"></el-table-column>
-          <el-table-column prop="end_time" label="结束时间"></el-table-column>
-          <el-table-column prop="week" label="教学周"></el-table-column>                                               
+          <el-table-column prop="start_time" label="开始时间" sortable='custom'></el-table-column>
+          <el-table-column prop="end_time" label="结束时间" sortable='custom'></el-table-column>
+          <el-table-column prop="week" label="教学周" sortable='custom'></el-table-column>                                               
           <el-table-column label="操作">
             <div slot-scope="scope"  class="control-btn">
               <el-button type="warning" size="mini" @click="restore(scope.row.id)">还原数据</el-button>
@@ -80,7 +80,9 @@ export default {
 
       //表格
       tableInfo: [],
-      tableList: []
+      tableList: [],
+      //排序规则
+      sortRule: ""
     };
   },
   components: {
@@ -119,12 +121,13 @@ export default {
           url: "/Admin/schoolyear/dellist",
           params: {
             p: that.currentPaging.currentPage,
-            pageSize: that.currentPaging.pageSize
+            pageSize: that.currentPaging.pageSize,
+            order: that.sortRule
           }
         })
         .then(function(res) {
           if (res.data.code == 6) {
-            this.$alert(res.data.error, "提示", {
+            that.$alert(res.data.error, "提示", {
               confirmButtonText: "确定",
               callback: () => {
                 // this.$router.go(-1);
@@ -169,7 +172,7 @@ export default {
             })
             .then(function(res) {
               if (res.data.code == 6) {
-                this.$alert(res.data.error, "提示", {
+                that.$alert(res.data.error, "提示", {
                   confirmButtonText: "确定",
                   callback: () => {
                     // this.$router.go(-1);
@@ -214,7 +217,7 @@ export default {
             })
             .then(function(res) {
               if (res.data.code == 6) {
-                this.$alert(res.data.error, "提示", {
+                that.$alert(res.data.error, "提示", {
                   confirmButtonText: "确定",
                   callback: () => {
                     // this.$router.go(-1);
@@ -333,6 +336,21 @@ export default {
         .catch(() => {
           return;
         });
+    },
+    //表格排序
+    sort(val) {
+      if (val.column != null) {
+        let type = "";
+        if (val.order == "descending") {
+          type = "desc";
+        } else if (val.order == "ascending") {
+          type = "asc";
+        }
+        this.sortRule = "a." + val.prop + " " + type;
+      } else {
+        this.sortRule = "";
+      }
+      this.getData();
     }
   }
 };

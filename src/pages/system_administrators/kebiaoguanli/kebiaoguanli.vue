@@ -31,10 +31,10 @@
     </div>
       <!-- 表格 -->
       <div class="table-body">
-        <el-table ref="multipleTable" :data="tableInfo" stripe size="small" @selection-change="handleSelectionChange">
+        <el-table ref="multipleTable" :data="tableInfo" stripe size="small" @selection-change="handleSelectionChange" @sort-change="sort" :default-sort="{prop:'id'}">
           <el-table-column type="selection"></el-table-column>
-          <el-table-column prop="id" label="ID" width="80"></el-table-column>
-          <el-table-column prop="coding" label="课表编码"></el-table-column>
+          <el-table-column prop="id" label="ID" width="80" sortable='custom'></el-table-column>
+          <el-table-column prop="coding" label="课表编码" sortable='custom'></el-table-column>
           <el-table-column prop="squad" label="班级名称"></el-table-column>
           <el-table-column prop="category" label="所属系"></el-table-column>
           <el-table-column prop="school_year" label="学年学期"></el-table-column>
@@ -107,7 +107,9 @@ export default {
       searchValue: "",
       //表格
       tableInfo: [],
-      tableList: []
+      tableList: [],
+      //排序规则
+      sortRule: ""
     };
   },
   components: {
@@ -149,7 +151,8 @@ export default {
             pageSize: that.currentPaging.pageSize,
             schoolyear: that.termValue,
             faculty_id: that.departmentValue,
-            grade_id: that.classValue
+            grade_id: that.classValue,
+            order: that.sortRule
           }
         })
         .then(function(res) {
@@ -328,6 +331,21 @@ export default {
         .catch(() => {
           return;
         });
+    },
+    //表格排序
+    sort(val) {
+      if (val.column != null) {
+        let type = "";
+        if (val.order == "descending") {
+          type = "desc";
+        } else if (val.order == "ascending") {
+          type = "asc";
+        }
+        this.sortRule = "a." + val.prop + " " + type;
+      } else {
+        this.sortRule = "";
+      }
+      this.getData();
     }
   }
 };

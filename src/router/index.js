@@ -38,7 +38,8 @@ import daorukebiao from '@/pages/system_administrators/kebiaoguanli/daorukebiao'
 import xinxiqunfa from '@/pages/system_administrators/xinxituisong/xinxiqunfa/xinxiqunfa'//信息群发
 import xinxiqunfaxiangqing from '@/pages/system_administrators/xinxituisong/xinxiqunfa/xinxiqunfaxiangqing'//信息群发详情
 import xinzengxinxiqunfa from '@/pages/system_administrators/xinxituisong/xinxiqunfa/xinzengxinxiqunfa'//新增信息群发
-import xinxiqunfahuishouzhan from '@/pages/system_administrators/xinxituisong/xinxiqunfa/xinxiqunfahuishouzhan'//新增信息群发
+import xinzengjiaoshixinxiqunfa from '@/pages/system_administrators/xinxituisong/xinxiqunfa/xinzengjiaoshixinxiqunfa'//新增教师信息群发
+import xinxiqunfahuishouzhan from '@/pages/system_administrators/xinxituisong/xinxiqunfa/xinxiqunfahuishouzhan'//信息群发回收站
 
 //申请审批
 import jiaoshiyuyueguanli from '@/pages/system_administrators/shenqingshenpi/jiaoshiyuyueguanli/jiaoshiyuyueguanli'//教室预约管理
@@ -304,6 +305,10 @@ export default new Router({
             {
                 path: 'xinxiqunfaxiangqing',
                 component: xinxiqunfaxiangqing
+            },
+            {
+                path: 'xinzengjiaoshixinxiqunfa',
+                component: xinzengjiaoshixinxiqunfa
             },
             {
                 path: 'xinxiqunfahuishouzhan',

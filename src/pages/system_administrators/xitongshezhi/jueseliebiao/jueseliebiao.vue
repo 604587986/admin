@@ -22,18 +22,17 @@
             <!-- 表格 -->
             <div class="table-body">
                 <el-table ref="multipleTable" :data="tableInfo" stripe size="small">
-                    <el-table-column prop="id" label="ID" width="80px"></el-table-column>
-                    <el-table-column prop="title" label="标题" width="150px">
-
-                    </el-table-column>
-                    <el-table-column label="相应权限">
-                        <div slot-scope="scope">
-                            <el-checkbox v-for="item in scope.row.ruleList" :key="item.id" :label="item.title" :checked="isChecked(scope.row.rules,item.id)"  @change="afun(scope.row.id,item.id)" size="mini" style="width:160px"></el-checkbox>
+                    <el-table-column label="相应权限(点击展开)" type="expand" width="200">
+                        <div slot-scope="props">
+                            <el-checkbox v-for="item in props.row.ruleList" :key="item.id" :label="item.title" :checked="isChecked(props.row.rules,item.id)"  @change="afun(props.row.id,item.id)" size="mini" style="width:160px"></el-checkbox>
                         </div>
                     </el-table-column>
-                    <el-table-column label="操作" width="150px">
+                    <el-table-column prop="id" label="ID"></el-table-column>
+                    <el-table-column prop="title" label="标题">
+                    </el-table-column>
+                    <el-table-column label="操作">
                         <div slot-scope="scope" class="control-btn">
-                            <el-button @click="open(scope.row.id,scope.row.title)" size="mini">编辑</el-button>
+                            <el-button @click="open(scope.row.id,scope.row.title)" size="mini">修改标题</el-button>
                             <el-button @click.native.prevent="deleteRow(scope.$index, scope.row.id,tableInfo)" size="mini" class="control-btn-del">删除</el-button>
                         </div>
                     </el-table-column>
@@ -314,7 +313,8 @@ export default {
 <style lang="less">
 #jueseliebiao {
   .el-checkbox {
-    margin: 0 20px 5px 0;
+    margin: 0 46px 5px 0;
+    font-size: 12px;
   }
 }
 </style>
