@@ -161,7 +161,7 @@ export default {
               }
             });
           } else {
-            that.tableInfo = res.data;
+            that.tableInfo = res.data.appeal;
             that.currentPaging.totals = Number(res.data.count);
           }
         });

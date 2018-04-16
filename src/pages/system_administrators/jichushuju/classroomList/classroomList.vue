@@ -329,7 +329,7 @@ export default {
         } else if (val.order == "ascending") {
           type = "asc";
         }
-        this.sortRule = "a." + val.prop + " " + type;
+        this.sortRule =val.prop + " " + type;
       } else {
         this.sortRule = "";
       }

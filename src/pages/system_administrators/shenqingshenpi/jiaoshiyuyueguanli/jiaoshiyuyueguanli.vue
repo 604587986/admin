@@ -432,9 +432,7 @@ export default {
       }
     },
     //表格排序
-    sort(val) {
-      console.log(val);
-      
+    sort(val) {     
       if (val.column != null) {
         let type = "";
         if (val.order == "descending") {

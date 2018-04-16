@@ -29,7 +29,7 @@
         <p><label>上课时间:</label><span>{{dataList.date}}</span></p>
         <p><label>申诉理由:</label><span>{{dataList.reason}}</span></p>
         <p><label>附件:</label>
-            <span>
+            <span v-if="dataList.accessory">
             <img :src="'http://demo3.q-huan.com/'+dataList.accessory" class="v-image">
                 <a :href="'http://demo3.q-huan.com/Admin/request/download/id/'+dataList.id">
                 <el-button type="primary" size="mini" class="download">下载</el-button>

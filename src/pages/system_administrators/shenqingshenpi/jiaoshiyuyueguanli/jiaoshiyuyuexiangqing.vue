@@ -21,6 +21,7 @@
         <p><label>申请人:</label><span>{{dataList.proposer}}</span></p>
         <p><label>申请教室:</label><span>{{dataList.jiaoshi}}</span></p>
         <p><label>使用人数:</label><span>{{dataList.people}}</span></p>
+        <p><label>教室用途:</label><span>{{dataList.purpose}}</span></p>
         <p><label>开始时间:</label><span>{{dataList.start_time}}</span></p>
         <p><label>结束时间:</label><span>{{dataList.end_time}}</span></p>
         <p><label>申请次数:</label><span>{{dataList.frequency}}</span></p>

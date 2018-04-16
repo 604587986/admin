@@ -31,9 +31,9 @@
     </div>
       <!-- 表格 -->
       <div class="table-body">
-        <el-table ref="multipleTable" :data="tableInfo" stripe size="small" @selection-change="handleSelectionChange" @sort-change="sort" :default-sort="{prop:'id'}">
+        <el-table ref="multipleTable" :data="tableInfo" stripe size="small" @selection-change="handleSelectionChange" @sort-change="sort" :default-sort="{prop:'coding'}">
           <el-table-column type="selection"></el-table-column>
-          <el-table-column prop="id" label="ID" width="80" sortable='custom'></el-table-column>
+          <!-- <el-table-column prop="id" label="ID" width="80" sortable='custom'></el-table-column> -->
           <el-table-column prop="coding" label="课表编码" sortable='custom'></el-table-column>
           <el-table-column prop="squad" label="班级名称"></el-table-column>
           <el-table-column prop="category" label="所属系"></el-table-column>
