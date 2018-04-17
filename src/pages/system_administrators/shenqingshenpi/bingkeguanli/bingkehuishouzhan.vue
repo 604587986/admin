@@ -21,7 +21,7 @@
           <el-table-column prop="request_num" label="申请编号" sortable='custom' width="120"></el-table-column>
           <el-table-column prop="time" label="申请时间" sortable='custom'></el-table-column>
           <el-table-column prop="name" label="申请人"></el-table-column>
-          <el-table-column prop="frequency" label="申请次数" width="80"></el-table-column>
+          <el-table-column prop="frequency" label="申请次数"></el-table-column>
           <el-table-column label="并课课程">
               <div slot-scope="scope">
                 {{scope.row.combine_course+'/'+scope.row.other_course}}
@@ -32,7 +32,7 @@
                 {{scope.row.squad_one+'/'+scope.row.squad_two}}
               </div>
             </el-table-column>         
-          <el-table-column prop="date" label="并课后上课时间" sortable='custom' width="128"></el-table-column>                         
+          <el-table-column prop="date" label="并课后上课时间" sortable='custom' width="140"></el-table-column>                         
           <el-table-column label="状态" width="70">
             <div slot-scope="scope">
               <el-tag close-transition  size="mini" v-show="scope.row.status==1" type="danger">待审批</el-tag>

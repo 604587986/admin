@@ -16,9 +16,9 @@
 
       <!-- 表格 -->
         <el-table :data="tableInfo" stripe size="small">
-          <el-table-column prop="id" label="ID" width="100"></el-table-column>
-          <el-table-column prop="title" label="类别名称" width="300"></el-table-column>
-          <el-table-column prop="grade" label="类型" width="150">
+          <el-table-column prop="id" label="ID"></el-table-column>
+          <el-table-column prop="title" label="类别名称"></el-table-column>
+          <el-table-column prop="grade" label="类型">
           </el-table-column>
           <el-table-column label="操作">
             <div slot-scope="scope" class="control-btn">

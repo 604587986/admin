@@ -29,6 +29,7 @@
             </el-input>
             <el-button  @click="search()">搜索</el-button>       
             <el-button  @click="searchAll()">发送至全部学生</el-button>       
+            <el-button  @click="form.user = []">清空已选</el-button>       
           </div>
           <transition name="el-zoom-in-top">
           <el-transfer v-model="form.user" :data="studentList" :titles="['待选学生列表','接收学生列表']" :button-texts="['取消', '确认']" filterable v-show="showTransfer">
@@ -349,11 +350,6 @@ export default {
     padding: 0 20px;
     margin-top: 10px;
   }
-  #edui1 {
-    z-index: inherit !important;
-  }
-  #edui1_iframeholder {
-    z-index: inherit !important;
-  }
+
 
 </style>

@@ -154,11 +154,11 @@ body {
     position: relative;
     overflow: hidden;
     .main {
-        width: 1190px;
+        // width: 1190px;
         margin: 0 auto;
         margin-top: 40px;
         overflow: hidden;
-        padding: 20px;
+        padding: 20px 10px;
         position: relative;
         background: #fff;
         border-radius: 3px;
@@ -465,10 +465,11 @@ body {
 }
 
 .public-container {
-    width: 990px;
+    // width: 990px;
     background: #fff;
     padding: 20px;
     border-radius: 3px;
+    overflow: hidden;
 }
 
 .detail-wrapper {
@@ -482,7 +483,7 @@ body {
             p {
                 border: 1px solid #EBEEF5;
                 margin-top: -1px;
-                padding-top:8px;
+                padding-top: 8px;
                 font-size: 15px;
                 label {
                     display: inline-block;
@@ -495,17 +496,17 @@ body {
                     margin-left: 10px;
                     padding-left: 20px;
                     height: 100%;
-                    .v-image{
+                    .v-image {
                         width: 120px;
                         transition: all .5s;
                         vertical-align: top;
-                        &:hover{
+                        &:hover {
                             width: 400px;
                         }
                     }
-                    .download{
+                    .download {
                         vertical-align: bottom;
-                        span{
+                        span {
                             margin: 4px;
                             padding: 0;
                         }
@@ -518,12 +519,22 @@ body {
         text-align: center;
     }
 }
-.table-filter{
+
+.table-filter {
     margin-top: 10px;
 }
-.prompt{
+
+.prompt {
     font-size: 14px;
     color: #F56C6C;
     line-height: 24px;
     margin-bottom: 20px
+}
+//富文本的z-index
+#edui1 {
+    z-index: inherit !important;
+}
+
+#edui1_iframeholder {
+    z-index: inherit !important;
 }

@@ -258,7 +258,7 @@ export default {
       clear: both;
     }
     li {
-      margin-right: 18px;
+      margin-right: 80px;
       margin-bottom: 10px;
       &:last-of-type {
         margin-right: 0;

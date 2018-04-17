@@ -155,8 +155,9 @@ export default {
   width: 100%;
   padding: 24px 0;
   .footer-container {
-    width: 1200px;
+    // width: 1200px;
     margin: 0 auto;
+    padding: 0 10px;
     .admin-index-btn{
       margin-right: 60px;
       a {

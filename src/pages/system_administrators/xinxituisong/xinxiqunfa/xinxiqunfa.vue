@@ -98,7 +98,7 @@ export default {
       ],
       //筛选值
       searchValue: "",
-      title:'',
+      title: "",
       //表格
       tableInfo: [],
       tableList: [],
@@ -144,8 +144,8 @@ export default {
           params: {
             p: that.currentPaging.currentPage,
             pageSize: that.currentPaging.pageSize,
-            identity:that.searchValue,
-            title:that.title,
+            identity: that.searchValue,
+            title: that.title,
             order: that.sortRule
           }
         })

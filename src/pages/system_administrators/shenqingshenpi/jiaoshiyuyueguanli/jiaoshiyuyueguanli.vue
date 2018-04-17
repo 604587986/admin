@@ -40,7 +40,7 @@
           <el-table-column prop="application_num" label="申请编号" sortable='custom' width="120"></el-table-column>
           <el-table-column prop="application_time" label="申请时间" sortable='custom' width="120"></el-table-column>
           <el-table-column prop="proposer" label="申请人"></el-table-column>
-          <el-table-column prop="frequency" label="申请次数" width="70"></el-table-column>
+          <el-table-column prop="frequency" label="申请次数"></el-table-column>
           <el-table-column prop="classroom" label="申请教室"></el-table-column>          
           <el-table-column prop="start_time" label="开始时间" width="100"></el-table-column>          
           <el-table-column prop="end_time" label="结束时间" width="100"></el-table-column>          
@@ -52,7 +52,7 @@
             </div>
           </el-table-column>
           <el-table-column prop="approver" label="审批人"></el-table-column>
-          <el-table-column label="操作" width="70">
+          <el-table-column label="操作">
             <div slot-scope="scope" class="control-btn">
               <router-link :to="{path:'/pages/system_administrators/System_Administrators/jiaoshiyuyuexiangqing',query:{application_num:scope.row.application_num}}"><el-button size="small">详情</el-button></router-link>
               <el-button size="small" @click="submit(scope.row.application_num,2)" v-if="scope.row.status=='1'">审核</el-button>
@@ -432,7 +432,7 @@ export default {
       }
     },
     //表格排序
-    sort(val) {     
+    sort(val) {
       if (val.column != null) {
         let type = "";
         if (val.order == "descending") {

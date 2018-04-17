@@ -1,10 +1,3 @@
-/*
- * @Author: alex (chenzeyongjsj@163.com) 
- * @Date: 2018-01-17 18:14:52 
- * @Last Modified by: Alex chenzeyongjsj@163.com
- * @Last Modified time: 2018-01-31 18:18:26
- */
-
 <template>
   <div id="login" class="public-wap">
     <div class="login-header" id="canvas-box">
@@ -32,9 +25,9 @@
             <i class="iconfont icon-password"></i>
             <el-input v-model="login.password" type="password" @keyup.enter.native="submitForm('form')" placeholder="密码"></el-input>
           </el-form-item>
-          <el-form-item size="mini">
+          <!-- <el-form-item size="mini">
             <el-checkbox label="记住密码" name="type"></el-checkbox>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item class="form-control-btn item-padding">
             <el-button type="primary" @click="submitForm('form')" size="large" :loading="subLoading">登陆</el-button>
           </el-form-item>
@@ -115,7 +108,6 @@ export default {
     var WIDTH = window.innerWidth,
       HEIGHT = document.getElementById("canvas-box").offsetHeight,
       POINT = 35;
-
     var canvas = document.getElementById("Mycanvas");
     (canvas.width = WIDTH), (canvas.height = HEIGHT);
     var context = canvas.getContext("2d");
@@ -123,7 +115,6 @@ export default {
       (context.strokeWidth = 1),
       (context.fillStyle = "rgba(255,255,255,0.3)");
     var circleArr = [];
-
     //线条：开始xy坐标，结束xy坐标，线条透明度
     function Line(x, y, _x, _y, o) {
       (this.beginX = x),
@@ -181,7 +172,6 @@ export default {
       }
       draw();
     }
-
     //每帧绘制
     function draw() {
       context.clearRect(0, 0, canvas.width, canvas.height);
@@ -210,7 +200,6 @@ export default {
         }
       }
     }
-
     //调用执行
     (function() {
       init();
@@ -232,7 +221,6 @@ export default {
     //表单提交
     submitForm(formName) {
       // this.$router.push("/pages/system_administrators/System_Administrators/");//后面删除
-
       var url = "";
       var that = this;
       that.$refs[formName].validate(function(valid) {
@@ -273,7 +261,7 @@ export default {
                 );
                 window.localStorage.setItem("token", res.data.user.token);
                 window.localStorage.setItem("id", res.data.user.id);
-              
+
                 url = "/pages/system_administrators/System_Administrators";
                 setTimeout(function() {
                   //  提交成功后跳转到文章列表页面
@@ -295,7 +283,7 @@ export default {
             })
             .catch(function(err) {
               console.log(err);
-              that.subLoading = false
+              that.subLoading = false;
             });
         } else {
           that.subLoading = false;
@@ -329,12 +317,10 @@ export default {
       -o-transform: translateX(-50%);
       transform: translateX(-50%);
     }
-
     img {
       width: 100%;
       height: 100%;
     }
-
     .logo-text {
       position: absolute;
       bottom: 4.1vh;
@@ -349,12 +335,10 @@ export default {
         margin-bottom: 10px;
       }
     }
-
     .logo-text span {
       font-size: 16px;
     }
   }
-
   .login-footer {
     width: 100%;
     height: 2.9vh;
@@ -371,22 +355,18 @@ export default {
       -o-transform: translateY(-50%);
       transform: translateY(-50%);
     }
-
     a {
       color: #888;
       vertical-align: middle;
     }
-
     p span {
       color: #888;
       vertical-align: middle;
     }
-
     a:hover {
       color: #1c2a55;
     }
   }
-
   .logo-index {
     width: 100%;
     height: 63.6vh;
@@ -401,14 +381,12 @@ export default {
       -o-transform: translateX(-50%) translateZ(0);
       transform: translateX(-50%) translateZ(0);
     }
-
     .form-box {
       width: 100%;
       .item-box {
         position: relative;
       }
     }
-
     .iconfont {
       position: absolute;
       top: 0;
@@ -417,25 +395,20 @@ export default {
       z-index: 999;
       font-size: 18px;
     }
-
     .el-input__inner {
       padding-right: 30px;
     }
-
     .el-checkbox {
       color: #888;
       font-weight: 300;
     }
-
     .r-psd {
       margin-bottom: 12px !important;
     }
-
     .form-control-btn .el-button {
       width: 100%;
     }
   }
-
   #Mycanvas {
     position: absolute;
     top: 0;

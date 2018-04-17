@@ -353,7 +353,7 @@ export default {
           return;
         });
     },
-        //表格排序
+    //表格排序
     sort(val) {
       if (val.column != null) {
         let type = "";

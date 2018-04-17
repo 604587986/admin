@@ -14,7 +14,7 @@
       <!-- 侧边导航 -->
       <SideBar></SideBar>
       <!-- Subject -->
-      <div class="subject public-container float-right">
+      <div class="subject public-container">
         <router-view></router-view>
       </div>
     </div>
@@ -56,6 +56,9 @@ export default {
   .main {
     background: transparent;
     padding: 0;
+    .subject{
+      margin-left: 200px;
+    }
   }
 }
 </style>

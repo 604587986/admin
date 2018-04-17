@@ -34,7 +34,7 @@
           <el-table-column prop="request_num" label="申请编号" sortable='custom'></el-table-column>
           <el-table-column prop="time" label="申请时间" sortable='custom'></el-table-column>
           <el-table-column prop="name" label="申请人"></el-table-column>
-          <el-table-column prop="year" label="请假天数" width="80"></el-table-column>
+          <el-table-column prop="year" label="请假天数"></el-table-column>
           <el-table-column  label="请假类型">
             <div slot-scope="scope">
               <el-tag v-show="scope.row.request_type == 1">事假</el-tag>  
@@ -52,7 +52,7 @@
               <el-tag close-transition  size="mini" v-show="scope.row.status==3" type="warning">已驳回</el-tag>
             </div>
           </el-table-column>
-          <el-table-column label="操作" width="80">
+          <el-table-column label="操作">
             <div slot-scope="scope" class="control-btn">
               <router-link :to="{path:'/pages/system_administrators/System_Administrators/qingjiaxiangqing',query:{id:scope.row.id}}"><el-button size="small">详情</el-button></router-link>
               <el-button size="small" @click="submit(scope.row.id,2)" v-if="scope.row.status=='1'">审核</el-button>

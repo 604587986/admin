@@ -7,25 +7,28 @@
 
 <template>
   <div class="echarts-container">
-    <div class="float-left echarts-left">
+    <div style="width:50%" class="float-left">
+      <div class="float-left echarts-left">
       <div class="echarts float-left">
         <p>当日数据</p>
-        <div id="echarts-1" style="width: 225px;height:140px;padding-left:5px;"></div>
+        <div id="echarts-1" style="width: 100%;height:140px;padding-left:5px;"></div>
       </div>
       <div class="echarts float-left">
         <p>本周数据</p>
-        <div id="echarts-2" style="width: 225px;height:140px;padding-left:5px;"></div>
+        <div id="echarts-2" style="width: 100%;height:140px;padding-left:5px;"></div>
       </div>
       <div class="echarts float-left">
         <p>本月数据</p>
-        <div id="echarts-3" style="width: 225px;height:140px;padding-left:5px;"></div>
+        <div id="echarts-3" style="width: 100%;height:140px;padding-left:5px;"></div>
       </div>
       <div class="echarts float-left">
         <p>年度数据</p>
-        <div id="echarts-4" style="width: 225px;height:140px;padding-left:5px;"></div>
+        <div id="echarts-4" style="width: 100%;height:140px;padding-left:5px;"></div>
       </div>
     </div>
-    <div class="float-right echarts-right">
+    </div>
+    <div style="width:50%" class="float-left">
+     <div class="float-left echarts-right">
       <div class="echarts-title">
         <el-date-picker size="mini" v-model="echarts_filter" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" class="float-left">
         </el-date-picker>
@@ -33,7 +36,8 @@
           <el-option v-for="item in earchts_filter_list" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
       </div>
-      <div id="echarts-5" style="width: 450px;height:300px;padding-left:12px;"></div>
+      <div id="echarts-5" style="width: 100%;height:300px;padding-left:12px;padding-right:20px"></div>
+    </div>
     </div>
   </div>
 </template>
@@ -121,7 +125,7 @@ export default {
     };
   },
   watch: {},
-  mounted: function() {
+  mounted() {
     let that = this;
     //获取canvas数据并调用
     that
@@ -141,6 +145,9 @@ export default {
       .catch(function(error) {
         console.log(error);
       });
+      window.onresize = function(){
+        that.echarts()
+      }
   },
   methods: {
     //canvas
@@ -291,16 +298,18 @@ export default {
     clear: both;
   }
   .echarts-left {
-    width: 500px;
+    width: 100%;
     height: 374px;
     .echarts {
+      width: 45%;
       margin-right: 20px;
-      margin-bottom: 20px;
+      // margin-bottom: 20px;
+      // padding: 10px 20px;
       border: 1px solid #c4c5c5;
       padding-bottom: 5px;
       > p {
-        display: table-cell;
-        width: 227px;
+        // display: table-cell;
+        width: 100%;
         height: 30px;
         background: #dcdddd;
         color: #707070;
@@ -311,8 +320,9 @@ export default {
     }
   }
   .echarts-right {
-    width: 450px;
+    width: 80%;
     height: 374px;
+    margin-right:20px;
     border: 1px solid #c4c5c5;
     .echarts-title {
       width: 100%;

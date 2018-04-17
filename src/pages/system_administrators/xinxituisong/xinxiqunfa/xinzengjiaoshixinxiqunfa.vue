@@ -25,7 +25,9 @@
             <el-input placeholder="请输入关键字" v-model="searchValue" size="mini" style="display: inline-block; width:200px">
             </el-input>
             <el-button  @click="search()">搜索</el-button>       
-            <el-button  @click="searchAll()">发送至全部教师</el-button>       
+            <el-button  @click="searchAll()">发送至全部教师</el-button>
+            <el-button  @click="clear()">清空已选</el-button>
+              
           </div>
           <transition name="el-zoom-in-top">
           <el-transfer v-model="form.user" :data="teacherList" :titles="['待选教师列表','接收教师列表']" :button-texts="['取消', '确认']" filterable v-show="showTransfer">
@@ -242,6 +244,10 @@ export default {
           }
         });
     },
+    //清空
+    clear(){ 
+      this.form.user = [] 
+    },
     //表单提交
     submit(formName) {
       var that = this;
@@ -331,11 +337,6 @@ export default {
     padding: 0 20px;
     margin-top: 10px;
   }
-  #edui1 {
-    z-index: inherit !important;
-  }
-  #edui1_iframeholder {
-    z-index: inherit !important;
-  }
+
 
 </style>
